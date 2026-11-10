@@ -31,4 +31,4 @@ jobs:
           security: strict
           local-dir: ./publish/
           server-dir: ./
-          dry-run: true
+          dry-run: false
