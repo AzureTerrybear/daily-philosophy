@@ -3,15 +3,25 @@ name: Deploy Daily Philosophy
 
 on:
   push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate lessons against their sources
+        run: node tools/validate.mjs
+
   deploy:
+    needs: validate
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
@@ -20,10 +30,12 @@ jobs:
 
       - name: Prepare website files
         run: |
-          mkdir -p publish
+          mkdir -p publish/tools
           cp index.html publish/index.html
+          cp -r content publish/content
+          cp tools/validate.mjs publish/tools/validate.mjs
 
-      - name: Test FTPS deployment
+      - name: Deploy over FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}

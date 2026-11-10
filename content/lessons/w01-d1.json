@@ -1,0 +1,167 @@
+{
+  "id": "w01-d1",
+  "type": "audio",
+  "week_id": "w01-stoic",
+  "day": 1,
+  "title": "Two Lists",
+  "objective": "Sort a real situation into what is and is not up to you.",
+  "builds_on": [],
+
+  "source": {
+    "author": "Epictetus",
+    "work": "The Enchiridion",
+    "translator": "Thomas Wentworth Higginson",
+    "section": "1",
+    "source_url": "https://www.gutenberg.org/ebooks/45109",
+    "rights": "Public domain in the United States",
+    "passage": "There are things which are within our power, and there are things which are beyond our power. Within our power are opinion, aim, desire, aversion, and, in one word, whatever affairs are our own. Beyond our power are body, property, reputation, office, and, in one word, whatever are not properly our own affairs.\n\nNow the things within our power are by nature free, unrestricted, unhindered; but those beyond our power are weak, dependent, restricted, alien. Remember, then, that if you attribute freedom to things by nature dependent and take what belongs to others for your own, you will be hindered, you will lament, you will be disturbed, you will find fault both with gods and men. But if you take for your own only that which is your own and view what belongs to others just as it really is, then no one will ever compel you, no one will restrict you; you will find fault with no one, you will accuse no one, you will do nothing against your will; no one will hurt you, you will not have an enemy, nor will you suffer any harm.\n\nAiming, therefore, at such great things, remember that you must not allow yourself any inclination, however slight, toward the attainment of the others; but that you must entirely quit some of them, and for the present postpone the rest. But if you would have these, and possess power and wealth likewise, you may miss the latter in seeking the former; and you will certainly fail of that by which alone happiness and freedom are procured.\n\nSeek at once, therefore, to be able to say to every unpleasing semblance, “You are but a semblance and by no means the real thing.” And then examine it by those rules which you have; and first and chiefly by this: whether it concerns the things which are within our own power or those which are not; and if it concerns anything beyond our power, be prepared to say that it is nothing to you."
+  },
+
+  "script": {
+    "target_words": [190, 240],
+    "text": "Think about the last thing that soured your afternoon. A remark from a colleague. A delayed flight. A message nobody answered.\n\nEpictetus was born into slavery and became a teacher of philosophy. The handbook of his teaching opens with a sorting exercise. There are things within our power, and there are things beyond it.\n\nWithin our power he names four: opinion, aim, desire, aversion. In one word, whatever affairs are our own. Beyond our power he names four more: body, property, reputation, office.\n\nReputation is on that second list. You can do excellent work and still not decide what people think of it. The aim is yours. The applause is not. Epictetus calls such things dependent. They rest on something other than you.\n\nThen comes his warning. Take what belongs to others for your own, and you will be hindered, you will lament, you will find fault with gods and men. Take for your own only what is your own, and no one will ever compel you.\n\nHe is a strict teacher. Of anything beyond your power, he says, be prepared to say that it is nothing to you. You don't have to go that far today. Start by sorting.\n\nWhen something irritates you, ask one question: which list is this on? Then put your effort where it can land.\n\nTomorrow: if events are beyond our power, why do they upset us so much?"
+  },
+
+  "claims": [
+    {
+      "claim": "There are things within our power and things beyond it.",
+      "support_span": "There are things which are within our power, and there are things which are beyond our power."
+    },
+    {
+      "claim": "Within our power: opinion, aim, desire, aversion; in one word, whatever affairs are our own.",
+      "support_span": "Within our power are opinion, aim, desire, aversion, and, in one word, whatever affairs are our own."
+    },
+    {
+      "claim": "Beyond our power: body, property, reputation, office.",
+      "support_span": "Beyond our power are body, property, reputation, office"
+    },
+    {
+      "claim": "Reputation is beyond our power, so good work does not let you decide what people think of it.",
+      "kind": "application",
+      "support_span": "Beyond our power are body, property, reputation, office",
+      "note": "The passage lists reputation as beyond our power and aim as within it. The excellent-work example is ours, not Epictetus's."
+    },
+    {
+      "claim": "Epictetus calls the things beyond our power dependent.",
+      "support_span": "those beyond our power are weak, dependent, restricted, alien"
+    },
+    {
+      "claim": "Taking what belongs to others for your own leads to being hindered, lamenting, and finding fault with gods and men.",
+      "support_span": "take what belongs to others for your own, you will be hindered, you will lament, you will be disturbed, you will find fault both with gods and men"
+    },
+    {
+      "claim": "Taking for your own only what is your own means no one will ever compel you.",
+      "support_span": "if you take for your own only that which is your own and view what belongs to others just as it really is, then no one will ever compel you"
+    },
+    {
+      "claim": "Of anything beyond your power, be prepared to say that it is nothing to you.",
+      "support_span": "if it concerns anything beyond our power, be prepared to say that it is nothing to you"
+    },
+    {
+      "claim": "The practice of asking which list something is on comes from the passage's own test.",
+      "support_span": "whether it concerns the things which are within our own power or those which are not"
+    }
+  ],
+
+  "outside_source_claims": [
+    {
+      "claim": "Epictetus was born into slavery and became a teacher of philosophy.",
+      "status": "needs_human_check",
+      "note": "Not in the passage. The introduction to this same edition says he was the son of a woman slave, was a slave in Rome, became a free man and later ran his own school at Nicopolis. A person still has to sign this off."
+    },
+    {
+      "claim": "The Enchiridion is a handbook of his teaching, and this passage opens it.",
+      "status": "needs_human_check",
+      "note": "Not in the passage. The edition's introduction glosses Enchiridion as manual and says his student Arrian compiled it, which is why the script says the handbook of his teaching and not his handbook. The passage is section I of the edition."
+    }
+  ],
+
+  "retrieval": null,
+
+  "check": {
+    "type": "sort",
+    "scenario": "You prepared carefully for a presentation that could lead to a promotion. The projector fails and the room gets restless.",
+    "question": "Sort each of these onto one of Epictetus's two lists.",
+    "lists": {
+      "within": "Within my power",
+      "beyond": "Beyond my power"
+    },
+    "misconception_notes": {
+      "outcome-as-control": "Treating a result as yours to command. Preparing was yours; how it lands is not.",
+      "passivity": "Handing over something that was yours. Your judgment and your next move stay on the first list, whatever happens.",
+      "desire-as-given": "Treating a want as something that simply happens to you. Epictetus puts desire on the first list."
+    },
+    "items": [
+      {
+        "text": "Whether the projector works.",
+        "list": "beyond",
+        "passage_term": "property",
+        "misconception": "outcome-as-control",
+        "feedback": "Beyond your power. Equipment sits with property on the second list: it can fail whatever you do."
+      },
+      {
+        "text": "What you take the failure to mean.",
+        "list": "within",
+        "passage_term": "opinion",
+        "misconception": "passivity",
+        "feedback": "Within your power. That is opinion. Whether this is a disaster or an inconvenience is a judgment, and you are the one making it."
+      },
+      {
+        "text": "What the audience thinks of you afterwards.",
+        "list": "beyond",
+        "passage_term": "reputation",
+        "misconception": "outcome-as-control",
+        "feedback": "Beyond your power. That is reputation. Careful preparation improves the odds, and the verdict is still theirs."
+      },
+      {
+        "text": "What you set out to do in the next minute.",
+        "list": "within",
+        "passage_term": "aim",
+        "misconception": "passivity",
+        "feedback": "Within your power. That is aim. A dead projector cannot choose your next move for you."
+      },
+      {
+        "text": "Whether you get the promotion.",
+        "list": "beyond",
+        "passage_term": "office",
+        "misconception": "outcome-as-control",
+        "feedback": "Beyond your power. Epictetus's word is office, and someone else hands it out."
+      },
+      {
+        "text": "How much you want their approval.",
+        "list": "within",
+        "passage_term": "desire",
+        "misconception": "desire-as-given",
+        "feedback": "Within your power, says Epictetus: desire is on his first list. It is his boldest claim, and Day 3 comes back to it."
+      }
+    ]
+  },
+
+  "reflection": {
+    "prompt": "Take one frustrating thing from today and sort it.",
+    "fields": [
+      { "id": "situation", "label": "What happened", "hint": "One or two sentences. Just the event." },
+      { "id": "within", "label": "Within my power", "hint": "My opinion of it, what I aim to do next, what I want from it." },
+      { "id": "beyond", "label": "Beyond my power", "hint": "What other people did or think, and anything luck decided." }
+    ],
+    "saved_to_handbook": true
+  },
+
+  "practice": {
+    "text": "Once today, when something irritates you, ask: which list is this on?",
+    "followed_up_in": "w01-d2"
+  },
+
+  "audio": {
+    "file": null,
+    "voice": null,
+    "duration_seconds": null
+  },
+
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "",
+    "approved_on": null
+  },
+  "release_date": null
+}

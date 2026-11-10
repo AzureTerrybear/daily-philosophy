@@ -1,0 +1,100 @@
+{
+  "week_id": "w01-stoic",
+  "title": "The Stoic Week: What Is Yours to Do",
+  "source": {
+    "author": "Epictetus",
+    "work": "The Enchiridion",
+    "translator": "Thomas Wentworth Higginson",
+    "source_url": "https://www.gutenberg.org/ebooks/45109",
+    "rights": "Public domain in the United States",
+    "note": "Section numbers 1, 2, 4, 5, 8, 10 and 17 were checked against the Project Gutenberg text of this edition on 2026-11-09. Each matches the concept listed for its day."
+  },
+  "through_line": "Each day narrows the question 'what is actually mine?' and then turns it into something the learner does. Day 7 adds no new concept; it retrieves the other six.",
+  "end_of_week_artifact": "The learner's seven reflections, compiled into a personal handbook they can export. 'Enchiridion' means handbook, so the week ends with the learner having written a small one of their own.",
+  "lessons": [
+    {
+      "id": "w01-d1",
+      "day": 1,
+      "section": "1",
+      "title": "Two Lists",
+      "concept": "The dichotomy of control",
+      "objective": "Sort a real situation into what is and is not up to you.",
+      "builds_on": [],
+      "retrieval_of": null,
+      "misconception_targeted": "outcome-as-control: believing effort entitles you to a result",
+      "practice": "Once today, when something irritates you, ask: which list is this on?"
+    },
+    {
+      "id": "w01-d2",
+      "day": 2,
+      "section": "5",
+      "title": "The Event and the Story",
+      "concept": "We are disturbed by our judgments about events, not by the events",
+      "objective": "Separate what happened from the judgment you added to it.",
+      "builds_on": ["w01-d1"],
+      "retrieval_of": "w01-d1",
+      "misconception_targeted": "suppression: thinking Stoicism means not having feelings",
+      "practice": "Write one upsetting event as a bare fact, then write the judgment you attached to it."
+    },
+    {
+      "id": "w01-d3",
+      "day": 3,
+      "section": "2",
+      "title": "Aim Your Wanting",
+      "concept": "Desire and aversion belong only on things that are up to you",
+      "objective": "Rewrite one goal so that reaching it depends only on you.",
+      "builds_on": ["w01-d1", "w01-d2"],
+      "retrieval_of": "w01-d1",
+      "misconception_targeted": "apathy: thinking Stoics want nothing",
+      "practice": "Take one thing you want this week and restate it as something you do rather than something you get."
+    },
+    {
+      "id": "w01-d4",
+      "day": 4,
+      "section": "4",
+      "title": "Rehearse the Bathhouse",
+      "concept": "Anticipate what an activity involves, and carry a second goal: keeping your own conduct intact",
+      "objective": "Plan for a predictable annoyance before it happens.",
+      "builds_on": ["w01-d3"],
+      "retrieval_of": "w01-d2",
+      "misconception_targeted": "pessimism: confusing rehearsal with expecting the worst",
+      "practice": "Before one task today, name what is likely to go wrong and what you intend to keep steady."
+    },
+    {
+      "id": "w01-d5",
+      "day": 5,
+      "section": "8",
+      "title": "Wanting What Happens",
+      "concept": "Stop demanding that events match your wishes; align your wishes with events",
+      "objective": "Distinguish acceptance of an event from giving up on action.",
+      "builds_on": ["w01-d1", "w01-d3"],
+      "retrieval_of": "w01-d3",
+      "misconception_targeted": "passivity: reading acceptance as resignation",
+      "practice": "Pick one thing that has already happened and cannot be changed. Say what you will do next, given that it happened."
+    },
+    {
+      "id": "w01-d6",
+      "day": 6,
+      "section": "10",
+      "title": "What Do You Have for This?",
+      "concept": "For every difficulty, ask which capacity you already have for meeting it",
+      "objective": "Match a current difficulty to a capacity you can exercise.",
+      "builds_on": ["w01-d2", "w01-d5"],
+      "retrieval_of": "w01-d4",
+      "misconception_targeted": "defensiveness: treating Stoicism as only a shield and never a way of acting",
+      "practice": "Name one difficulty you are facing and the capacity it calls for: patience, restraint, endurance, or another."
+    },
+    {
+      "id": "w01-d7",
+      "day": 7,
+      "section": "17",
+      "title": "Play the Part Well",
+      "concept": "Synthesis: the role is assigned; playing it well is yours",
+      "objective": "Explain the week's ideas in your own words using one situation from your own life.",
+      "builds_on": ["w01-d1", "w01-d2", "w01-d3", "w01-d4", "w01-d5", "w01-d6"],
+      "retrieval_of": "w01-d1",
+      "misconception_targeted": "fatalism: thinking an assigned role means nothing you do matters",
+      "practice": "Read back your six reflections and write a seventh that begins: 'What is mine to do is...'"
+    }
+  ]
+}
