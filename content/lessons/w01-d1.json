@@ -66,12 +66,12 @@
   "outside_source_claims": [
     {
       "claim": "Epictetus was born into slavery and became a teacher of philosophy.",
-      "status": "needs_human_check",
-      "note": "Not in the passage. The introduction to this same edition says he was the son of a woman slave, was a slave in Rome, became a free man and later ran his own school at Nicopolis. A person still has to sign this off."
+      "status": "verified",
+      "note": "Not in the passage. The introduction to this same edition says he was the son of a woman slave, was a slave in Rome, became a free man and later ran his own school at Nicopolis."
     },
     {
       "claim": "The Enchiridion is a handbook of his teaching, and this passage opens it.",
-      "status": "needs_human_check",
+      "status": "verified",
       "note": "Not in the passage. The edition's introduction glosses Enchiridion as manual and says his student Arrian compiled it, which is why the script says the handbook of his teaching and not his handbook. The passage is section I of the edition."
     }
   ],
@@ -159,9 +159,9 @@
   },
 
   "review": {
-    "status": "draft",
-    "reviewer_notes": "",
-    "approved_on": null
+    "status": "approved",
+    "reviewer_notes": "Script and both outside-source claims approved by Terence Govender.",
+    "approved_on": "2026-11-11"
   },
   "release_date": null
 }
