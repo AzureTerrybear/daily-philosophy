@@ -34,7 +34,17 @@
     h1, h2 { font-family: "Playfair Display", Georgia, serif; line-height: 1.2; }
     h1 { font-size: clamp(2rem, 7vw, 2.75rem); margin: .25rem 0 .5rem; }
     h2 { font-size: 1.375rem; margin: 0 0 .75rem; }
-    .eyebrow { color: var(--accent); font-size: .8125rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; margin-top: 2rem; }
+    .days { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; padding: 0; margin: 1.25rem 0 0; }
+    .days a, .days span {
+      display: flex; align-items: center; justify-content: center; gap: .2rem;
+      min-width: 2.75rem; min-height: 2.75rem; padding: 0 .6rem; border-radius: 2rem;
+      border: 1px solid var(--rule); font-weight: 500; font-size: .9375rem; text-decoration: none; color: var(--ink);
+    }
+    .days span { color: var(--muted); border-style: dashed; }
+    .days a.done { background: var(--within-bg); border-color: var(--within); }
+    .days a[aria-current] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .eyebrow { color: var(--accent); font-size: .8125rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; margin-top: 1.5rem; }
     .objective { color: var(--muted); margin: 0 0 1.5rem; }
     section.step { background: var(--card); border: 1px solid var(--rule); border-radius: .75rem; padding: 1.25rem; margin: 1.25rem 0; }
     .step-num { color: var(--muted); font-size: .8125rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .25rem; }
@@ -58,16 +68,18 @@
     .item p { margin: 0 0 .6rem; }
     .choices { display: flex; flex-wrap: wrap; gap: .5rem; }
     .choices button { flex: 1 1 10rem; }
-    .choices button[data-list="within"] { border-color: var(--within); color: var(--within); }
-    .choices button[data-list="beyond"] { border-color: var(--beyond); color: var(--beyond); }
-    .choices button[aria-pressed="true"][data-list="within"] { background: var(--within-bg); opacity: 1; }
-    .choices button[aria-pressed="true"][data-list="beyond"] { background: var(--beyond-bg); opacity: 1; }
+    .choices button[data-slot="0"] { border-color: var(--within); color: var(--within); }
+    .choices button[data-slot="1"] { border-color: var(--beyond); color: var(--beyond); }
+    .choices button[aria-pressed="true"][data-slot="0"] { background: var(--within-bg); opacity: 1; }
+    .choices button[aria-pressed="true"][data-slot="1"] { background: var(--beyond-bg); opacity: 1; }
     .feedback { margin: .6rem 0 0 !important; font-size: .9375rem; }
     .feedback strong { display: block; }
-    .summary { border-top: 1px solid var(--rule); padding-top: .9rem; }
+    .summary, .block { border-top: 1px solid var(--rule); padding-top: .9rem; margin-top: .9rem; }
     .summary ul { margin: .25rem 0 .75rem; padding-left: 1.25rem; }
+    .answer { margin: .75rem 0 0; }
+    dl { margin: .5rem 0 0; } dt { font-weight: 500; margin-top: .5rem; } dd { margin: 0; white-space: pre-wrap; }
     label { display: block; font-weight: 500; margin-top: 1rem; }
-    label.within { color: var(--within); } label.beyond { color: var(--beyond); }
+    label.slot-0 { color: var(--within); } label.slot-1 { color: var(--beyond); }
     textarea {
       width: 100%; min-height: 5.5rem; margin-top: .35rem; padding: .65rem; resize: vertical;
       font: inherit; color: var(--ink); background: var(--paper);
@@ -92,9 +104,11 @@
   <footer class="site" id="foot"></footer>
 
   <script type="module">
-    const LESSON_ID = "w01-d1";
-    const PREVIEW = new URLSearchParams(location.search).has("preview");
+    const WEEK_ID = "w01-stoic";
+    const params = new URLSearchParams(location.search);
+    const PREVIEW = params.has("preview");
     const STORE_KEY = "notes-to-myself.v1";
+    const DAY_MS = 86400000;
 
     // ---- small helpers ----
     const el = (tag, attrs = {}, ...kids) => {
@@ -119,9 +133,58 @@
       if (!res.ok) throw new Error(`${url}: ${res.status}`);
       return res.json();
     };
+    const midnight = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+    const dayHref = (day) => `?day=${day}${PREVIEW ? "&preview=1" : ""}`;
+    const stepHead = (n, name) => el("div", { class: "step-num" }, `${n} · ${name}`);
 
-    // ---- 1. listen and read ----
-    function listenStep(lesson) {
+    // ---- yesterday: retrieval question and practice follow-up ----
+    function yesterdayStep(n, lesson, ctx) {
+      const { week, lessons, store } = ctx;
+      const wrap = el("section", { class: "step" }, stepHead(n, "Yesterday"));
+      const r = lesson.retrieval;
+      if (r) {
+        const from = lessons[r.of];
+        const answer = el("div", { class: "answer", hidden: "", role: "status" },
+          el("p", {}, el("strong", {}, r.answer)),
+          from ? el("blockquote", {}, r.support_span) : null,
+          from ? el("p", { class: "note" }, `${from.source.author}, ${from.source.work}, §${from.source.section}`) : null);
+        const show = el("button", { type: "button", onclick: () => { answer.hidden = false; show.disabled = true; } }, "Show the answer");
+        wrap.append(el("p", { class: "scenario" }, r.question),
+          el("p", { class: "note" }, "Answer in your head first. Trying to remember is what makes it stick."),
+          show, answer);
+      }
+      const f = lesson.practice_followup;
+      if (f) {
+        const planned = week.lessons.find((l) => l.id === f.of);
+        const reply = el("p", { class: "feedback", hidden: "", role: "status" });
+        const pick = (key) => {
+          reply.textContent = f.responses[key];
+          reply.hidden = false;
+          store.followups = { ...store.followups, [lesson.id]: key };
+          saveStore(store);
+        };
+        const block = el("div", { class: "block" },
+          el("p", { class: "note" }, "Yesterday's practice"),
+          el("p", { class: "practice" }, planned.practice),
+          el("p", {}, f.question),
+          el("div", { class: "choices" },
+            el("button", { type: "button", onclick: () => pick("yes") }, "Yes"),
+            el("button", { type: "button", onclick: () => pick("no") }, "Not yet")),
+          reply);
+        const page = store.pages?.[f.of]?.values;
+        const fields = lessons[f.of]?.reflection.fields;
+        if (page && fields) {
+          block.append(el("details", {},
+            el("summary", {}, "Your page from yesterday"),
+            el("dl", {}, fields.map((fd) => [el("dt", {}, fd.label), el("dd", {}, page[fd.id] || "(left blank)")]))));
+        }
+        wrap.append(block);
+      }
+      return wrap;
+    }
+
+    // ---- listen and read ----
+    function listenStep(n, lesson) {
       const controls = el("div", { class: "listen" });
       if (lesson.audio?.file) {
         controls.append(el("audio", { controls: "", preload: "none", src: lesson.audio.file }));
@@ -149,32 +212,34 @@
         el("p", { class: "note" }, `Translated by ${s.translator}. ${s.rights}. `,
           el("a", { href: s.source_url, rel: "noopener" }, "Project Gutenberg edition")));
       return el("section", { class: "step" },
-        el("div", { class: "step-num" }, "1 · Listen"),
+        stepHead(n, "Listen"),
         controls,
         el("div", { class: "transcript" }, paras(lesson.script.text)),
         source);
     }
 
-    // ---- 2. sort ----
-    function sortStep(lesson, store) {
+    // ---- sort ----
+    function sortStep(n, lesson, ctx) {
+      const { store } = ctx;
       const check = lesson.check;
+      const total = check.items.length;
       const answers = {};
       const wrap = el("section", { class: "step" },
-        el("div", { class: "step-num" }, "2 · Sort"),
+        stepHead(n, "Sort"),
         el("p", { class: "scenario" }, check.scenario),
         el("p", {}, check.question));
       const summary = el("div", { class: "summary", hidden: "" });
       const items = check.items.map((item, i) => {
         const feedback = el("p", { class: "feedback", hidden: "", role: "status" });
-        const buttons = Object.entries(check.lists).map(([key, label]) =>
-          el("button", { type: "button", "data-list": key, "aria-pressed": "false", onclick: () => choose(key) }, label));
+        const buttons = Object.entries(check.lists).map(([key, label], slot) =>
+          el("button", { type: "button", "data-list": key, "data-slot": slot, "aria-pressed": "false", onclick: () => choose(key) }, label));
         function choose(key) {
           answers[i] = key;
           buttons.forEach((b) => { b.setAttribute("aria-pressed", String(b.dataset.list === key)); b.disabled = true; });
           const right = key === item.list;
           feedback.replaceChildren(el("strong", {}, right ? "Yes." : "Look again."), item.feedback);
           feedback.hidden = false;
-          if (Object.keys(answers).length === check.items.length) finish();
+          if (Object.keys(answers).length === total) finish();
         }
         const reset = () => {
           buttons.forEach((b) => { b.setAttribute("aria-pressed", "false"); b.disabled = false; });
@@ -190,9 +255,9 @@
         saveStore(store);
         summary.replaceChildren(
           missed.length === 0
-            ? el("p", {}, "All six match Epictetus's lists.")
+            ? el("p", {}, check.all_correct ?? `All ${total} match Epictetus's lists.`)
             : el("div", {},
-                el("p", {}, `${check.items.length - missed.length} of ${check.items.length} match Epictetus's lists. Worth another look:`),
+                el("p", {}, `${total - missed.length} of ${total} match. Worth another look:`),
                 el("ul", {}, tags.map((t) => el("li", {}, check.misconception_notes?.[t] ?? t)))),
           el("button", { type: "button", onclick: again }, "Sort again"));
         summary.hidden = false;
@@ -206,7 +271,7 @@
       return wrap;
     }
 
-    // ---- 3. the learner's own page ----
+    // ---- the learner's own page ----
     function pageText(lesson, week, values) {
       const s = lesson.source;
       const lines = [
@@ -219,27 +284,31 @@
       lines.push("PRACTICE", lesson.practice.text, "");
       return lines.join("\r\n");
     }
-    function journalStep(lesson, week, store) {
+    function journalStep(n, lesson, ctx) {
+      const { week, store } = ctx;
       const saved = store.pages?.[lesson.id]?.values ?? {};
       const inputs = {};
-      const field = (f) => {
+      const field = (f, cls) => {
         const ta = el("textarea", { id: `f-${f.id}`, "aria-describedby": `h-${f.id}` });
         ta.value = saved[f.id] ?? "";
         inputs[f.id] = ta;
         return el("div", {},
-          el("label", { for: `f-${f.id}`, class: f.id }, f.label), ta,
+          el("label", { for: `f-${f.id}`, class: cls }, f.label), ta,
           el("div", { class: "hint", id: `h-${f.id}` }, f.hint ?? ""));
       };
-      const [first, ...lists] = lesson.reflection.fields;
+      // The last two fields are the day's pair (two lists, event and story); any others come first.
+      const fields = lesson.reflection.fields;
+      const lead = fields.slice(0, -2);
+      const pair = fields.slice(-2);
       const status = el("span", { class: "note", role: "status" },
         store.pages?.[lesson.id] ? "Your earlier page is loaded." : "");
       const values = () => Object.fromEntries(Object.entries(inputs).map(([k, ta]) => [k, ta.value.trim()]));
       const save = () => {
-        store.startedAt ??= new Date().toISOString();
         store.pages = { ...store.pages, [lesson.id]: { savedAt: new Date().toISOString(), values: values() } };
         status.textContent = saveStore(store)
           ? "Saved in this browser. Download a copy to keep it."
           : "This browser won't store pages. Download a copy instead.";
+        ctx.onSaved?.();
       };
       const download = () => {
         const blob = new Blob([pageText(lesson, week, values())], { type: "text/plain;charset=utf-8" });
@@ -248,10 +317,10 @@
         setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       };
       return el("section", { class: "step" },
-        el("div", { class: "step-num" }, "3 · Your page"),
+        stepHead(n, "Your page"),
         el("h2", {}, lesson.reflection.prompt),
-        field(first),
-        el("div", { class: "two-lists" }, lists.map(field)),
+        lead.map((f) => field(f)),
+        el("div", { class: "two-lists" }, pair.map((f, slot) => field(f, `slot-${slot}`))),
         el("div", { class: "actions" },
           el("button", { class: "primary", type: "button", onclick: save }, "Save my page"),
           el("button", { type: "button", onclick: download }, "Download"),
@@ -259,20 +328,24 @@
         el("p", { class: "note" }, "Your page stays on this device. Nothing you write is sent anywhere."));
     }
 
-    // ---- 4. practice ----
-    function practiceStep(lesson) {
+    // ---- practice ----
+    function practiceStep(n, lesson, ctx) {
+      const next = ctx.week.lessons.find((l) => l.day === lesson.day + 1);
+      const nextNote = !next ? null
+        : ctx.visible(next) ? `Day ${next.day}, ${next.title}, opens tomorrow.`
+        : `Day ${next.day} is on its way.`;
       return el("section", { class: "step" },
-        el("div", { class: "step-num" }, "4 · Carry it with you"),
+        stepHead(n, "Carry it with you"),
         el("p", { class: "practice" }, lesson.practice.text),
-        lesson.next_teaser ? el("p", { class: "note" }, `Tomorrow: ${lesson.next_teaser}`) : null);
+        nextNote ? el("p", { class: "note" }, nextNote) : null);
     }
 
     // ---- reviewer view (?preview) ----
-    async function reviewPanel(lesson, week) {
+    async function reviewPanel(lesson, ctx) {
       const panel = el("section", { class: "step review" }, el("div", { class: "step-num" }, "Reviewer view"));
       try {
         const { validateLesson, countWords } = await import("./tools/validate.mjs");
-        const { errors, warnings } = validateLesson(lesson, week);
+        const { errors, warnings } = validateLesson(lesson, ctx.week, ctx.lessons);
         panel.append(
           el("p", {}, `Status: ${lesson.review.status}. Script: ${countWords(lesson.script.text)} words. `,
             errors.length ? el("span", { class: "bad" }, `${errors.length} error(s).`) : "No validator errors."),
@@ -284,31 +357,84 @@
         el("h2", {}, "Claims and their supporting words"),
         el("ul", {}, lesson.claims.map((c) => el("li", {}, c.claim, el("blockquote", {}, c.support_span), c.note ? el("div", { class: "note" }, c.note) : null))),
         el("h2", {}, "Claims from outside the passage"),
-        el("ul", {}, lesson.outside_source_claims.map((c) => el("li", {}, c.claim, " ", el("code", {}, c.status), el("div", { class: "note" }, c.note)))));
+        lesson.outside_source_claims.length
+          ? el("ul", {}, lesson.outside_source_claims.map((c) => el("li", {}, c.claim, " ", el("code", {}, c.status), el("div", { class: "note" }, c.note))))
+          : el("p", { class: "note" }, "None."));
       return panel;
     }
 
     // ---- boot ----
     const app = document.getElementById("app");
     try {
-      const lesson = await getJSON(`content/lessons/${LESSON_ID}.json`);
-      const week = await getJSON(`content/weeks/${lesson.week_id}.json`);
-      const approved = lesson.review?.status === "approved";
+      const week = await getJSON(`content/weeks/${WEEK_ID}.json`);
+      const lessons = {};
+      await Promise.all(week.lessons.filter((l) => l.available).map(async (l) => {
+        lessons[l.id] = await getJSON(`content/lessons/${l.id}.json`);
+      }));
       const store = loadStore();
+      if (!store.startedAt && !PREVIEW) { store.startedAt = new Date().toISOString(); saveStore(store); }
+
+      // One lesson unlocks per calendar day, counted from the learner's first visit.
+      const daysIn = store.startedAt ? Math.round((midnight(new Date()) - midnight(new Date(store.startedAt))) / DAY_MS) : 0;
+      const unlockedThrough = PREVIEW ? week.lessons.length : daysIn + 1;
+      const visible = (p) => Boolean(lessons[p.id]) && (PREVIEW || lessons[p.id].review?.status === "approved");
+      const state = (p) => !visible(p) ? "soon"
+        : p.day > unlockedThrough ? "locked"
+        : store.pages?.[p.id] ? "done" : "open";
+
+      const reachable = week.lessons.filter((p) => ["open", "done"].includes(state(p)));
+      const asked = week.lessons.find((p) => p.day === Number(params.get("day")));
+      const planned = asked ?? reachable.find((p) => state(p) === "open") ?? reachable.at(-1) ?? week.lessons[0];
+      const lesson = lessons[planned.id];
+      const ctx = { week, lessons, store, visible };
+
+      const nav = el("ol", { class: "days", "aria-label": "Days of the week" });
+      const drawNav = () => nav.replaceChildren(...week.lessons.map((p) => {
+        const s = state(p);
+        const label = { soon: "coming soon", locked: "not open yet", done: "page saved", open: "open" }[s];
+        const inner = [`${p.day}`, s === "done" ? " ✓" : null, el("span", { class: "sr" }, ` Day ${p.day}, ${label}`)];
+        return el("li", {}, s === "soon" || s === "locked"
+          ? el("span", { title: `Day ${p.day}: ${label}` }, inner)
+          : el("a", { href: dayHref(p.day), class: s, title: `Day ${p.day}: ${p.title}`, "aria-current": p.id === planned.id ? "page" : null }, inner));
+      }));
+      drawNav();
+      ctx.onSaved = drawNav;
+
       const head = [
-        el("p", { class: "eyebrow" }, `${week.title.split(":")[0]} · Day ${lesson.day} of ${week.lessons.length}`),
-        el("h1", {}, lesson.title),
-        el("p", { class: "objective" }, `Today you will: ${lesson.objective.charAt(0).toLowerCase()}${lesson.objective.slice(1)}`),
+        nav,
+        el("p", { class: "eyebrow" }, `${week.title.split(":")[0]} · Day ${planned.day} of ${week.lessons.length}`),
+        el("h1", {}, planned.title),
+        el("p", { class: "objective" }, `Today you will: ${planned.objective.charAt(0).toLowerCase()}${planned.objective.slice(1)}`),
       ];
-      if (!approved && !PREVIEW) {
-        app.replaceChildren(...head, el("div", { class: "banner" }, "This lesson is being checked against its source and will open soon."));
+      const current = state(planned);
+      let body;
+      if (current === "soon") {
+        body = [el("div", { class: "banner" }, lesson
+          ? "This lesson is being checked against its source and will open soon."
+          : "This lesson is still being written.")];
+      } else if (current === "locked") {
+        const wait = planned.day - unlockedThrough;
+        const before = week.lessons.find((p) => p.day === planned.day - 1);
+        body = [
+          el("div", { class: "banner" }, `Day ${planned.day} opens ${wait === 1 ? "tomorrow" : `in ${wait} days`}. One lesson a day gives each practice time to work.`),
+          before ? el("section", { class: "step" }, el("div", { class: "step-num" }, "Until then"), el("p", { class: "practice" }, before.practice)) : null,
+        ];
       } else {
-        app.replaceChildren(
-          !approved ? el("div", { class: "banner" }, "Draft preview. This lesson is not approved, so visitors cannot see it yet.") : null,
-          ...head, listenStep(lesson), sortStep(lesson, store), journalStep(lesson, week, store), practiceStep(lesson),
-          PREVIEW ? await reviewPanel(lesson, week) : null);
+        const builders = [
+          lesson.retrieval || lesson.practice_followup ? yesterdayStep : null,
+          listenStep, sortStep, journalStep, practiceStep,
+        ].filter(Boolean);
+        body = [
+          lesson.review?.status !== "approved" ? el("div", { class: "banner" }, "Draft preview. This lesson is not approved, so visitors cannot see it yet.") : null,
+          ...builders.map((build, i) => build(i + 1, lesson, ctx)),
+          PREVIEW ? await reviewPanel(lesson, ctx) : null,
+        ];
+        // The draft banner reads better above the heading.
+        if (body[0]) head.unshift(body.shift());
       }
-      document.title = `${lesson.title} · Notes to Myself`;
+      // replaceChildren would print a null as text, so drop empty slots first.
+      app.replaceChildren(...[...head, ...body].filter(Boolean));
+      document.title = `${planned.title} · Notes to Myself`;
       document.getElementById("foot").append(
         el("p", {}, "Each explanation is drafted with AI, checked line by line against the passage it explains, and approved by a person before it appears here. The source text is always one click away."),
         el("p", {}, "A project by ", el("a", { href: "https://terencegovender.com/" }, "Terence Govender"), ". ",

@@ -1,0 +1,170 @@
+{
+  "id": "w01-d2",
+  "type": "audio",
+  "week_id": "w01-stoic",
+  "day": 2,
+  "title": "The Event and the Story",
+  "objective": "Separate what happened from the judgment you added to it.",
+  "builds_on": ["w01-d1"],
+
+  "source": {
+    "author": "Epictetus",
+    "work": "The Enchiridion",
+    "translator": "Thomas Wentworth Higginson",
+    "section": "5",
+    "source_url": "https://www.gutenberg.org/ebooks/45109",
+    "rights": "Public domain in the United States",
+    "passage": "Men are disturbed not by things, but by the views which they take of things. Thus death is nothing terrible, else it would have appeared so to Socrates. But the terror consists in our notion of death, that it is terrible. When, therefore, we are hindered or disturbed, or grieved, let us never impute it to others, but to ourselves—that is, to our own views. It is the action of an uninstructed person to reproach others for his own misfortunes; of one entering upon instruction, to reproach himself; and one perfectly instructed, to reproach neither others nor himself."
+  },
+
+  "retrieval": {
+    "of": "w01-d1",
+    "question": "Before today's idea, a question from yesterday. Epictetus put four things beyond our power. How many can you name?",
+    "answer": "Body, property, reputation, office.",
+    "support_span": "Beyond our power are body, property, reputation, office"
+  },
+
+  "practice_followup": {
+    "of": "w01-d1",
+    "question": "Did you catch a moment to ask it?",
+    "responses": {
+      "yes": "Good. Keep that moment in mind: today's lesson looks at what was going on inside it.",
+      "no": "That's fine. You can use any irritation from the last day or two for today's lesson."
+    }
+  },
+
+  "script": {
+    "target_words": [190, 240],
+    "text": "Yesterday you sorted things onto two lists. Opinion was on the first one, within your power. Today Epictetus shows why that matters.\n\nTwo people miss the same train. One shrugs and opens a book. The other fumes for an hour. Same train. Something else must differ.\n\nEpictetus names it. Men are disturbed not by things, but by the views which they take of things.\n\nHis example is the hardest one he could pick: death. If death were terrible in itself, he says, it would have appeared so to Socrates. The terror sits in our notion of death, that it is terrible.\n\nSo there are two layers. The event: the train left. And the story you added: this always happens to me, the day is ruined.\n\nNotice what he does not say. He does not say stop feeling. He says look at where the disturbance comes from. When we are hindered, disturbed or grieved, he tells us to trace it to our own views and not to other people.\n\nHe even sketches a ladder. The uninstructed person reproaches others. The beginner reproaches himself. The fully instructed person reproaches no one.\n\nToday's practice: write one upsetting event as a bare fact. Then write the judgment you attached to it.\n\nTomorrow: if your views are yours, what should you want?"
+  },
+
+  "claims": [
+    {
+      "claim": "We are disturbed not by things but by the views we take of them.",
+      "support_span": "Men are disturbed not by things, but by the views which they take of things."
+    },
+    {
+      "claim": "Death is his example: if it were terrible in itself, it would have appeared so to Socrates.",
+      "support_span": "Thus death is nothing terrible, else it would have appeared so to Socrates."
+    },
+    {
+      "claim": "The terror is in our notion of death, that it is terrible.",
+      "support_span": "But the terror consists in our notion of death, that it is terrible."
+    },
+    {
+      "claim": "An upset has two layers: the event and the story added to it.",
+      "kind": "application",
+      "support_span": "disturbed not by things, but by the views which they take of things",
+      "note": "Event and story are our words for the passage's things and views. The missed train is our example, not Epictetus's."
+    },
+    {
+      "claim": "When hindered, disturbed or grieved, trace it to our own views and not to other people.",
+      "support_span": "When, therefore, we are hindered or disturbed, or grieved, let us never impute it to others, but to ourselves—that is, to our own views."
+    },
+    {
+      "claim": "The passage does not tell anyone to stop feeling; it says where the disturbance comes from.",
+      "kind": "application",
+      "support_span": "let us never impute it to others, but to ourselves—that is, to our own views",
+      "note": "This is a claim about what the passage leaves out. Section 5 nowhere instructs the reader to feel nothing. It is aimed at the suppression misreading and is the line most worth a reviewer's second look."
+    },
+    {
+      "claim": "The uninstructed reproach others, the beginner reproaches himself, the fully instructed reproach no one.",
+      "support_span": "It is the action of an uninstructed person to reproach others for his own misfortunes; of one entering upon instruction, to reproach himself; and one perfectly instructed, to reproach neither others nor himself."
+    }
+  ],
+
+  "outside_source_claims": [
+    {
+      "claim": "Yesterday's passage put opinion on the first list, within our power.",
+      "status": "needs_human_check",
+      "note": "Not in this passage. It is in the Day 1 passage (section 1): Within our power are opinion, aim, desire, aversion."
+    }
+  ],
+
+  "check": {
+    "type": "sort",
+    "scenario": "You send your manager a report you worked hard on. She replies with one line: Let's discuss tomorrow.",
+    "question": "Sort each of these. Is it the event, or a story added to it?",
+    "all_correct": "All six sorted the way the passage divides them: things on one side, views on the other.",
+    "lists": {
+      "event": "The event",
+      "story": "The story I added"
+    },
+    "misconception_notes": {
+      "story-as-fact": "Taking a view for a fact. If a camera could not record it, it is something you added.",
+      "everything-is-a-story": "Treating a plain fact as a matter of opinion. Epictetus still starts from things as they are.",
+      "suppression": "Reading Stoicism as an order to feel nothing. The passage asks you to examine your views, and never tells you to stop feeling."
+    },
+    "items": [
+      {
+        "text": "Her reply was one line long.",
+        "list": "event",
+        "passage_term": "things",
+        "misconception": "everything-is-a-story",
+        "feedback": "The event. Anyone reading the message would agree on this."
+      },
+      {
+        "text": "She hated the report.",
+        "list": "story",
+        "passage_term": "views",
+        "misconception": "story-as-fact",
+        "feedback": "A story. Her message does not say this. It is a view you have taken of one line of text."
+      },
+      {
+        "text": "The discussion is set for tomorrow.",
+        "list": "event",
+        "passage_term": "things",
+        "misconception": "everything-is-a-story",
+        "feedback": "The event. It is in the message itself."
+      },
+      {
+        "text": "I'm in trouble.",
+        "list": "story",
+        "passage_term": "views",
+        "misconception": "story-as-fact",
+        "feedback": "A story. It may turn out true or false tomorrow. Today it is a view, and Epictetus says the view is what disturbs."
+      },
+      {
+        "text": "She did not say what she thought of it.",
+        "list": "event",
+        "passage_term": "things",
+        "misconception": "everything-is-a-story",
+        "feedback": "The event. Noticing what was not said is still plain fact, and it is the gap your stories rush to fill."
+      },
+      {
+        "text": "I shouldn't feel anything about this.",
+        "list": "story",
+        "passage_term": "views",
+        "misconception": "suppression",
+        "feedback": "A story too, this time about yourself. The passage asks you to look at your views. It does not tell you to feel nothing."
+      }
+    ]
+  },
+
+  "reflection": {
+    "prompt": "Take one upsetting event and pull the two layers apart.",
+    "fields": [
+      { "id": "event", "label": "The event", "hint": "The bare fact, as a camera would record it. You can reuse yesterday's situation." },
+      { "id": "story", "label": "The story I added", "hint": "The judgment you attached: what you told yourself it meant." }
+    ],
+    "saved_to_handbook": true
+  },
+
+  "practice": {
+    "text": "Write one upsetting event as a bare fact, then write the judgment you attached to it.",
+    "followed_up_in": "w01-d3"
+  },
+
+  "audio": {
+    "file": null,
+    "voice": null,
+    "duration_seconds": null
+  },
+
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "",
+    "approved_on": null
+  },
+  "release_date": null
+}

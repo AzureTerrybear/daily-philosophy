@@ -8,7 +8,9 @@ export function countWords(text) {
   return text.split(/\s+/).filter(Boolean).length;
 }
 
-export function validateLesson(lesson, week) {
+// `lessons` is an optional map of the week's other lessons by id, used to check
+// that a retrieval answer is supported by the earlier lesson's passage.
+export function validateLesson(lesson, week, lessons = {}) {
   const errors = [];
   const warnings = [];
   const passage = lesson.source?.passage ?? "";
@@ -97,11 +99,26 @@ export function validateLesson(lesson, week) {
   }
 
   // Retrieval
+  const earlier = (id) => {
+    const target = week?.lessons?.find((l) => l.id === id);
+    return target && target.day < lesson.day;
+  };
   if (lesson.retrieval) {
-    const target = week?.lessons?.find((l) => l.id === lesson.retrieval.of);
-    if (!target || target.day >= lesson.day) {
-      errors.push("retrieval must point to a lesson earlier in the week");
+    const r = lesson.retrieval;
+    if (!earlier(r.of)) errors.push("retrieval must point to a lesson earlier in the week");
+    if (!r.question) errors.push("retrieval has no question");
+    if (planned && planned.retrieval_of !== r.of) warnings.push("retrieval.of differs from the week plan");
+    const earlierPassage = lessons[r.of]?.source?.passage;
+    if (r.answer && !r.support_span) errors.push("retrieval answer has no support_span");
+    if (r.support_span && earlierPassage && !earlierPassage.includes(r.support_span)) {
+      errors.push(`retrieval support_span is not in the passage of ${r.of}`);
     }
+    if (r.support_span && !earlierPassage) warnings.push(`retrieval answer could not be checked: ${r.of} was not loaded`);
+  } else if (planned?.retrieval_of) {
+    errors.push(`week plan expects a retrieval question about ${planned.retrieval_of}`);
+  }
+  if (lesson.practice_followup && !earlier(lesson.practice_followup.of)) {
+    errors.push("practice_followup must point to a lesson earlier in the week");
   }
 
   // Reflection
@@ -127,9 +144,22 @@ if (typeof process !== "undefined" && process.argv?.[1]?.endsWith("validate.mjs"
     weeks[w.week_id] = w;
   }
   let failed = false;
-  for (const f of fs.readdirSync("content/lessons").filter((n) => n.endsWith(".json"))) {
+  const files = fs.readdirSync("content/lessons").filter((n) => n.endsWith(".json"));
+  const all = Object.fromEntries(files.map((f) => {
     const lesson = read(path.join("content/lessons", f));
-    const { errors, warnings } = validateLesson(lesson, weeks[lesson.week_id]);
+    return [lesson.id, lesson];
+  }));
+  for (const week of Object.values(weeks)) {
+    for (const planned of week.lessons) {
+      if (Boolean(planned.available) !== Boolean(all[planned.id])) {
+        console.log(`\n${week.week_id}: "available" for ${planned.id} does not match whether its lesson file exists`);
+        failed = true;
+      }
+    }
+  }
+  for (const f of files) {
+    const lesson = read(path.join("content/lessons", f));
+    const { errors, warnings } = validateLesson(lesson, weeks[lesson.week_id], all);
     const status = lesson.review?.status ?? "draft";
     console.log(`\n${f} [${status}] ${errors.length ? "FAIL" : "ok"}`);
     for (const e of errors) console.log(`  error: ${e}`);

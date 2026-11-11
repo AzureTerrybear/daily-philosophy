@@ -14,6 +14,7 @@
   "lessons": [
     {
       "id": "w01-d1",
+      "available": true,
       "day": 1,
       "section": "1",
       "title": "Two Lists",
@@ -26,6 +27,7 @@
     },
     {
       "id": "w01-d2",
+      "available": true,
       "day": 2,
       "section": "5",
       "title": "The Event and the Story",
