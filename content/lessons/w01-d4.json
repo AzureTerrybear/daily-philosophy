@@ -1,0 +1,182 @@
+{
+  "id": "w01-d4",
+  "type": "scenario",
+  "week_id": "w01-stoic",
+  "day": 4,
+  "title": "Rehearse the Bathhouse",
+  "objective": "Plan for a predictable annoyance before it happens.",
+  "builds_on": ["w01-d3"],
+
+  "source": {
+    "author": "Epictetus",
+    "work": "The Enchiridion",
+    "translator": "Thomas Wentworth Higginson",
+    "section": "4",
+    "source_url": "https://www.gutenberg.org/ebooks/45109",
+    "rights": "Public domain in the United States",
+    "passage": "When you set about any action, remind yourself of what nature the action is. If you are going to bathe, represent to yourself the incidents usual in the bath—some persons pouring out, others pushing in, others scolding, others pilfering. And thus you will more safely go about this action if you say to yourself, “I will now go to bathe and keep my own will in harmony with nature.” And so with regard to every other action. For thus, if any impediment arises in bathing, you will be able to say, “It was not only to bathe that I desired, but to keep my will in harmony with nature; and I shall not keep it thus if I am out of humor at things that happen.”"
+  },
+
+  "retrieval": {
+    "of": "w01-d2",
+    "question": "A question from Day 2. What did Epictetus say disturbs us: things, or something we add to them?",
+    "answer": "Something we add: the views we take of things.",
+    "support_span": "Men are disturbed not by things, but by the views which they take of things."
+  },
+
+  "practice_followup": {
+    "of": "w01-d3",
+    "question": "Did you restate one want as something you do?",
+    "responses": {
+      "yes": "Good. Today you carry that kind of goal into a situation where things go wrong.",
+      "no": "That's fine. Today's scenario will hand you one to practise on."
+    }
+  },
+
+  "intro": "Epictetus has a rule for any action: before you start, remind yourself what it is like.\n\nHis example is going to bathe. Picture what usually happens at the bath, he says: some people pouring water out, others pushing in, others scolding, others pilfering.\n\nThen go in with two goals, not one. To bathe, and to keep your will in harmony with nature. Put plainly for today: do the thing, and stay the person you meant to be while you do it.\n\nIf something then goes wrong, you can remind yourself that bathing was never the only goal, and that being out of humor at what happens is how the second one is lost.\n\nHe says the same holds for every other action. So try it on a modern bathhouse.",
+
+  "scenario": {
+    "start": "before",
+    "misconception_notes": {
+      "outcome-as-control": "Staking the day on something another person controls: his mood, the room, the last word.",
+      "pessimism": "Confusing rehearsal with dread. Epictetus pictures the bath so that it stops being a surprise, and then he goes.",
+      "passivity": "Keeping calm by giving up the task. There were two goals, and bathing was one of them.",
+      "fatalism": "Deciding none of it matters. The passage keeps both goals."
+    },
+    "nodes": {
+      "before": {
+        "text": "Tomorrow you present at the monthly team meeting. One colleague interrupts every presenter, every month. It is the evening before.",
+        "prompt": "How do you prepare?",
+        "choices": [
+          {
+            "text": "Polish the slides and hope he is in a good mood this time.",
+            "misconception": "outcome-as-control",
+            "feedback": "His mood is not yours to arrange. You have prepared for the meeting you want and left the likely one unplanned.",
+            "next": "during"
+          },
+          {
+            "text": "Assume it will be a disaster and dread it all evening.",
+            "misconception": "pessimism",
+            "feedback": "Rehearsal is not dread. Epictetus pictures the pushing and scolding so that it stops being a surprise, and then he still goes to bathe.",
+            "next": "during"
+          },
+          {
+            "text": "Tell yourself: he will probably interrupt. I want to present, and I want to stay composed while I do.",
+            "misconception": null,
+            "feedback": "That is the move in the passage: name what the action is like, then carry a second goal that depends only on you.",
+            "next": "during"
+          }
+        ]
+      },
+      "during": {
+        "text": "Two minutes in, he cuts across you: 'Is this going anywhere?' A few people look down at their laptops.",
+        "prompt": "What do you do?",
+        "choices": [
+          {
+            "text": "Snap back: 'It would be, if you let me finish.'",
+            "misconception": "outcome-as-control",
+            "feedback": "You tried to win the room and gave up the one goal that was fully yours.",
+            "next": "after"
+          },
+          {
+            "text": "Go quiet, skip three slides and finish as fast as you can.",
+            "misconception": "passivity",
+            "feedback": "Staying composed is not the same as retreating. Presenting was also your goal, and you dropped it.",
+            "next": "after"
+          },
+          {
+            "text": "Say 'I'll take questions at the end' and carry on at the same pace.",
+            "misconception": null,
+            "feedback": "Both goals survive. The interruption happened, as expected, and it changed nothing you had decided to do.",
+            "next": "after"
+          }
+        ]
+      },
+      "after": {
+        "text": "The meeting ends. Your presentation was fine. He made one more remark at the end, and it got a laugh.",
+        "prompt": "How do you judge the afternoon?",
+        "choices": [
+          {
+            "text": "He got the last word, so it went badly.",
+            "misconception": "outcome-as-control",
+            "feedback": "You are scoring yourself on his remark and their laugh. Neither was ever yours to decide.",
+            "next": "end"
+          },
+          {
+            "text": "None of it matters anyway.",
+            "misconception": "fatalism",
+            "feedback": "Epictetus does not call the bath pointless. He goes to bathe, and he keeps a second goal alongside it.",
+            "next": "end"
+          },
+          {
+            "text": "I had two goals. Did I present, and did I keep my composure?",
+            "misconception": null,
+            "feedback": "That is how the passage ends: being out of humor at what happens is what loses the second goal, whatever went on at the bath.",
+            "next": "end"
+          }
+        ]
+      },
+      "end": {
+        "ending": true,
+        "text": "That is the whole bathhouse. You knew what the place was like, you went anyway, and you carried a second goal in with you."
+      }
+    }
+  },
+
+  "claims": [
+    {
+      "claim": "Before any action, remind yourself what it is like.",
+      "support_span": "When you set about any action, remind yourself of what nature the action is."
+    },
+    {
+      "claim": "At the bath some pour out, others push in, others scold, others pilfer.",
+      "support_span": "some persons pouring out, others pushing in, others scolding, others pilfering"
+    },
+    {
+      "claim": "Go with two goals: to bathe, and to keep your will in harmony with nature.",
+      "support_span": "I will now go to bathe and keep my own will in harmony with nature."
+    },
+    {
+      "claim": "Keeping your will in harmony with nature means, for today, staying composed and being the person you meant to be.",
+      "kind": "application",
+      "support_span": "keep my own will in harmony with nature",
+      "note": "This is the lesson's biggest simplification, and the line most worth a reviewer's second look. Harmony with nature is a broad Stoic idea; the lesson narrows it to composure and conduct so that a learner can act on it. The intro says 'put plainly for today' to mark it as our gloss."
+    },
+    {
+      "claim": "If something goes wrong, remember that bathing was not the only goal.",
+      "support_span": "It was not only to bathe that I desired, but to keep my will in harmony with nature"
+    },
+    {
+      "claim": "Being out of humor at what happens is how the second goal is lost.",
+      "support_span": "I shall not keep it thus if I am out of humor at things that happen"
+    },
+    {
+      "claim": "The same holds for every other action.",
+      "support_span": "And so with regard to every other action."
+    }
+  ],
+
+  "outside_source_claims": [],
+
+  "reflection": {
+    "prompt": "Name your bathhouse this week.",
+    "fields": [
+      { "id": "bathhouse", "label": "My bathhouse", "hint": "A meeting, a commute, a family dinner: something you already know will be trying." },
+      { "id": "likely", "label": "What is likely to go wrong", "hint": "Picture it the way Epictetus pictures the bath." },
+      { "id": "second_goal", "label": "The second goal I will carry in", "hint": "Something that depends only on you." }
+    ],
+    "saved_to_handbook": true
+  },
+
+  "practice": {
+    "text": "Before one task today, name what is likely to go wrong and what you intend to keep steady.",
+    "followed_up_in": "w01-d5"
+  },
+
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "",
+    "approved_on": null
+  },
+  "release_date": null
+}

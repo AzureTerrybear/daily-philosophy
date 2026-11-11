@@ -72,6 +72,10 @@
     .choices button[data-slot="1"] { border-color: var(--beyond); color: var(--beyond); }
     .choices button[aria-pressed="true"][data-slot="0"] { background: var(--within-bg); opacity: 1; }
     .choices button[aria-pressed="true"][data-slot="1"] { background: var(--beyond-bg); opacity: 1; }
+    .choices.stack { flex-direction: column; }
+    .choices.stack button { flex: none; text-align: left; font-weight: 400; }
+    .choices.stack button[aria-pressed="true"] { background: var(--beyond-bg); opacity: 1; font-weight: 500; }
+    .scene:first-child { border-top: 0; padding-top: 0; }
     .feedback { margin: .6rem 0 0 !important; font-size: .9375rem; }
     .feedback strong { display: block; }
     .summary, .block { border-top: 1px solid var(--rule); padding-top: .9rem; margin-top: .9rem; }
@@ -123,7 +127,7 @@
         else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
         else if (v !== null && v !== undefined) node.setAttribute(k, v);
       }
-      for (const kid of kids.flat()) if (kid != null) node.append(kid);
+      for (const kid of kids.flat(Infinity)) if (kid != null) node.append(kid);
       return node;
     };
     const paras = (text) => text.split(/\n\n+/).map((p) => el("p", {}, p));
@@ -190,6 +194,7 @@
 
     // ---- listen and read ----
     function listenStep(n, lesson) {
+      const spoken = lesson.script?.text ?? lesson.intro;
       const controls = el("div", { class: "listen" });
       if (lesson.audio?.file) {
         controls.append(el("audio", { controls: "", preload: "none", src: lesson.audio.file }));
@@ -199,7 +204,7 @@
         const stop = () => { speechSynthesis.cancel(); speaking = false; btn.textContent = "▶ Listen"; };
         btn.addEventListener("click", () => {
           if (speaking) return stop();
-          const u = new SpeechSynthesisUtterance(lesson.script.text);
+          const u = new SpeechSynthesisUtterance(spoken);
           u.rate = 0.95;
           u.onend = u.onerror = () => { speaking = false; btn.textContent = "▶ Listen"; };
           speechSynthesis.cancel();
@@ -217,10 +222,70 @@
         el("p", { class: "note" }, `Translated by ${s.translator}. ${s.rights}. `,
           el("a", { href: s.source_url, rel: "noopener" }, "Project Gutenberg edition")));
       return el("section", { class: "step" },
-        stepHead(n, "Listen"),
+        stepHead(n, lesson.type === "scenario" ? "The passage" : "Listen"),
         controls,
-        el("div", { class: "transcript" }, paras(lesson.script.text)),
+        el("div", { class: "transcript" }, paras(spoken)),
         source);
+    }
+
+    // ---- branching scenario ----
+    function scenarioStep(n, lesson, ctx) {
+      const { store } = ctx;
+      const sc = lesson.scenario;
+      const picked = [];
+      const trail = el("div", {});
+      const wrap = el("section", { class: "step" }, stepHead(n, "Scenario"), trail);
+      const shuffled = (list) => {
+        const copy = [...list];
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      };
+      function show(id) {
+        const node = sc.nodes[id];
+        if (node.ending) return finish(node);
+        const feedback = el("p", { class: "feedback", hidden: "", role: "status" });
+        const onward = el("div", { class: "actions", hidden: "" });
+        const buttons = shuffled(node.choices).map((choice) => {
+          const b = el("button", { type: "button", "aria-pressed": "false", onclick: () => {
+            buttons.forEach((x) => { x.disabled = true; });
+            b.setAttribute("aria-pressed", "true");
+            if (choice.misconception) picked.push(choice.misconception);
+            feedback.replaceChildren(el("strong", {}, choice.misconception ? "A common misreading." : "That is the move."), choice.feedback);
+            feedback.hidden = false;
+            const go = el("button", { class: "primary", type: "button", onclick: () => { go.disabled = true; show(choice.next); } }, "Continue");
+            onward.replaceChildren(go);
+            onward.hidden = false;
+            go.focus();
+          } }, choice.text);
+          return b;
+        });
+        const block = el("div", { class: "item scene" },
+          el("p", { class: "scenario" }, node.text),
+          el("p", {}, node.prompt),
+          el("div", { class: "choices stack" }, buttons),
+          feedback, onward);
+        trail.append(block);
+        if (trail.children.length > 1) block.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      function finish(node) {
+        const tags = [...new Set(picked)];
+        store.checks = { ...store.checks, [lesson.id]: { at: new Date().toISOString(), misconceptions: tags } };
+        saveStore(store);
+        const end = el("div", { class: "summary" },
+          el("p", { class: "scenario" }, node.text),
+          tags.length === 0
+            ? el("p", {}, "You kept both goals at every turn.")
+            : [el("p", {}, "Misreadings you tried along the way. There is no score:"),
+               el("ul", {}, tags.map((t) => el("li", {}, sc.misconception_notes?.[t] ?? t)))],
+          el("button", { type: "button", onclick: () => { picked.length = 0; trail.replaceChildren(); show(sc.start); wrap.scrollIntoView({ behavior: "smooth" }); } }, "Play it again"));
+        trail.append(end);
+        end.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      show(sc.start);
+      return wrap;
     }
 
     // ---- sort ----
@@ -389,7 +454,7 @@
         const { validateLesson, countWords } = await import("./tools/validate.mjs");
         const { errors, warnings } = validateLesson(lesson, ctx.week, ctx.lessons);
         panel.append(
-          el("p", {}, `Status: ${lesson.review.status}. Script: ${countWords(lesson.script.text)} words. `,
+          el("p", {}, `Status: ${lesson.review.status}. ${lesson.script ? "Script" : "Intro"}: ${countWords(lesson.script?.text ?? lesson.intro)} words. `,
             errors.length ? el("span", { class: "bad" }, `${errors.length} error(s).`) : "No validator errors."),
           el("ul", {}, errors.map((e) => el("li", { class: "bad" }, e)), warnings.map((w) => el("li", {}, `Warning: ${w}`))));
       } catch (err) {
@@ -481,7 +546,7 @@
       } else {
         const builders = [
           lesson.retrieval || lesson.practice_followup ? yesterdayStep : null,
-          listenStep, sortStep, journalStep, practiceStep,
+          listenStep, lesson.type === "scenario" ? scenarioStep : sortStep, journalStep, practiceStep,
         ].filter(Boolean);
         const complete = completeStep(lesson, ctx);
         ctx.onSaved = () => { drawNav(); complete.draw(); };

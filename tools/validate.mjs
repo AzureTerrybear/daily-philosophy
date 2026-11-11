@@ -55,6 +55,48 @@ export function validateLesson(lesson, week, lessons = {}) {
     }
   }
 
+  // Scenario
+  if (lesson.type === "scenario") {
+    const intro = lesson.intro ?? "";
+    if (!intro.trim()) errors.push("scenario lesson has no intro");
+    for (const m of intro.matchAll(QUOTE_RE)) {
+      if (!passage.includes(m[1])) errors.push(`intro quotes text that is not in the passage: "${m[1]}"`);
+    }
+    const sc = lesson.scenario ?? {};
+    const nodes = sc.nodes ?? {};
+    if (!nodes[sc.start]) errors.push("scenario.start does not name an existing node");
+    for (const [id, node] of Object.entries(nodes)) {
+      if (node.ending) continue;
+      const choices = node.choices ?? [];
+      if (choices.length < 2) errors.push(`node "${id}" needs at least 2 choices`);
+      if (choices.filter((c) => c.misconception == null).length !== 1) {
+        errors.push(`node "${id}" must have exactly one choice with no misconception`);
+      }
+      for (const c of choices) {
+        if (!c.feedback) errors.push(`a choice in node "${id}" has no feedback`);
+        if (!nodes[c.next]) errors.push(`a choice in node "${id}" leads to a missing node "${c.next}"`);
+        if (c.misconception && !sc.misconception_notes?.[c.misconception]) {
+          warnings.push(`no learner-facing note for misconception "${c.misconception}"`);
+        }
+      }
+    }
+    // Walk every path: each must reach an ending within 4 nodes, with no loops.
+    const seen = new Set();
+    const walk = (id, depth) => {
+      const node = nodes[id];
+      if (!node) return;
+      seen.add(id);
+      if (node.ending) return;
+      if (depth >= 4) { errors.push(`a path through "${id}" is longer than 4 nodes or loops`); return; }
+      for (const c of node.choices ?? []) walk(c.next, depth + 1);
+    };
+    if (nodes[sc.start]) walk(sc.start, 1);
+    for (const id of Object.keys(nodes)) {
+      if (!seen.has(id)) errors.push(`node "${id}" cannot be reached from the start`);
+    }
+    if (!Object.values(nodes).some((n) => n.ending)) errors.push("scenario has no ending node");
+  }
+
   // Claims
   if (!Array.isArray(lesson.claims) || lesson.claims.length === 0) {
     errors.push("lesson has no claims");
