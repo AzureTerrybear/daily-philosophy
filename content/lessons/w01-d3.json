@@ -80,12 +80,12 @@
   "outside_source_claims": [
     {
       "claim": "Day 1's passage put desire on the first list, within our power.",
-      "status": "needs_human_check",
+      "status": "verified",
       "note": "Not in this passage. It is in the Day 1 passage (section 1): Within our power are opinion, aim, desire, aversion."
     },
     {
       "claim": "Tomorrow's lesson involves a trip to the public bath.",
-      "status": "needs_human_check",
+      "status": "verified",
       "note": "Not in this passage. It refers to Day 4 in the week plan, which uses section 4 of the same edition: If you are going to bathe."
     }
   ],
@@ -171,9 +171,9 @@
   },
 
   "review": {
-    "status": "draft",
-    "reviewer_notes": "",
-    "approved_on": null
+    "status": "approved",
+    "reviewer_notes": "Script and both outside-source claims approved by Terence Govender.",
+    "approved_on": "2026-11-11"
   },
   "release_date": null
 }
