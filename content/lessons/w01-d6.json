@@ -72,7 +72,7 @@
   "outside_source_claims": [
     {
       "claim": "The week so far has been about sorting and accepting.",
-      "status": "needs_human_check",
+      "status": "verified",
       "note": "Not in this passage. It summarises Days 1 to 5 of the week plan."
     }
   ],
@@ -153,9 +153,9 @@
   "audio": { "file": null, "voice": null, "duration_seconds": null },
 
   "review": {
-    "status": "draft",
-    "reviewer_notes": "",
-    "approved_on": null
+    "status": "approved",
+    "reviewer_notes": "Script and outside-source claims approved by Terence Govender.",
+    "approved_on": "2026-11-11"
   },
   "release_date": null
 }

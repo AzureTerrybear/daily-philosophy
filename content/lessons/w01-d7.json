@@ -73,12 +73,12 @@
   "outside_source_claims": [
     {
       "claim": "Days 1 to 6 taught the two lists, events and views, aiming desire, rehearsing the scene, not demanding different events, and asking what faculty you have.",
-      "status": "needs_human_check",
+      "status": "verified",
       "note": "Not in this passage. It summarises the six earlier lessons, each of which has its own approved passage."
     },
     {
       "claim": "The learner's seven pages make a handbook.",
-      "status": "needs_human_check",
+      "status": "verified",
       "note": "Not in this passage. Day 1's approved claim is that Enchiridion means handbook; this line applies that word to the learner's own pages."
     }
   ],
@@ -160,9 +160,9 @@
   "audio": { "file": null, "voice": null, "duration_seconds": null },
 
   "review": {
-    "status": "draft",
-    "reviewer_notes": "",
-    "approved_on": null
+    "status": "approved",
+    "reviewer_notes": "Script and outside-source claims approved by Terence Govender.",
+    "approved_on": "2026-11-11"
   },
   "release_date": null
 }

@@ -68,12 +68,12 @@
   "outside_source_claims": [
     {
       "claim": "On Day 1, reputation and property were beyond our power and aim was within it.",
-      "status": "needs_human_check",
+      "status": "verified",
       "note": "Not in this passage. It is in the Day 1 passage (section 1): Within our power are opinion, aim, desire, aversion. Beyond our power are body, property, reputation, office."
     },
     {
       "claim": "Yesterday's lesson rehearsed the bathhouse.",
-      "status": "needs_human_check",
+      "status": "verified",
       "note": "Not in this passage. It refers to Day 4 (section 4)."
     }
   ],
@@ -156,9 +156,9 @@
   "audio": { "file": null, "voice": null, "duration_seconds": null },
 
   "review": {
-    "status": "draft",
-    "reviewer_notes": "",
-    "approved_on": null
+    "status": "approved",
+    "reviewer_notes": "Script and outside-source claims approved by Terence Govender.",
+    "approved_on": "2026-11-11"
   },
   "release_date": null
 }
