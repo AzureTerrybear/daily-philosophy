@@ -174,9 +174,9 @@
   },
 
   "review": {
-    "status": "draft",
-    "reviewer_notes": "",
-    "approved_on": null
+    "status": "approved",
+    "reviewer_notes": "Scenario, intro and the harmony-with-nature gloss approved by Terence Govender.",
+    "approved_on": "2026-11-11"
   },
   "release_date": null
 }
