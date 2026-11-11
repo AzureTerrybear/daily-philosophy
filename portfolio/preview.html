@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Landing preview</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap">
+  <style>body { margin: 0; background: #fff; }</style>
+</head>
+<body>
+  <!-- Local preview only: loads the snippet the way the builder's HTML element would. -->
+  <div id="slot"></div>
+  <script type="module">
+    const html = await (await fetch("philosophy-landing.html", { cache: "no-cache" })).text();
+    document.getElementById("slot").innerHTML = html;
+  </script>
+</body>
+</html>

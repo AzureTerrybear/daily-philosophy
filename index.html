@@ -311,7 +311,8 @@
       document.title = `${lesson.title} · Notes to Myself`;
       document.getElementById("foot").append(
         el("p", {}, "Each explanation is drafted with AI, checked line by line against the passage it explains, and approved by a person before it appears here. The source text is always one click away."),
-        el("p", {}, "A project by ", el("a", { href: "https://terencegovender.com/" }, "Terence Govender"), "."));
+        el("p", {}, "A project by ", el("a", { href: "https://terencegovender.com/" }, "Terence Govender"), ". ",
+          el("a", { href: "https://terencegovender.com/philosophy" }, "About this project"), "."));
     } catch (err) {
       app.replaceChildren(el("p", { class: "banner" }, "The lesson could not be loaded. Please try again shortly."));
       console.error(err);
