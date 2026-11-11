@@ -116,7 +116,7 @@ export function validateLesson(lesson, week, lessons = {}) {
   const check = lesson.check;
   if (check?.type === "sort") {
     const lists = Object.keys(check.lists ?? {});
-    if (lists.length !== 2) errors.push("check.lists must name exactly two lists");
+    if (lists.length < 2 || lists.length > 3) errors.push("check.lists must name two or three lists");
     const used = new Set();
     for (const item of check.items ?? []) {
       if (!lists.includes(item.list)) errors.push(`sort item has an unknown list: "${item.text}"`);
@@ -128,7 +128,7 @@ export function validateLesson(lesson, week, lessons = {}) {
       }
     }
     if ((check.items ?? []).length < 4) errors.push("sort check needs at least 4 items");
-    if (used.size < 2) errors.push("sort check must use both lists");
+    if (used.size < lists.length) errors.push("sort check must use every list");
   } else if (check?.options) {
     const right = check.options.filter((o) => o.correct);
     if (right.length !== 1) errors.push("check.options must have exactly one correct option");

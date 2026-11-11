@@ -1,0 +1,168 @@
+{
+  "id": "w01-d7",
+  "type": "audio",
+  "week_id": "w01-stoic",
+  "day": 7,
+  "title": "Play the Part Well",
+  "objective": "Explain the week's ideas in your own words using one situation from your own life.",
+  "builds_on": ["w01-d1", "w01-d2", "w01-d3", "w01-d4", "w01-d5", "w01-d6"],
+
+  "source": {
+    "author": "Epictetus",
+    "work": "The Enchiridion",
+    "translator": "Thomas Wentworth Higginson",
+    "section": "17",
+    "source_url": "https://www.gutenberg.org/ebooks/45109",
+    "rights": "Public domain in the United States",
+    "passage": "Remember that you are an actor in a drama of such sort as the Author chooses—if short, then in a short one; if long, then in a long one. If it be his pleasure that you should enact a poor man, or a cripple, or a ruler, or a private citizen, see that you act it well. For this is your business—to act well the given part, but to choose it belongs to another."
+  },
+
+  "retrieval": {
+    "of": "w01-d1",
+    "question": "A question from Day 1, where the week began. What is the first test Epictetus applies to anything that troubles him?",
+    "answer": "Whether it concerns the things within our power or those which are not.",
+    "support_span": "whether it concerns the things which are within our own power or those which are not"
+  },
+
+  "practice_followup": {
+    "of": "w01-d6",
+    "question": "Did you match a difficulty to a capacity?",
+    "responses": {
+      "yes": "Good. Keep that difficulty in mind. Today it becomes a part to play.",
+      "no": "That's fine. Today gathers the whole week, and any situation from your life will do."
+    }
+  },
+
+  "script": {
+    "target_words": [190, 240],
+    "text": "Six days ago you made two lists. Today Epictetus puts the whole week into one picture.\n\nRemember that you are an actor in a drama, he says, of such sort as the Author chooses. Short or long. A poor man, a ruler, a private citizen. The part is handed to you.\n\nThen comes the line that matters. This is your business: to act well the given part. To choose it belongs to another.\n\nThat is Day 1 again. The part is beyond your power. The playing is within it.\n\nIt is Day 2 as well: the part is the event, and how you take it is your view. Day 3: aim your wanting at the performance, not the casting. Day 4: know the scene before you walk on. Day 5: stop demanding a different script. Day 6: ask what you have for this scene.\n\nDoes a given part mean nothing you do matters? Epictetus says the opposite. He does not say endure the part. He says act it well. The playing is the one thing he calls your business.\n\nSo for your last page, read back the six you have written. Then write a seventh that begins: What is mine to do is.\n\nThat page, and the six before it, are your handbook. You wrote it yourself."
+  },
+
+  "claims": [
+    {
+      "claim": "You are an actor in a drama of such sort as the Author chooses.",
+      "support_span": "Remember that you are an actor in a drama of such sort as the Author chooses"
+    },
+    {
+      "claim": "The drama may be short or long.",
+      "support_span": "if short, then in a short one; if long, then in a long one"
+    },
+    {
+      "claim": "The part may be a poor man, a ruler or a private citizen.",
+      "support_span": "enact a poor man, or a cripple, or a ruler, or a private citizen",
+      "note": "The script leaves out one of the passage's four examples. The learner sees the full passage in the source panel."
+    },
+    {
+      "claim": "Your business is to act well the given part; choosing it belongs to another.",
+      "support_span": "For this is your business—to act well the given part, but to choose it belongs to another."
+    },
+    {
+      "claim": "A given part does not mean nothing you do matters: he says act it well, and calls that your business.",
+      "kind": "application",
+      "support_span": "see that you act it well",
+      "note": "This is the reply to the fatalism misreading. 'He does not say endure the part' is a claim about what the passage leaves out; the passage's instruction is to act it well."
+    },
+    {
+      "claim": "The actor image gathers the week: the part is beyond our power and the playing within it, and Days 2 to 6 each map onto it.",
+      "kind": "application",
+      "support_span": "to act well the given part, but to choose it belongs to another",
+      "note": "This is the line most worth a reviewer's second look. Section 17 does not refer to the other sections. Mapping each day onto the actor image is our synthesis, done because Day 7 adds no new concept and exists to retrieve the other six."
+    }
+  ],
+
+  "outside_source_claims": [
+    {
+      "claim": "Days 1 to 6 taught the two lists, events and views, aiming desire, rehearsing the scene, not demanding different events, and asking what faculty you have.",
+      "status": "needs_human_check",
+      "note": "Not in this passage. It summarises the six earlier lessons, each of which has its own approved passage."
+    },
+    {
+      "claim": "The learner's seven pages make a handbook.",
+      "status": "needs_human_check",
+      "note": "Not in this passage. Day 1's approved claim is that Enchiridion means handbook; this line applies that word to the learner's own pages."
+    }
+  ],
+
+  "check": {
+    "type": "sort",
+    "scenario": "This year it has fallen to you to care for a parent. You did not choose it.",
+    "question": "Sort each of these. Is it the part you were given, or how you play it?",
+    "all_correct": "All six sorted. The part was chosen for you. Every line of the playing is yours.",
+    "lists": {
+      "part": "The part",
+      "playing": "The playing"
+    },
+    "misconception_notes": {
+      "outcome-as-control": "Treating the part as yours to choose. Epictetus says choosing it belongs to another.",
+      "fatalism": "Treating the playing as fixed along with the part. The passage calls acting it well your business."
+    },
+    "items": [
+      {
+        "text": "That it fell to me, and not to my brother.",
+        "list": "part",
+        "passage_term": "to choose it belongs to another",
+        "misconception": "outcome-as-control",
+        "feedback": "The part. You were cast. Epictetus says the choosing belongs to another."
+      },
+      {
+        "text": "How patiently I speak at the end of a long day.",
+        "list": "playing",
+        "passage_term": "act it well",
+        "misconception": "fatalism",
+        "feedback": "The playing. This is acting the part well, and it is yours each evening."
+      },
+      {
+        "text": "How long this will last.",
+        "list": "part",
+        "passage_term": "if short, then in a short one; if long, then in a long one",
+        "misconception": "outcome-as-control",
+        "feedback": "The part. Short or long, Epictetus says, is the Author's choice."
+      },
+      {
+        "text": "Whether I ask for help when I need it.",
+        "list": "playing",
+        "passage_term": "act it well",
+        "misconception": "fatalism",
+        "feedback": "The playing. A given part still leaves you to decide how to carry it."
+      },
+      {
+        "text": "That my parent's health is failing.",
+        "list": "part",
+        "passage_term": "to choose it belongs to another",
+        "misconception": "outcome-as-control",
+        "feedback": "The part. It is the hardest line in the script, and it was not yours to write."
+      },
+      {
+        "text": "Whether I treat this as something to do well.",
+        "list": "playing",
+        "passage_term": "this is your business",
+        "misconception": "fatalism",
+        "feedback": "The playing. This is the centre of the passage: acting the given part well is your business."
+      }
+    ]
+  },
+
+  "reflection": {
+    "prompt": "Read back your six pages, then write the seventh.",
+    "show_previous": true,
+    "fields": [
+      { "id": "situation", "label": "One situation from my life", "hint": "The part you have been given, in a sentence or two." },
+      { "id": "mine", "label": "What is mine to do is…", "hint": "In your own words, using whatever from the week helps." }
+    ],
+    "saved_to_handbook": true
+  },
+
+  "practice": {
+    "text": "Read back your six reflections and write a seventh that begins: 'What is mine to do is...'",
+    "followed_up_in": null
+  },
+
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "",
+    "approved_on": null
+  },
+  "release_date": null
+}

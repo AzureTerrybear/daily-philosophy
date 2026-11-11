@@ -1,0 +1,161 @@
+{
+  "id": "w01-d6",
+  "type": "audio",
+  "week_id": "w01-stoic",
+  "day": 6,
+  "title": "What Do You Have for This?",
+  "objective": "Match a current difficulty to a capacity you can exercise.",
+  "builds_on": ["w01-d2", "w01-d5"],
+
+  "source": {
+    "author": "Epictetus",
+    "work": "The Enchiridion",
+    "translator": "Thomas Wentworth Higginson",
+    "section": "10",
+    "source_url": "https://www.gutenberg.org/ebooks/45109",
+    "rights": "Public domain in the United States",
+    "passage": "Upon every accident, remember to turn toward yourself and inquire what faculty you have for its use. If you encounter a handsome person, you will find continence the faculty needed; if pain, then fortitude; if reviling, then patience. And when thus habituated, the phenomena of existence will not overwhelm you."
+  },
+
+  "retrieval": {
+    "of": "w01-d4",
+    "question": "A question from Day 4. Going to the bath, Epictetus carried two goals. What were they?",
+    "answer": "To bathe, and to keep his will in harmony with nature.",
+    "support_span": "I will now go to bathe and keep my own will in harmony with nature."
+  },
+
+  "practice_followup": {
+    "of": "w01-d5",
+    "question": "Did you name something that has already happened, and your next move?",
+    "responses": {
+      "yes": "Good. Today asks what you bring to that next move.",
+      "no": "That's fine. Today's question works on any difficulty you have in front of you."
+    }
+  },
+
+  "script": {
+    "target_words": [190, 240],
+    "text": "So far this week has been about sorting and accepting. Today turns outward. Epictetus hands you a question to ask in the middle of any difficulty.\n\nUpon every accident, he says, turn toward yourself and inquire what faculty you have for its use.\n\nAccident here simply means whatever befalls you. And notice the last three words: for its use. He does not ask how to get through it, or how to block it. He asks what you have that can use it.\n\nHe gives three examples. Meet a handsome person, and the faculty needed is continence, which we would call restraint. Meet pain, and it is fortitude. Meet reviling, someone insulting you, and it is patience.\n\nSo each difficulty is matched to a capacity you already have. The rude email calls for patience. The long wait calls for endurance. The tempting shortcut calls for restraint.\n\nThis is why Stoicism is more than a shield. A shield only stops things. A faculty is something you exercise, and exercise builds habit. Epictetus says where that leads: once you are habituated, the phenomena of existence will not overwhelm you.\n\nToday's practice: name one difficulty you are facing and the capacity it calls for. Patience, restraint, endurance, or another.\n\nTomorrow: the last day, and the part you have been given."
+  },
+
+  "claims": [
+    {
+      "claim": "Upon every accident, turn toward yourself and ask what faculty you have for its use.",
+      "support_span": "Upon every accident, remember to turn toward yourself and inquire what faculty you have for its use."
+    },
+    {
+      "claim": "A handsome person calls for continence.",
+      "support_span": "If you encounter a handsome person, you will find continence the faculty needed"
+    },
+    {
+      "claim": "Pain calls for fortitude; reviling calls for patience.",
+      "support_span": "if pain, then fortitude; if reviling, then patience"
+    },
+    {
+      "claim": "Once habituated, the phenomena of existence will not overwhelm you.",
+      "support_span": "And when thus habituated, the phenomena of existence will not overwhelm you."
+    },
+    {
+      "claim": "The question is about using the difficulty, which makes Stoicism more than a shield.",
+      "kind": "application",
+      "support_span": "what faculty you have for its use",
+      "note": "This is the reply to the defensiveness misreading and the line most worth a reviewer's second look. The passage's words 'for its use' support reading a difficulty as something to be used. The shield comparison is ours. The passage does end with not being overwhelmed, which is a protective result, so the script should not be read as denying that."
+    },
+    {
+      "claim": "The rude email, the long wait and the tempting shortcut each call for a capacity; accident means whatever befalls you; continence means restraint.",
+      "kind": "application",
+      "support_span": "if pain, then fortitude; if reviling, then patience",
+      "note": "The modern examples and the two word glosses are ours. Endurance is offered as a modern near-synonym of fortitude."
+    }
+  ],
+
+  "outside_source_claims": [
+    {
+      "claim": "The week so far has been about sorting and accepting.",
+      "status": "needs_human_check",
+      "note": "Not in this passage. It summarises Days 1 to 5 of the week plan."
+    }
+  ],
+
+  "check": {
+    "type": "sort",
+    "scenario": "A colleague criticises your work sharply in front of the whole team.",
+    "question": "Sort each response. Does it use a faculty, or is it only a shield?",
+    "all_correct": "All six sorted. The faculties do something with the moment. The shields only keep it out.",
+    "lists": {
+      "use": "Uses a faculty",
+      "shield": "Only a shield"
+    },
+    "misconception_notes": {
+      "defensiveness": "Treating Stoicism as protection only. Epictetus asks what you have for the difficulty's use, which is something you do.",
+      "faculty-as-weakness": "Mistaking an exercised capacity for avoidance. Patience and restraint are things you do, even when they look like stillness."
+    },
+    "items": [
+      {
+        "text": "Listen to the end without interrupting.",
+        "list": "use",
+        "passage_term": "patience",
+        "misconception": "faculty-as-weakness",
+        "feedback": "Uses a faculty. This is patience, the one Epictetus names for reviling."
+      },
+      {
+        "text": "Pretend you didn't hear it.",
+        "list": "shield",
+        "passage_term": "for its use",
+        "misconception": "defensiveness",
+        "feedback": "Only a shield. Nothing is being used here. The moment is just kept out."
+      },
+      {
+        "text": "Hold back the sharp reply you had ready.",
+        "list": "use",
+        "passage_term": "continence",
+        "misconception": "faculty-as-weakness",
+        "feedback": "Uses a faculty. This is restraint, close to what Epictetus calls continence. It takes effort, which is how you can tell."
+      },
+      {
+        "text": "Decide never to show unfinished work again.",
+        "list": "shield",
+        "passage_term": "for its use",
+        "misconception": "defensiveness",
+        "feedback": "Only a shield. It protects you from the next criticism by avoiding it."
+      },
+      {
+        "text": "Stay in the room and ask which part of the work she means.",
+        "list": "use",
+        "passage_term": "fortitude",
+        "misconception": "faculty-as-weakness",
+        "feedback": "Uses a faculty. Staying with something unpleasant is fortitude, and the question puts the criticism to use."
+      },
+      {
+        "text": "Go numb and wait for the meeting to end.",
+        "list": "shield",
+        "passage_term": "for its use",
+        "misconception": "defensiveness",
+        "feedback": "Only a shield. Epictetus asks what you have for this. Numbness is the answer 'nothing'."
+      }
+    ]
+  },
+
+  "reflection": {
+    "prompt": "Name one difficulty you are facing and what you have for it.",
+    "fields": [
+      { "id": "difficulty", "label": "The difficulty", "hint": "Something in front of you now." },
+      { "id": "capacity", "label": "The capacity it calls for", "hint": "Patience, restraint, endurance, or another. Say how you would exercise it." }
+    ],
+    "saved_to_handbook": true
+  },
+
+  "practice": {
+    "text": "Name one difficulty you are facing and the capacity it calls for: patience, restraint, endurance, or another.",
+    "followed_up_in": "w01-d7"
+  },
+
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "",
+    "approved_on": null
+  },
+  "release_date": null
+}

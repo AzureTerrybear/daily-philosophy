@@ -386,9 +386,22 @@
         document.body.append(a); a.click(); a.remove();
         setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       };
+      // The synthesis day shows the learner's earlier pages to read back.
+      const earlier = !lesson.reflection.show_previous ? null : el("details", { open: "" },
+        el("summary", {}, "Your pages so far"),
+        week.lessons.filter((p) => p.day < lesson.day).map((p) => {
+          const page = store.pages?.[p.id]?.values;
+          const defs = ctx.lessons[p.id]?.reflection.fields ?? [];
+          return el("div", { class: "block" },
+            el("p", { class: "note" }, `Day ${p.day} · ${p.title}`),
+            page
+              ? el("dl", {}, defs.map((fd) => [el("dt", {}, fd.label), el("dd", {}, page[fd.id] || "(left blank)")]))
+              : el("p", { class: "note" }, "No page saved for this day."));
+        }));
       return el("section", { class: "step" },
         stepHead(n, "Your page"),
         el("h2", {}, lesson.reflection.prompt),
+        earlier,
         lead.map((f) => field(f)),
         el("div", { class: "two-lists" }, pair.map((f, slot) => field(f, `slot-${slot}`))),
         el("div", { class: "actions" },
@@ -428,7 +441,25 @@
         }
         const kids = [el("h2", {}, `Day ${lesson.day} complete ✓`)];
         if (!next) {
-          kids.push(el("p", {}, "That is the whole week. Your seven pages are your own small handbook."));
+          const download = () => {
+            const parts = ["NOTES TO MYSELF", week.title, "A handbook in my own words", ""];
+            for (const p of week.lessons) {
+              const l = ctx.lessons[p.id];
+              const page = store.pages?.[p.id]?.values;
+              if (!l || !page) continue;
+              parts.push("----------------------------------------", `DAY ${p.day}: ${p.title.toUpperCase()}`,
+                `${l.source.author}, ${l.source.work}, section ${l.source.section} (tr. ${l.source.translator})`, "");
+              for (const f of l.reflection.fields) parts.push(f.label, page[f.id] || "(left blank)", "");
+            }
+            const blob = new Blob([parts.join("\r\n")], { type: "text/plain;charset=utf-8" });
+            const a = el("a", { href: URL.createObjectURL(blob), download: "notes-to-myself-handbook.txt" });
+            document.body.append(a); a.click(); a.remove();
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+          };
+          kids.push(
+            el("p", {}, "That is the whole week. Enchiridion means handbook, and your seven pages are one of your own."),
+            el("div", { class: "actions" },
+              el("button", { class: "primary", type: "button", onclick: download }, "Download my handbook")));
         } else if (!ctx.visible(next)) {
           kids.push(el("p", {}, `Day ${next.day}, ${next.title}, is still being written. Until then, keep today's practice going.`));
         } else if (ctx.state(next) === "waiting") {

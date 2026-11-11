@@ -66,6 +66,7 @@
     },
     {
       "id": "w01-d5",
+      "available": true,
       "day": 5,
       "section": "8",
       "title": "Wanting What Happens",
@@ -78,6 +79,7 @@
     },
     {
       "id": "w01-d6",
+      "available": true,
       "day": 6,
       "section": "10",
       "title": "What Do You Have for This?",
@@ -90,6 +92,7 @@
     },
     {
       "id": "w01-d7",
+      "available": true,
       "day": 7,
       "section": "17",
       "title": "Play the Part Well",

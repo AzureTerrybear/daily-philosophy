@@ -1,0 +1,164 @@
+{
+  "id": "w01-d5",
+  "type": "audio",
+  "week_id": "w01-stoic",
+  "day": 5,
+  "title": "Wanting What Happens",
+  "objective": "Distinguish acceptance of an event from giving up on action.",
+  "builds_on": ["w01-d1", "w01-d3"],
+
+  "source": {
+    "author": "Epictetus",
+    "work": "The Enchiridion",
+    "translator": "Thomas Wentworth Higginson",
+    "section": "8",
+    "source_url": "https://www.gutenberg.org/ebooks/45109",
+    "rights": "Public domain in the United States",
+    "passage": "Demand not that events should happen as you wish; but wish them to happen as they do happen, and you will go on well."
+  },
+
+  "retrieval": {
+    "of": "w01-d3",
+    "question": "A question from Day 3. Which things did Epictetus call legitimate objects of desire?",
+    "answer": "The things within our power.",
+    "support_span": "those which are within our power, and so are legitimate objects of desire"
+  },
+
+  "practice_followup": {
+    "of": "w01-d4",
+    "question": "Did you name what could go wrong before one task?",
+    "responses": {
+      "yes": "Good. Yesterday was about before the event. Today is about after it.",
+      "no": "That's fine. Today's lesson starts from something that has already gone wrong."
+    }
+  },
+
+  "script": {
+    "target_words": [190, 240],
+    "text": "Yesterday you rehearsed the bathhouse: you pictured what could go wrong before it did. Today is about what you do once it has.\n\nThe whole passage is one sentence. Demand not that events should happen as you wish; but wish them to happen as they do happen, and you will go on well.\n\nIt sounds like giving up. Look closer.\n\nThe flight is cancelled. You can stand at the gate demanding that it had not been. That demand changes nothing, because the event has already happened. It only keeps you standing there.\n\nOr you can take the cancellation as your starting point. It happened. Now, what is the next move? Rebook, call ahead, find a meal.\n\nNotice the last words: you will go on well. Epictetus is not describing someone who stops. He is describing someone who keeps going, and goes better, because they are no longer arguing with what already is.\n\nRemember Day 1. Your reputation and your property were beyond your power. Your aim was within it. Accepting an event costs you nothing that was yours. Dropping your aim would.\n\nSo acceptance looks back at what has happened. Action looks forward to what comes next.\n\nToday's practice: pick one thing that has already happened and cannot be changed. Say what you will do next, given that it happened.\n\nTomorrow: what do you already have for this?"
+  },
+
+  "claims": [
+    {
+      "claim": "Do not demand that events happen as you wish.",
+      "support_span": "Demand not that events should happen as you wish"
+    },
+    {
+      "claim": "Wish events to happen as they do happen.",
+      "support_span": "wish them to happen as they do happen"
+    },
+    {
+      "claim": "The result he promises is that you will go on well.",
+      "support_span": "and you will go on well"
+    },
+    {
+      "claim": "Going on well describes someone who keeps going, so acceptance is not stopping.",
+      "kind": "application",
+      "support_span": "you will go on well",
+      "note": "This is the reply to the passivity misreading and the line most worth a reviewer's second look. The whole distinction between acceptance and resignation rests on three words of the passage. The reading is fair to the phrase, but Epictetus does not spell it out here."
+    },
+    {
+      "claim": "Demanding that a past event had not happened changes nothing; taking it as the starting point lets you act.",
+      "kind": "application",
+      "support_span": "Demand not that events should happen as you wish; but wish them to happen as they do happen",
+      "note": "The cancelled flight is our example. The passage speaks of events in general and is not limited to past ones; the script narrows it to what has already happened so that a learner can practise it."
+    }
+  ],
+
+  "outside_source_claims": [
+    {
+      "claim": "On Day 1, reputation and property were beyond our power and aim was within it.",
+      "status": "needs_human_check",
+      "note": "Not in this passage. It is in the Day 1 passage (section 1): Within our power are opinion, aim, desire, aversion. Beyond our power are body, property, reputation, office."
+    },
+    {
+      "claim": "Yesterday's lesson rehearsed the bathhouse.",
+      "status": "needs_human_check",
+      "note": "Not in this passage. It refers to Day 4 (section 4)."
+    }
+  ],
+
+  "check": {
+    "type": "sort",
+    "scenario": "You applied for a transfer to another team and were turned down. The decision is final.",
+    "question": "Sort each response. Is it demanding, accepting, or giving up?",
+    "all_correct": "All six sorted. Accepting sits between the other two: it stops arguing with the event and keeps going.",
+    "lists": {
+      "demand": "Demanding",
+      "accept": "Accepting",
+      "resign": "Giving up"
+    },
+    "misconception_notes": {
+      "arguing-with-events": "Demanding that what happened had not happened. The event does not move, and you stay where you are.",
+      "passivity": "Reading acceptance as resignation. The passage ends with going on well, and going on means there is a next move.",
+      "acceptance-as-defeat": "Mistaking acceptance for one of its neighbours. Accepting grants the event and then asks what comes next."
+    },
+    "items": [
+      {
+        "text": "It should never have happened, and I can't move on until someone admits that.",
+        "list": "demand",
+        "passage_term": "Demand not that events should happen as you wish",
+        "misconception": "arguing-with-events",
+        "feedback": "Demanding. It asks the event to have been different, and waits."
+      },
+      {
+        "text": "It happened. What is my next move?",
+        "list": "accept",
+        "passage_term": "wish them to happen as they do happen",
+        "misconception": "acceptance-as-defeat",
+        "feedback": "Accepting. The event is granted, and attention turns to what comes next."
+      },
+      {
+        "text": "There's no point applying for anything again.",
+        "list": "resign",
+        "passage_term": "you will go on well",
+        "misconception": "passivity",
+        "feedback": "Giving up. Nothing in the passage says stop. Its last words are about going on."
+      },
+      {
+        "text": "I wanted it and I didn't get it. I can ask what would strengthen the next application.",
+        "list": "accept",
+        "passage_term": "wish them to happen as they do happen",
+        "misconception": "acceptance-as-defeat",
+        "feedback": "Accepting. You can admit you wanted it and still start from where things are."
+      },
+      {
+        "text": "If I go over the interview enough times, maybe it will come out differently.",
+        "list": "demand",
+        "passage_term": "Demand not that events should happen as you wish",
+        "misconception": "arguing-with-events",
+        "feedback": "Demanding, in a quieter form. Replaying it is still asking the event to change."
+      },
+      {
+        "text": "Whatever happens, happens. I'll stop making plans.",
+        "list": "resign",
+        "passage_term": "you will go on well",
+        "misconception": "passivity",
+        "feedback": "Giving up. It sounds like acceptance, and it drops the one thing that was yours: your aim."
+      }
+    ]
+  },
+
+  "reflection": {
+    "prompt": "Pick one thing that has already happened and cannot be changed.",
+    "fields": [
+      { "id": "happened", "label": "What happened", "hint": "State it plainly, as an event that is now fixed." },
+      { "id": "next", "label": "What I will do next", "hint": "Given that it happened. One concrete move." }
+    ],
+    "saved_to_handbook": true
+  },
+
+  "practice": {
+    "text": "Pick one thing that has already happened and cannot be changed. Say what you will do next, given that it happened.",
+    "followed_up_in": "w01-d6"
+  },
+
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "",
+    "approved_on": null
+  },
+  "release_date": null
+}
