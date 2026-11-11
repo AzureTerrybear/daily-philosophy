@@ -1,0 +1,179 @@
+{
+  "id": "w01-d3",
+  "type": "audio",
+  "week_id": "w01-stoic",
+  "day": 3,
+  "title": "Aim Your Wanting",
+  "objective": "Rewrite one goal so that reaching it depends only on you.",
+  "builds_on": ["w01-d1", "w01-d2"],
+
+  "source": {
+    "author": "Epictetus",
+    "work": "The Enchiridion",
+    "translator": "Thomas Wentworth Higginson",
+    "section": "2",
+    "source_url": "https://www.gutenberg.org/ebooks/45109",
+    "rights": "Public domain in the United States",
+    "passage": "Remember that desire demands the attainment of that of which you are desirous; and aversion demands the avoidance of that to which you are averse; that he who fails of the object of his desires is disappointed; and he who incurs the object of his aversion is wretched. If, then, you shun only those undesirable things which you can control, you will never incur anything which you shun; but if you shun sickness, or death, or poverty, you will run the risk of wretchedness. Remove [the habit of] aversion, then, from all things that are not within our power, and apply it to things undesirable which are within our power. But for the present, altogether restrain desire; for if you desire any of the things not within our own power, you must necessarily be disappointed; and you are not yet secure of those which are within our power, and so are legitimate objects of desire. Where it is practically necessary for you to pursue or avoid anything, do even this with discretion and gentleness and moderation."
+  },
+
+  "retrieval": {
+    "of": "w01-d1",
+    "question": "A question from Day 1. Epictetus named four things within our power. How many can you name?",
+    "answer": "Opinion, aim, desire, aversion.",
+    "support_span": "Within our power are opinion, aim, desire, aversion"
+  },
+
+  "practice_followup": {
+    "of": "w01-d2",
+    "question": "Did you pull one event apart from its story?",
+    "responses": {
+      "yes": "Good. Look at the story you wrote: there is usually a want hiding in it. Today is about that want.",
+      "no": "That's fine. Today's lesson works on its own, and you can come back to yesterday's page any time."
+    }
+  },
+
+  "script": {
+    "target_words": [190, 240],
+    "text": "On Day 1, one item on the first list may have surprised you: desire. Epictetus says what you want is within your power. Today he tells you where to point it.\n\nHe starts with how wanting works. Desire demands that you get the thing. Aversion demands that you avoid it. Miss what you want and you are disappointed. Run into what you dread and you are wretched.\n\nSo the target matters. Suppose you dread sickness, or poverty. Those are not within your power, so you run the risk of wretchedness. But shun only the undesirable things you can control, he says, and you will never incur anything you shun.\n\nWanting works the same way. Want the promotion, and your peace depends on whoever decides it. Aim to do careful work this week, and the target is in your own hands.\n\nIs he saying want nothing? Not quite. He does say: for the present, restrain desire altogether. But he also calls the things within our power legitimate objects of desire. The wanting stays. It gets a better target.\n\nAnd where it is practically necessary to pursue or avoid something, he asks for three things: discretion, gentleness and moderation.\n\nToday's practice: take one thing you want this week and restate it as something you do, not something you get.\n\nTomorrow: a trip to the public bath."
+  },
+
+  "claims": [
+    {
+      "claim": "Desire demands getting the thing; aversion demands avoiding it.",
+      "support_span": "desire demands the attainment of that of which you are desirous; and aversion demands the avoidance of that to which you are averse"
+    },
+    {
+      "claim": "Miss what you want and you are disappointed; run into what you dread and you are wretched.",
+      "support_span": "he who fails of the object of his desires is disappointed; and he who incurs the object of his aversion is wretched"
+    },
+    {
+      "claim": "Dreading sickness or poverty runs the risk of wretchedness.",
+      "support_span": "if you shun sickness, or death, or poverty, you will run the risk of wretchedness"
+    },
+    {
+      "claim": "Shun only the undesirable things you can control and you will never incur anything you shun.",
+      "support_span": "If, then, you shun only those undesirable things which you can control, you will never incur anything which you shun"
+    },
+    {
+      "claim": "Wanting something outside your power, such as a promotion, leaves the result with someone else; aiming at your own work keeps it with you.",
+      "kind": "application",
+      "support_span": "if you desire any of the things not within our own power, you must necessarily be disappointed",
+      "note": "The promotion and the careful work are our examples. The passage is harsher than the script here: it says such desire must necessarily be disappointed."
+    },
+    {
+      "claim": "For the present, restrain desire altogether.",
+      "support_span": "But for the present, altogether restrain desire"
+    },
+    {
+      "claim": "Things within our power are legitimate objects of desire, so the lesson is not to want nothing.",
+      "kind": "application",
+      "support_span": "those which are within our power, and so are legitimate objects of desire",
+      "note": "This is the reply to the apathy misreading, and the line most worth a reviewer's second look. The passage tells the learner to restrain desire for now because they are not yet secure of the things within our power. The script reports both halves. 'The wanting stays. It gets a better target.' is our summary, not Epictetus's wording."
+    },
+    {
+      "claim": "Where pursuing or avoiding is practically necessary, do it with discretion, gentleness and moderation.",
+      "support_span": "Where it is practically necessary for you to pursue or avoid anything, do even this with discretion and gentleness and moderation."
+    }
+  ],
+
+  "outside_source_claims": [
+    {
+      "claim": "Day 1's passage put desire on the first list, within our power.",
+      "status": "needs_human_check",
+      "note": "Not in this passage. It is in the Day 1 passage (section 1): Within our power are opinion, aim, desire, aversion."
+    },
+    {
+      "claim": "Tomorrow's lesson involves a trip to the public bath.",
+      "status": "needs_human_check",
+      "note": "Not in this passage. It refers to Day 4 in the week plan, which uses section 4 of the same edition: If you are going to bathe."
+    }
+  ],
+
+  "check": {
+    "type": "sort",
+    "scenario": "You have a job interview on Friday. Here are six things you might want from it.",
+    "question": "Which goals would Epictetus keep as they are, and which need restating?",
+    "all_correct": "All six sorted the way the passage aims desire: at what is within our power.",
+    "lists": {
+      "keep": "Keep it",
+      "restate": "Restate it"
+    },
+    "misconception_notes": {
+      "outcome-as-control": "Wanting a result someone else decides. Restate it as the part you do.",
+      "apathy": "Reading Stoicism as wanting nothing. Epictetus names legitimate objects of desire: the things within our power.",
+      "over-restraint": "Doubting a goal that was already yours. If reaching it depends only on you, it can stay."
+    },
+    "items": [
+      {
+        "text": "To get the job.",
+        "list": "restate",
+        "passage_term": "not within our own power",
+        "misconception": "outcome-as-control",
+        "feedback": "Restate it. Someone else decides this, and Epictetus says desire for such things must be disappointed. What part of it do you do?"
+      },
+      {
+        "text": "To prepare an answer for every question I can predict.",
+        "list": "keep",
+        "passage_term": "which are within our power",
+        "misconception": "over-restraint",
+        "feedback": "Keep it. Reaching this goal depends on you."
+      },
+      {
+        "text": "For the interviewer to like me.",
+        "list": "restate",
+        "passage_term": "not within our own power",
+        "misconception": "outcome-as-control",
+        "feedback": "Restate it. Their liking is theirs. Being courteous and clear is yours."
+      },
+      {
+        "text": "To answer honestly, including about the gap in my CV.",
+        "list": "keep",
+        "passage_term": "which are within our power",
+        "misconception": "over-restraint",
+        "feedback": "Keep it. No one in the room can stop you from doing this."
+      },
+      {
+        "text": "To want nothing at all, so I can't be disappointed.",
+        "list": "restate",
+        "passage_term": "legitimate objects of desire",
+        "misconception": "apathy",
+        "feedback": "Restate it. Epictetus restrains desire for the present, and in the same sentence names legitimate objects of desire: the things within our power. Point the wanting at your own conduct."
+      },
+      {
+        "text": "To stay courteous if the questions turn hostile.",
+        "list": "keep",
+        "passage_term": "which are within our power",
+        "misconception": "over-restraint",
+        "feedback": "Keep it. This is a goal about your own conduct, and tomorrow's lesson is about carrying exactly this kind of goal."
+      }
+    ]
+  },
+
+  "reflection": {
+    "prompt": "Take one thing you want this week and aim it.",
+    "fields": [
+      { "id": "get", "label": "What I want to get", "hint": "Write it the way you would naturally say it." },
+      { "id": "do", "label": "What I will do", "hint": "The same goal, restated so that reaching it depends only on you." }
+    ],
+    "saved_to_handbook": true
+  },
+
+  "practice": {
+    "text": "Take one thing you want this week and restate it as something you do rather than something you get.",
+    "followed_up_in": "w01-d4"
+  },
+
+  "audio": {
+    "file": null,
+    "voice": null,
+    "duration_seconds": null
+  },
+
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "",
+    "approved_on": null
+  },
+  "release_date": null
+}

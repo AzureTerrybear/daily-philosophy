@@ -88,6 +88,11 @@
     .two-lists { display: grid; gap: 0 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
     .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: 1rem; }
     .practice { font-family: Georgia, serif; font-size: 1.1875rem; margin: 0 0 1rem; }
+    section.complete { border-style: dashed; color: var(--muted); }
+    section.complete.is-done { border: 2px solid var(--within); background: var(--within-bg); color: var(--ink); }
+    section.complete p { margin: 0 0 .5rem; }
+    a.button { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .55rem .9rem; border-radius: .5rem; background: var(--ink); color: var(--paper); font-weight: 500; text-decoration: none; }
+    .days a.waiting { border-style: dashed; color: var(--muted); }
     .banner { background: var(--beyond-bg); border: 1px solid var(--rule); border-radius: .5rem; padding: .75rem 1rem; margin-top: 1.25rem; font-size: .9375rem; }
     .review li { margin-bottom: .6rem; }
     .review code { font-size: .8125rem; }
@@ -329,15 +334,52 @@
     }
 
     // ---- practice ----
-    function practiceStep(n, lesson, ctx) {
-      const next = ctx.week.lessons.find((l) => l.day === lesson.day + 1);
-      const nextNote = !next ? null
-        : ctx.visible(next) ? `Day ${next.day}, ${next.title}, opens tomorrow.`
-        : `Day ${next.day} is on its way.`;
+    function practiceStep(n, lesson) {
       return el("section", { class: "step" },
         stepHead(n, "Carry it with you"),
-        el("p", { class: "practice" }, lesson.practice.text),
-        nextNote ? el("p", { class: "note" }, nextNote) : null);
+        el("p", { class: "practice" }, lesson.practice.text));
+    }
+
+    // ---- day complete ----
+    // A day is complete once its page is saved. The next day opens the following
+    // calendar day, so the practice has time to happen, but the learner can skip the wait.
+    function completeStep(lesson, ctx) {
+      const { week, store } = ctx;
+      const card = el("section", { class: "step complete", role: "status" });
+      const next = week.lessons.find((l) => l.day === lesson.day + 1);
+      const openNow = () => {
+        store.early = { ...store.early, [next.id]: true };
+        saveStore(store);
+        location.href = dayHref(next.day);
+      };
+      const draw = () => {
+        const done = Boolean(store.pages?.[lesson.id]);
+        card.classList.toggle("is-done", done);
+        if (!done) {
+          card.replaceChildren(
+            el("div", { class: "step-num" }, `Day ${lesson.day} of ${week.lessons.length}`),
+            el("p", {}, `Save your page above to complete Day ${lesson.day}.`));
+          return;
+        }
+        const kids = [el("h2", {}, `Day ${lesson.day} complete ✓`)];
+        if (!next) {
+          kids.push(el("p", {}, "That is the whole week. Your seven pages are your own small handbook."));
+        } else if (!ctx.visible(next)) {
+          kids.push(el("p", {}, `Day ${next.day}, ${next.title}, is still being written. Until then, keep today's practice going.`));
+        } else if (ctx.state(next) === "waiting") {
+          kids.push(
+            el("p", {}, `Day ${next.day}, ${next.title}, opens tomorrow. Give yourself the day to try the practice: tomorrow's lesson starts by asking how it went.`),
+            el("div", { class: "actions" },
+              el("button", { type: "button", onclick: openNow }, `Open Day ${next.day} now`),
+              el("span", { class: "note" }, "Skips the wait.")));
+        } else {
+          kids.push(el("div", { class: "actions" },
+            el("a", { class: "button", href: dayHref(next.day) }, `Go to Day ${next.day}: ${next.title}`)));
+        }
+        card.replaceChildren(...kids);
+      };
+      draw();
+      return { card, draw };
     }
 
     // ---- reviewer view (?preview) ----
@@ -372,33 +414,36 @@
         lessons[l.id] = await getJSON(`content/lessons/${l.id}.json`);
       }));
       const store = loadStore();
-      if (!store.startedAt && !PREVIEW) { store.startedAt = new Date().toISOString(); saveStore(store); }
 
-      // One lesson unlocks per calendar day, counted from the learner's first visit.
-      const daysIn = store.startedAt ? Math.round((midnight(new Date()) - midnight(new Date(store.startedAt))) / DAY_MS) : 0;
-      const unlockedThrough = PREVIEW ? week.lessons.length : daysIn + 1;
+      // A day is complete when its page is saved. The next day then opens on the
+      // following calendar day, unless the learner chose to open it early.
       const visible = (p) => Boolean(lessons[p.id]) && (PREVIEW || lessons[p.id].review?.status === "approved");
-      const state = (p) => !visible(p) ? "soon"
-        : p.day > unlockedThrough ? "locked"
-        : store.pages?.[p.id] ? "done" : "open";
+      const state = (p) => {
+        if (!visible(p)) return "soon";
+        if (store.pages?.[p.id]) return "done";
+        if (PREVIEW || p.day === 1 || store.early?.[p.id]) return "open";
+        const before = week.lessons.find((l) => l.day === p.day - 1);
+        const savedAt = store.pages?.[before.id]?.savedAt;
+        if (!savedAt) return "locked";
+        return midnight(new Date()) > midnight(new Date(savedAt)) ? "open" : "waiting";
+      };
 
       const reachable = week.lessons.filter((p) => ["open", "done"].includes(state(p)));
       const asked = week.lessons.find((p) => p.day === Number(params.get("day")));
       const planned = asked ?? reachable.find((p) => state(p) === "open") ?? reachable.at(-1) ?? week.lessons[0];
       const lesson = lessons[planned.id];
-      const ctx = { week, lessons, store, visible };
+      const ctx = { week, lessons, store, visible, state };
 
       const nav = el("ol", { class: "days", "aria-label": "Days of the week" });
       const drawNav = () => nav.replaceChildren(...week.lessons.map((p) => {
         const s = state(p);
-        const label = { soon: "coming soon", locked: "not open yet", done: "page saved", open: "open" }[s];
+        const label = { soon: "coming soon", locked: "finish the day before first", waiting: "opens tomorrow", done: "complete", open: "open" }[s];
         const inner = [`${p.day}`, s === "done" ? " ✓" : null, el("span", { class: "sr" }, ` Day ${p.day}, ${label}`)];
         return el("li", {}, s === "soon" || s === "locked"
           ? el("span", { title: `Day ${p.day}: ${label}` }, inner)
-          : el("a", { href: dayHref(p.day), class: s, title: `Day ${p.day}: ${p.title}`, "aria-current": p.id === planned.id ? "page" : null }, inner));
+          : el("a", { href: dayHref(p.day), class: s, title: `Day ${p.day}: ${s === "waiting" ? label : p.title}`, "aria-current": p.id === planned.id ? "page" : null }, inner));
       }));
       drawNav();
-      ctx.onSaved = drawNav;
 
       const head = [
         nav,
@@ -413,20 +458,37 @@
           ? "This lesson is being checked against its source and will open soon."
           : "This lesson is still being written.")];
       } else if (current === "locked") {
-        const wait = planned.day - unlockedThrough;
         const before = week.lessons.find((p) => p.day === planned.day - 1);
+        body = [el("div", { class: "banner" },
+          `Day ${planned.day} opens after you complete Day ${before.day}. `,
+          el("a", { href: dayHref(before.day) }, `Go to Day ${before.day}`), ".")];
+      } else if (current === "waiting") {
+        const before = week.lessons.find((p) => p.day === planned.day - 1);
+        const openNow = () => {
+          store.early = { ...store.early, [planned.id]: true };
+          saveStore(store);
+          location.href = dayHref(planned.day);
+        };
         body = [
-          el("div", { class: "banner" }, `Day ${planned.day} opens ${wait === 1 ? "tomorrow" : `in ${wait} days`}. One lesson a day gives each practice time to work.`),
-          before ? el("section", { class: "step" }, el("div", { class: "step-num" }, "Until then"), el("p", { class: "practice" }, before.practice)) : null,
+          el("div", { class: "banner" }, `Day ${planned.day} opens tomorrow. One lesson a day gives each practice time to work.`),
+          el("section", { class: "step" },
+            el("div", { class: "step-num" }, "Until then"),
+            el("p", { class: "practice" }, before.practice),
+            el("div", { class: "actions" },
+              el("button", { type: "button", onclick: openNow }, `Open Day ${planned.day} now`),
+              el("span", { class: "note" }, "Skips the wait."))),
         ];
       } else {
         const builders = [
           lesson.retrieval || lesson.practice_followup ? yesterdayStep : null,
           listenStep, sortStep, journalStep, practiceStep,
         ].filter(Boolean);
+        const complete = completeStep(lesson, ctx);
+        ctx.onSaved = () => { drawNav(); complete.draw(); };
         body = [
           lesson.review?.status !== "approved" ? el("div", { class: "banner" }, "Draft preview. This lesson is not approved, so visitors cannot see it yet.") : null,
           ...builders.map((build, i) => build(i + 1, lesson, ctx)),
+          complete.card,
           PREVIEW ? await reviewPanel(lesson, ctx) : null,
         ];
         // The draft banner reads better above the heading.
