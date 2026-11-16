@@ -150,7 +150,7 @@
     "followed_up_in": "w01-d7"
   },
 
-  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "audio": { "file": "content/audio/w01-d6.mp3", "voice": "kokoro:af_heart", "duration_seconds": 97, "script_fingerprint": "2ba7c62f52b962e6" },
 
   "review": {
     "status": "approved",

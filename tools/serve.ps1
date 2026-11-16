@@ -26,7 +26,20 @@ while ($listener.IsListening) {
       $ext = [IO.Path]::GetExtension($file).ToLower()
       $ctx.Response.ContentType = if ($types[$ext]) { $types[$ext] } else { "application/octet-stream" }
       $ctx.Response.Headers.Add("Cache-Control", "no-store")
-      $ctx.Response.OutputStream.Write($bytes, 0, $bytes.Length)
+      # Byte ranges let the browser show an audio file's length and seek in it.
+      $ctx.Response.Headers.Add("Accept-Ranges", "bytes")
+      $start = 0; $count = $bytes.Length
+      if ($ctx.Request.Headers["Range"] -match "bytes=(\d+)-(\d*)") {
+        $start = [int]$Matches[1]
+        $end = if ($Matches[2]) { [Math]::Min([int]$Matches[2], $bytes.Length - 1) } else { $bytes.Length - 1 }
+        if ($start -le $end) {
+          $count = $end - $start + 1
+          $ctx.Response.StatusCode = 206
+          $ctx.Response.Headers.Add("Content-Range", "bytes $start-$end/$($bytes.Length)")
+        } else { $start = 0 }
+      }
+      $ctx.Response.ContentLength64 = $count
+      $ctx.Response.OutputStream.Write($bytes, $start, $count)
     } else {
       $ctx.Response.StatusCode = 404
     }

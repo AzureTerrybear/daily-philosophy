@@ -8,6 +8,20 @@ export function countWords(text) {
   return text.split(/\s+/).filter(Boolean).length;
 }
 
+// A short fingerprint of the text a narration was made from. tools/voice/voice.mjs
+// stores it with the audio; if the script is edited afterwards the two stop matching.
+export function fingerprint(text) {
+  let a = 0xdeadbeef, b = 0x41c6ce57;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text.charCodeAt(i);
+    a = Math.imul(a ^ ch, 2654435761);
+    b = Math.imul(b ^ ch, 1597334677);
+  }
+  a = Math.imul(a ^ (a >>> 16), 2246822507) ^ Math.imul(b ^ (b >>> 13), 3266489909);
+  b = Math.imul(b ^ (b >>> 16), 2246822507) ^ Math.imul(a ^ (a >>> 13), 3266489909);
+  return (b >>> 0).toString(16).padStart(8, "0") + (a >>> 0).toString(16).padStart(8, "0");
+}
+
 // `lessons` is an optional map of the week's other lessons by id, used to check
 // that a retrieval answer is supported by the earlier lesson's passage.
 export function validateLesson(lesson, week, lessons = {}) {
@@ -169,6 +183,16 @@ export function validateLesson(lesson, week, lessons = {}) {
     if (!f.id || !f.label) errors.push("reflection field needs an id and a label");
   }
 
+  // Narration must have been made from the script as it stands now.
+  if (lesson.audio?.file) {
+    const spoken = lesson.script?.text ?? lesson.intro ?? "";
+    if (!lesson.audio.script_fingerprint) errors.push("audio has no script_fingerprint; make it with tools/voice/voice.mjs");
+    else if (lesson.audio.script_fingerprint !== fingerprint(spoken)) {
+      errors.push("the script changed after its audio was made; narrate it again");
+    }
+    if (!approved) errors.push("only approved lessons may have audio");
+  }
+
   // Approval
   if (approved && !lesson.review.approved_on) warnings.push("approved lesson has no review.approved_on date");
 
@@ -203,6 +227,7 @@ if (typeof process !== "undefined" && process.argv?.[1]?.endsWith("validate.mjs"
     const lesson = read(path.join("content/lessons", f));
     const { errors, warnings } = validateLesson(lesson, weeks[lesson.week_id], all);
     const status = lesson.review?.status ?? "draft";
+    if (lesson.audio?.file && !fs.existsSync(lesson.audio.file)) errors.push(`audio file is missing: ${lesson.audio.file}`);
     console.log(`\n${f} [${status}] ${errors.length ? "FAIL" : "ok"}`);
     for (const e of errors) console.log(`  error: ${e}`);
     for (const w of warnings) console.log(`  warning: ${w}`);

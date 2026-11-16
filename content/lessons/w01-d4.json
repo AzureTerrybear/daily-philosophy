@@ -173,6 +173,8 @@
     "followed_up_in": "w01-d5"
   },
 
+  "audio": { "file": "content/audio/w01-d4.mp3", "voice": "kokoro:af_heart", "duration_seconds": 50, "script_fingerprint": "4908c1828fed6e41" },
+
   "review": {
     "status": "approved",
     "reviewer_notes": "Scenario, intro and the harmony-with-nature gloss approved by Terence Govender.",

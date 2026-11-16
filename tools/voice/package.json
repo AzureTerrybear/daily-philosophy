@@ -1,0 +1,10 @@
+{
+  "name": "notes-to-myself-voice",
+  "private": true,
+  "type": "module",
+  "description": "Local narration for approved lessons. Not deployed.",
+  "dependencies": {
+    "@breezystack/lamejs": "^1.2.7",
+    "kokoro-js": "^1.2.1"
+  }
+}
