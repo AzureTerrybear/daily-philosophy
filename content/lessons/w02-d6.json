@@ -119,9 +119,9 @@
   "practice": { "text": "The next time praise or criticism stings today, take the view from above for ten seconds before you respond.", "followed_up_in": "w02-d7" },
   "audio": { "file": null, "voice": null, "duration_seconds": null },
   "review": {
-    "status": "draft",
-    "reviewer_notes": "The passage ends with nor reputation, nor anything else. Read alone, that sounds like nothing matters. The check reads it in context, where everything listed is about fame and being remembered. Confirm you are comfortable with that reading before approving.",
-    "approved_on": null
+    "status": "approved",
+    "reviewer_notes": "The passage ends with nor reputation, nor anything else. Read alone, that sounds like nothing matters. The check reads it in context, where everything listed is about fame and being remembered. Confirm you are comfortable with that reading before approving. Script and outside-source claims approved by Terence Govender.",
+    "approved_on": "2026-11-18"
   },
   "release_date": null
 }

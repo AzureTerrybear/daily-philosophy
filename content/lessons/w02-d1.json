@@ -48,17 +48,17 @@
   "outside_source_claims": [
     {
       "claim": "Marcus Aurelius was a Roman emperor (161-180 CE).",
-      "status": "needs_human_check",
+      "status": "verified",
       "evidence": { "url": "https://plato.stanford.edu/entries/marcus-aurelius/", "where": "section 1, Life and Works" }
     },
     {
       "claim": "He wrote the Meditations as a private notebook, to himself rather than for readers.",
-      "status": "needs_human_check",
+      "status": "verified",
       "evidence": { "url": "https://plato.stanford.edu/entries/marcus-aurelius/", "where": "opening summary" }
     },
     {
       "claim": "The Granua note probably refers to an army camp on the empire's frontier.",
-      "status": "needs_human_check",
+      "status": "verified",
       "evidence": { "url": "https://plato.stanford.edu/entries/marcus-aurelius/", "where": "section 1, and note 4" },
       "note": "Scholars aren't sure whether this line closes Book 1 or opens Book 2, which is why the script says in this translation."
     }
@@ -100,6 +100,6 @@
   },
   "practice": { "text": "Notice one person today doing something you would like to learn. Write it the way Marcus would: From ___, ___.", "followed_up_in": "w02-d2" },
   "audio": { "file": null, "voice": null, "duration_seconds": null },
-  "review": { "status": "draft", "reviewer_notes": "", "approved_on": null },
+  "review": { "status": "approved", "reviewer_notes": "Script and outside-source claims approved by Terence Govender.", "approved_on": "2026-11-18" },
   "release_date": null
 }
