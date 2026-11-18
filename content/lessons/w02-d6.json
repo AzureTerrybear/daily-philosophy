@@ -1,0 +1,127 @@
+{
+  "id": "w02-d6",
+  "type": "thought_experiment",
+  "week_id": "w02-marcus",
+  "day": 6,
+  "title": "The View from Above",
+  "objective": "Separate the part of a worry that is about how you are seen from the part that is yours to act on.",
+  "builds_on": ["w01-d1", "w02-d3"],
+  "source": {
+    "author": "Marcus Aurelius",
+    "work": "Meditations",
+    "translator": "George Long",
+    "edition": "Standard Ebooks",
+    "section": "9.30",
+    "source_url": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "rights": "Public domain in the United States",
+    "passage": "Look down from above on the countless herds of men and their countless solemnities, and the infinitely varied voyagings in storms and calms, and the differences among those who are born, who live together, and die. And consider, too, the life lived by others in olden time, and the life of those who will live after thee, and the life now lived among barbarous nations, and how many know not even thy name, and how many will soon forget it, and how they who perhaps now are praising thee will very soon blame thee, and that neither a posthumous name is of any value, nor reputation, nor anything else."
+  },
+  "retrieval": {
+    "of": "w01-d1",
+    "question": "A question from Day 1. Which list did Epictetus put reputation on: within our power, or beyond it?",
+    "answer": "Beyond our power, alongside body, property and office.",
+    "support_span": "Beyond our power are body, property, reputation, office"
+  },
+  "practice_followup": {
+    "of": "w02-d5",
+    "question": "Did you check a reply before sending it?",
+    "responses": { "yes": "Good. Today looks at how much of a sting is about being seen.", "no": "That's fine. Today's exercise works on whatever is bothering you." }
+  },
+  "intro": "Marcus gives himself an exercise: look down from above. First on crowds, ceremonies and voyages, on people being born, living together and dying. Then across time, at the people who lived before him and the people who will live after. Try it with something that is bothering you today.",
+  "before": {
+    "prompt": "Name one thing that is bothering you today. How big does it feel right now?",
+    "scale": [1, 10]
+  },
+  "steps": [
+    {
+      "id": "rise",
+      "text": "Picture yourself rising above the place where you are now, until you can see the whole street. Somewhere down there is the thing you named.",
+      "supported_by": [],
+      "pause_seconds": 10
+    },
+    {
+      "id": "crowds",
+      "text": "Keep rising until you can see a whole city. Crowds and ceremonies. People setting off on journeys in good weather and bad. People being born, living together, dying. Each of them has something bothering them today.",
+      "supported_by": [0],
+      "pause_seconds": 15
+    },
+    {
+      "id": "time",
+      "text": "Now travel through time instead of space. Picture the people who lived in that city long before you, and the people who will live there long after. Then think of everyone alive now who has never heard your name, and how many of those who have will soon forget it.",
+      "supported_by": [1, 2],
+      "pause_seconds": 15
+    },
+    {
+      "id": "praise",
+      "text": "Marcus adds one more thing to notice from up here. The people praising you now may soon be blaming you. A name that outlives you is worth nothing, and neither is reputation. How much of your problem is about how you will be seen?",
+      "supported_by": [3, 4],
+      "pause_seconds": 15
+    },
+    {
+      "id": "return",
+      "text": "Come back down to where you are. The thing you named is still here. Look at it again.",
+      "supported_by": [],
+      "pause_seconds": 5
+    }
+  ],
+  "after": {
+    "prompt": "How big does it feel now?",
+    "scale": [1, 10],
+    "note": "Whatever the numbers did, the question below asks what follows."
+  },
+  "claims": [
+    {
+      "claim": "Look down on crowds, ceremonies and voyages, and on people being born, living together and dying.",
+      "support_span": "Look down from above on the countless herds of men and their countless solemnities, and the infinitely varied voyagings in storms and calms, and the differences among those who are born, who live together, and die"
+    },
+    {
+      "claim": "Consider the people who lived before you and those who will live after.",
+      "support_span": "the life lived by others in olden time, and the life of those who will live after thee"
+    },
+    { "claim": "Many do not know your name, and many will soon forget it.", "support_span": "how many know not even thy name, and how many will soon forget it" },
+    { "claim": "Those praising you now may soon blame you.", "support_span": "how they who perhaps now are praising thee will very soon blame thee" },
+    { "claim": "A name after death is of no value, and neither is reputation.", "support_span": "neither a posthumous name is of any value, nor reputation" }
+  ],
+  "outside_source_claims": [],
+  "check": {
+    "type": "choice",
+    "question": "From high enough up, everything looks small. What follows?",
+    "options": [
+      {
+        "text": "Nothing matters, so nothing is worth the effort.",
+        "correct": false,
+        "misconception": "nihilism",
+        "feedback": "Look at what Marcus says loses its value from up there: a name after death, reputation, being praised or forgotten. All of it is about how others see you, which Epictetus put beyond our power. What you do next was never on that list."
+      },
+      {
+        "text": "My problem isn't real, so I can stop thinking about it.",
+        "correct": false,
+        "misconception": "denial",
+        "feedback": "The exercise ends by coming back down, and the problem is still there. What shrinks is the part of it that was about being seen."
+      },
+      {
+        "text": "The part of my worry about praise and reputation shrinks. What I do next doesn't.",
+        "correct": true,
+        "misconception": null,
+        "feedback": "The view from above shrinks the second list from Day 1 and leaves the first one where it was."
+      }
+    ]
+  },
+  "reflection": {
+    "prompt": "Write to yourself about today's worry.",
+    "fields": [
+      { "id": "worry", "label": "The worry", "hint": "The thing you named before the exercise." },
+      { "id": "yours", "label": "The part still yours to do", "hint": "What you will actually do about it." },
+      { "id": "seen", "label": "The part about how you would be seen", "hint": "Praise, blame, reputation, being remembered." }
+    ],
+    "saved_to_handbook": true
+  },
+  "practice": { "text": "The next time praise or criticism stings today, take the view from above for ten seconds before you respond.", "followed_up_in": "w02-d7" },
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "The passage ends with nor reputation, nor anything else. Read alone, that sounds like nothing matters. The check reads it in context, where everything listed is about fame and being remembered. Confirm you are comfortable with that reading before approving.",
+    "approved_on": null
+  },
+  "release_date": null
+}

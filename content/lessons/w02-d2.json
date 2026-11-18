@@ -1,0 +1,97 @@
+{
+  "id": "w02-d2",
+  "type": "audio",
+  "week_id": "w02-marcus",
+  "day": 2,
+  "title": "The Morning Briefing",
+  "objective": "Prepare for a difficult person in a way that protects both your composure and your goodwill.",
+  "builds_on": ["w01-d4", "w02-d1"],
+  "source": {
+    "author": "Marcus Aurelius",
+    "work": "Meditations",
+    "translator": "George Long",
+    "edition": "Standard Ebooks",
+    "section": "2.1",
+    "source_url": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "rights": "Public domain in the United States",
+    "passage": "Begin the morning by saying to thyself, I shall meet with the busybody, the ungrateful, arrogant, deceitful, envious, unsocial. All these things happen to them by reason of their ignorance of what is good and evil. But I who have seen the nature of the good that it is beautiful, and of the bad that it is ugly, and the nature of him who does wrong, that it is akin to me, not only of the same blood or seed, but that it participates in the same intelligence and the same portion of the divinity, I can neither be injured by any of them, for no one can fix on me what is ugly, nor can I be angry with my kinsman, nor hate him. For we are made for cooperation, like feet, like hands, like eyelids, like the rows of the upper and lower teeth. To act against one another then is contrary to nature; and it is acting against one another to be vexed and to turn away."
+  },
+  "retrieval": {
+    "of": "w01-d4",
+    "question": "A question from Day 4. Before going to the bath, what did Epictetus tell himself to picture?",
+    "answer": "What usually happens there: people pouring out, pushing in, scolding and pilfering.",
+    "support_span": "some persons pouring out, others pushing in, others scolding, others pilfering"
+  },
+  "practice_followup": {
+    "of": "w02-d1",
+    "question": "Did you notice someone doing something worth learning?",
+    "responses": {
+      "yes": "Good. Add them to your Book One whenever you like. Today is about the people who are harder to learn from.",
+      "no": "That's fine. Keep an eye out: the list stays open all week."
+    }
+  },
+  "script": {
+    "target_words": [190, 240],
+    "text": "On Day 4, you rehearsed the bathhouse: picture what an activity involves, then go in with a second goal. Marcus does the same thing for people.\n\n\"Begin the morning by saying to thyself, I shall meet with the busybody, the ungrateful, arrogant, deceitful, envious, unsocial.\"\n\nIt sounds bleak until you hear the rest. These people, he says, act this way out of ignorance of what is good and evil. And the person who does wrong is akin to him. Not only the same blood, but sharing, as Marcus believed, the same intelligence and the same portion of the divine.\n\nTwo things follow. They can't injure him, because no one can fasten what is ugly onto his character. And he can't be angry with them or hate them, because they are kin.\n\nThen comes the image: \"we are made for cooperation, like feet, like hands, like eyelids\". Your two hands don't resent each other. Being vexed with people and turning away from them is a way of working against them.\n\nNotice what is missing here: contempt. Marcus expects people to behave badly, but in this passage he doesn't look down on them. The briefing prepares him to work with them anyway.\n\nSo before your next shared task, name the person most likely to irritate you, and one way the two of you have to work together.\n\nTomorrow: where to go when you need a break from all of them."
+  },
+  "claims": [
+    {
+      "claim": "Begin the morning expecting the busybody, the ungrateful, the arrogant, the deceitful, the envious and the unsocial.",
+      "support_span": "Begin the morning by saying to thyself, I shall meet with the busybody, the ungrateful, arrogant, deceitful, envious, unsocial"
+    },
+    {
+      "claim": "They behave this way out of ignorance of what is good and evil.",
+      "support_span": "All these things happen to them by reason of their ignorance of what is good and evil"
+    },
+    {
+      "claim": "The wrongdoer is akin to him, sharing the same blood, intelligence and portion of the divine.",
+      "support_span": "the nature of him who does wrong, that it is akin to me, not only of the same blood or seed, but that it participates in the same intelligence and the same portion of the divinity"
+    },
+    {
+      "claim": "They cannot injure him, because no one can fasten what is ugly on him.",
+      "support_span": "I can neither be injured by any of them, for no one can fix on me what is ugly"
+    },
+    { "claim": "He cannot be angry with or hate a kinsman.", "support_span": "nor can I be angry with my kinsman, nor hate him" },
+    { "claim": "We are made for cooperation, like feet, hands and eyelids.", "support_span": "For we are made for cooperation, like feet, like hands, like eyelids" },
+    { "claim": "Being vexed and turning away is acting against one another.", "support_span": "it is acting against one another to be vexed and to turn away" }
+  ],
+  "outside_source_claims": [],
+  "check": {
+    "type": "choice",
+    "scenario": "You know a client will be rude on tomorrow's call. They always are.",
+    "question": "Which morning briefing matches Marcus?",
+    "options": [
+      {
+        "text": "They will be rude, because some people are simply worse than others.",
+        "correct": false,
+        "misconception": "contempt",
+        "feedback": "Marcus expects rudeness too, but he puts it down to ignorance and calls the rude person kin. Looking down on them is the turning away he warns against."
+      },
+      {
+        "text": "If I'm extra pleasant, maybe they won't be rude this time.",
+        "correct": false,
+        "misconception": "outcome-as-control",
+        "feedback": "Their behaviour isn't yours to arrange. Marcus doesn't hope the busybody stays home; he plans to meet them."
+      },
+      {
+        "text": "They will probably be rude. They don't see what they're doing, and we still have to get this done together.",
+        "correct": true,
+        "misconception": null,
+        "feedback": "You expect the difficulty, you explain it without contempt, and you keep the shared work in view."
+      }
+    ]
+  },
+  "reflection": {
+    "prompt": "Write tomorrow's morning briefing to yourself.",
+    "layout": "stack",
+    "fields": [
+      { "id": "meet", "label": "Today you will meet…", "hint": "The person, and what they will probably do." },
+      { "id": "kin", "label": "Why they are still someone you work with", "hint": "What you share, or the work you need to do together." }
+    ],
+    "saved_to_handbook": true
+  },
+  "practice": { "text": "Before your next shared task, name the person most likely to irritate you and one way the two of you have to work together.", "followed_up_in": "w02-d3" },
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "review": { "status": "draft", "reviewer_notes": "", "approved_on": null },
+  "release_date": null
+}

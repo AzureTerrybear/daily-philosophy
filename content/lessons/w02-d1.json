@@ -1,0 +1,105 @@
+{
+  "id": "w02-d1",
+  "type": "audio",
+  "week_id": "w02-marcus",
+  "day": 1,
+  "title": "A List of Debts",
+  "objective": "Name three people and the specific thing each one taught you.",
+  "builds_on": ["w01-d7"],
+  "source": {
+    "author": "Marcus Aurelius",
+    "work": "Meditations",
+    "translator": "George Long",
+    "edition": "Standard Ebooks",
+    "section": "1.1-1.3, and the closing line of Book 1",
+    "source_url": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "rights": "Public domain in the United States",
+    "passage": "From my grandfather Verus I learned good morals and the government of my temper.\n\nFrom the reputation and remembrance of my father, modesty and a manly character.\n\nFrom my mother, piety and beneficence, and abstinence, not only from evil deeds, but even from evil thoughts; and further, simplicity in my way of living, far removed from the habits of the rich.\n\n[...]\n\nAmong the Quadi at the Granua."
+  },
+  "retrieval": {
+    "of": "w01-d7",
+    "question": "A question from Day 7, where last week ended. Epictetus called you an actor in a drama. What is your business, and what belongs to another?",
+    "answer": "Acting the given part well is yours. Choosing the part belongs to another.",
+    "support_span": "to act well the given part, but to choose it belongs to another"
+  },
+  "script": {
+    "target_words": [190, 240],
+    "text": "Last week ended with a part to play. This week starts with the people who taught you how to play it.\n\nMarcus Aurelius was a Roman emperor, and he kept a private notebook, written to himself rather than for readers. It opens in an unexpected place: not with a rule, but with a list of debts.\n\nThe first line reads: \"From my grandfather Verus I learned good morals and the government of my temper.\" From his father's memory, modesty and a manly character. From his mother, piety and a habit of doing good, keeping clear of bad thoughts as well as bad deeds, and a simple way of living, far from the habits of the rich.\n\nNotice how specific each line is. He doesn't thank his family in general. He names one person and what that person gave him.\n\nAfter a week of asking what is within your power, it would be easy to picture a Stoic building a character alone. Marcus's notebook suggests otherwise. It opens by naming the people who shaped him.\n\nIn this translation, the first book closes with a note of where he was: Among the Quadi at the Granua. That was probably an army camp on the empire's frontier, far from Rome.\n\nSo here is today's page. Write three lines in his form: from this person, I learned this. Keep each one small and specific.\n\nTomorrow: how Marcus prepared for a day of difficult people."
+  },
+  "claims": [
+    {
+      "claim": "From his grandfather Verus he learned good morals and control of his temper.",
+      "support_span": "From my grandfather Verus I learned good morals and the government of my temper"
+    },
+    {
+      "claim": "From his father's memory he took modesty and a manly character.",
+      "support_span": "From the reputation and remembrance of my father, modesty and a manly character"
+    },
+    {
+      "claim": "From his mother he took piety, doing good, and avoiding bad thoughts as well as bad deeds.",
+      "support_span": "From my mother, piety and beneficence, and abstinence, not only from evil deeds, but even from evil thoughts"
+    },
+    {
+      "claim": "Also from his mother: a simple way of living, far from the habits of the rich.",
+      "support_span": "simplicity in my way of living, far removed from the habits of the rich"
+    },
+    { "claim": "The first book closes with a note of place.", "support_span": "Among the Quadi at the Granua" }
+  ],
+  "outside_source_claims": [
+    {
+      "claim": "Marcus Aurelius was a Roman emperor (161-180 CE).",
+      "status": "needs_human_check",
+      "evidence": { "url": "https://plato.stanford.edu/entries/marcus-aurelius/", "where": "section 1, Life and Works" }
+    },
+    {
+      "claim": "He wrote the Meditations as a private notebook, to himself rather than for readers.",
+      "status": "needs_human_check",
+      "evidence": { "url": "https://plato.stanford.edu/entries/marcus-aurelius/", "where": "opening summary" }
+    },
+    {
+      "claim": "The Granua note probably refers to an army camp on the empire's frontier.",
+      "status": "needs_human_check",
+      "evidence": { "url": "https://plato.stanford.edu/entries/marcus-aurelius/", "where": "section 1, and note 4" },
+      "note": "Scholars aren't sure whether this line closes Book 1 or opens Book 2, which is why the script says in this translation."
+    }
+  ],
+  "check": {
+    "type": "choice",
+    "scenario": "A friend tells you they built their career entirely on their own, with no help from anyone.",
+    "question": "Which response is closest to the way Marcus opens his notebook?",
+    "options": [
+      {
+        "text": "Agree. Real self-discipline means owing nobody anything.",
+        "correct": false,
+        "misconception": "self-made",
+        "feedback": "Marcus was about as self-disciplined as anyone, and his book opens with a list of what he owed to other people."
+      },
+      {
+        "text": "Ask them who first showed them how to work that hard.",
+        "correct": true,
+        "misconception": null,
+        "feedback": "Marcus traces even his temper and his habits back to particular people. The effort was real, and someone usually showed you how."
+      },
+      {
+        "text": "Tell them gratitude is a nice feeling but not really philosophy.",
+        "correct": false,
+        "misconception": "sentiment",
+        "feedback": "Marcus's list isn't a feeling. It is a record: one person, one trait, written down so he can see where his character came from."
+      }
+    ]
+  },
+  "reflection": {
+    "prompt": "Start your Book One.",
+    "layout": "stack",
+    "fields": [
+      { "id": "debt1", "label": "Line 1: From…, I learned…", "hint": "One person and one specific thing. Write it the way Marcus does." },
+      { "id": "debt2", "label": "Line 2: From…, I learned…", "hint": "Specific enough that only that person could have taught it." },
+      { "id": "debt3", "label": "Line 3: From…, I learned…", "hint": "It can be small: a habit, a phrase, a way of handling something." }
+    ],
+    "saved_to_handbook": true
+  },
+  "practice": { "text": "Notice one person today doing something you would like to learn. Write it the way Marcus would: From ___, ___.", "followed_up_in": "w02-d2" },
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "review": { "status": "draft", "reviewer_notes": "", "approved_on": null },
+  "release_date": null
+}

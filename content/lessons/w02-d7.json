@@ -1,0 +1,100 @@
+{
+  "id": "w02-d7",
+  "type": "audio",
+  "week_id": "w02-marcus",
+  "day": 7,
+  "title": "Be One",
+  "objective": "Finish your Book One list and write one note to yourself that names an action rather than an ideal.",
+  "builds_on": ["w02-d1", "w02-d2", "w02-d3", "w02-d4", "w02-d5", "w02-d6", "w01-d7"],
+  "source": {
+    "author": "Marcus Aurelius",
+    "work": "Meditations",
+    "translator": "George Long",
+    "edition": "Standard Ebooks",
+    "section": "10.16",
+    "source_url": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "rights": "Public domain in the United States",
+    "passage": "No longer talk at all about the kind of man that a good man ought to be, but be such."
+  },
+  "retrieval": {
+    "of": "w02-d1",
+    "question": "A question from Day 8, where this week began. How did Marcus open his notebook?",
+    "answer": "With a list of what he learned from particular people.",
+    "support_span": "From my grandfather Verus I learned good morals and the government of my temper"
+  },
+  "practice_followup": {
+    "of": "w02-d6",
+    "question": "When praise or criticism stung, did you take the view from above?",
+    "responses": { "yes": "Good. Today you gather the whole week into one line.", "no": "That's fine. Today gathers the week, and any moment from it will do." }
+  },
+  "script": {
+    "target_words": [190, 240],
+    "text": "This week's last note is a single sentence: \"No longer talk at all about the kind of man that a good man ought to be, but be such.\"\n\nMarcus is writing to himself. Stop describing the good person, he says. Be one.\n\nSo today adds nothing new. Instead, look back at what the week asked you to be.\n\nOn Day 8, you started a list of the people who formed you, the way Marcus opened his book. On Day 9, you briefed yourself on difficult people, and remembered that we are made for cooperation. On Day 10, you built a retreat out of two short principles, one of them: what disturbs you comes from your own opinion, not from things. On Day 11, you looked for the action an obstacle still leaves open. On Day 12, you practised the best revenge, which is not becoming like the person who wronged you. On Day 13, you looked down from above and watched reputation shrink.\n\nEach of those could become a neat idea you explain over dinner. Marcus's note is a warning against stopping there.\n\nSo today's page has two parts. First, add one more line to your Book One: someone you noticed this week, and what you learned from them. Then write a final note to yourself that starts with a verb. Not what a good person is. What you will do.\n\nThat's the end of Week 2."
+  },
+  "claims": [
+    {
+      "claim": "Stop talking about what a good person ought to be, and be one.",
+      "support_span": "No longer talk at all about the kind of man that a good man ought to be, but be such"
+    },
+    {
+      "claim": "Marcus opened his book with what he learned from particular people.",
+      "from": "w02-d1",
+      "support_span": "From my grandfather Verus I learned good morals and the government of my temper"
+    },
+    { "claim": "We are made for cooperation.", "from": "w02-d2", "support_span": "For we are made for cooperation" },
+    {
+      "claim": "What disturbs us comes from our own opinion, not from things.",
+      "from": "w02-d3",
+      "support_span": "things do not touch the soul, for they are external and remain immovable; but our perturbations come only from the opinion which is within"
+    },
+    {
+      "claim": "The best revenge is not becoming like the person who wronged you.",
+      "from": "w02-d5",
+      "support_span": "The best way of avenging thyself is not to become like the wrong doer"
+    },
+    { "claim": "Seen from above, reputation is of no value.", "from": "w02-d6", "support_span": "neither a posthumous name is of any value, nor reputation" }
+  ],
+  "outside_source_claims": [],
+  "check": {
+    "type": "choice",
+    "scenario": "A friend who has read every Stoic book on the shelf loses their temper over a parking space.",
+    "question": "What would Marcus's note to himself say?",
+    "options": [
+      {
+        "text": "They clearly haven't read enough yet.",
+        "correct": false,
+        "misconception": "theory-as-practice",
+        "feedback": "More reading is more talk about what a good person ought to be. Marcus's note says to stop and be one."
+      },
+      {
+        "text": "So Stoicism doesn't work.",
+        "correct": false,
+        "misconception": "all-or-nothing",
+        "feedback": "One lapse doesn't settle anything. The note points at the next action, not at a verdict on the philosophy."
+      },
+      {
+        "text": "Knowing it isn't the same as doing it. The next parking space is the practice.",
+        "correct": true,
+        "misconception": null,
+        "feedback": "The test is in what you do, and there is always a next chance."
+      }
+    ]
+  },
+  "reflection": {
+    "prompt": "Read back your week, then finish it.",
+    "show_previous": true,
+    "layout": "stack",
+    "fields": [
+      { "id": "debt", "label": "One more line for your Book One", "hint": "Someone you noticed this week: From…, I learned…" },
+      { "id": "note", "label": "A final note to yourself", "hint": "Start with a verb. Not what a good person is: what you will do." }
+    ],
+    "saved_to_handbook": true
+  },
+  "practice": {
+    "text": "Read back this week's six entries. Add one more line to your Book One list, then write a final note to yourself that begins with a verb.",
+    "followed_up_in": null
+  },
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "review": { "status": "draft", "reviewer_notes": "", "approved_on": null },
+  "release_date": null
+}
