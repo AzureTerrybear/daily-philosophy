@@ -95,6 +95,6 @@
     "followed_up_in": null
   },
   "audio": { "file": null, "voice": null, "duration_seconds": null },
-  "review": { "status": "draft", "reviewer_notes": "", "approved_on": null },
+  "review": { "status": "approved", "reviewer_notes": "Script and outside-source claims approved by Terence Govender.", "approved_on": "2026-11-18" },
   "release_date": null
 }

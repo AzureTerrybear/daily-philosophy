@@ -54,7 +54,7 @@
   "outside_source_claims": [
     {
       "claim": "In Stoic usage, indifferent means neither good nor bad in itself.",
-      "status": "needs_human_check",
+      "status": "verified",
       "evidence": { "url": "https://plato.stanford.edu/entries/marcus-aurelius/", "where": "opening summary" },
       "note": "Standard reading of the Stoic term. The passage uses the word but doesn't define it."
     }
@@ -96,9 +96,9 @@
   "practice": { "text": "When someone gets in the way of a plan today, ask: what action is still open to me here?", "followed_up_in": "w02-d5" },
   "audio": { "file": null, "voice": null, "duration_seconds": null },
   "review": {
-    "status": "draft",
-    "reviewer_notes": "Per the plan's watch note, the script defines indifferent and keeps the opening line about doing good to people, so the passage doesn't read as coldness.",
-    "approved_on": null
+    "status": "approved",
+    "reviewer_notes": "Per the plan's watch note, the script defines indifferent and keeps the opening line about doing good to people, so the passage doesn't read as coldness. Script and outside-source claims approved by Terence Govender.",
+    "approved_on": "2026-11-18"
   },
   "release_date": null
 }

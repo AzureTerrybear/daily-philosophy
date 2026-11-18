@@ -103,9 +103,9 @@
   "practice": { "text": "Once today, take a one-minute retreat: recall your two principles, then go back to what you were doing.", "followed_up_in": "w02-d4" },
   "audio": { "file": null, "voice": null, "duration_seconds": null },
   "review": {
-    "status": "draft",
-    "reviewer_notes": "The script uses the opening and closing of 4.3 and skips the middle objections (providence or atoms, pain and pleasure, fame), as the plan says.",
-    "approved_on": null
+    "status": "approved",
+    "reviewer_notes": "The script uses the opening and closing of 4.3 and skips the middle objections (providence or atoms, pain and pleasure, fame), as the plan says. Script and outside-source claims approved by Terence Govender.",
+    "approved_on": "2026-11-18"
   },
   "release_date": null
 }
