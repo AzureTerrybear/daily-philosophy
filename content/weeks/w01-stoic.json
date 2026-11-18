@@ -11,6 +11,9 @@
   },
   "through_line": "Each day narrows the question 'what is actually mine?' and then turns it into something the learner does. Day 7 adds no new concept; it retrieves the other six.",
   "end_of_week_artifact": "The learner's seven reflections, compiled into a personal handbook they can export. 'Enchiridion' means handbook, so the week ends with the learner having written a small one of their own.",
+  "end_message": "That is the whole week. Enchiridion means handbook, and your seven pages are one of your own.",
+  "handbook_title": "A handbook in my own words",
+  "download_label": "Download my handbook",
   "lessons": [
     {
       "id": "w01-d1",

@@ -1,0 +1,104 @@
+{
+  "id": "w02-d4",
+  "type": "audio",
+  "week_id": "w02-marcus",
+  "day": 4,
+  "title": "The Obstacle on the Road",
+  "objective": "Find the action that a current obstacle still leaves open to you.",
+  "builds_on": ["w01-d6", "w02-d2"],
+  "source": {
+    "author": "Marcus Aurelius",
+    "work": "Meditations",
+    "translator": "George Long",
+    "edition": "Standard Ebooks",
+    "section": "5.20",
+    "source_url": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "rights": "Public domain in the United States",
+    "passage": "In one respect man is the nearest thing to me, so far as I must do good to men and endure them. But so far as some men make themselves obstacles to my proper acts, man becomes to me one of the things which are indifferent, no less than the sun or wind or a wild beast. Now it is true that these may impede my action, but they are no impediments to my affects and disposition, which have the power of acting conditionally and changing: for the mind converts and changes every hindrance to its activity into an aid; and so that which is a hindrance is made a furtherance to an act; and that which is an obstacle on the road helps us on this road."
+  },
+  "retrieval": {
+    "of": "w01-d6",
+    "question": "A question from Day 6. When a difficulty comes, what did Epictetus tell you to ask yourself?",
+    "answer": "What faculty you have for its use.",
+    "support_span": "inquire what faculty you have for its use"
+  },
+  "practice_followup": {
+    "of": "w02-d3",
+    "question": "Did you take a one-minute retreat?",
+    "responses": {
+      "yes": "Good. Keep those two principles close. Today someone stands in your way.",
+      "no": "That's fine. Keep your principles handy: today gives you a reason to use them."
+    }
+  },
+  "script": {
+    "target_words": [190, 240],
+    "text": "Marcus opens this note with a tension. People, he says, are in one sense the nearest thing to him, because he has to do good to them and put up with them. But when someone blocks what he is trying to do, that person becomes, for that moment, like the weather. Like the sun, or the wind, or a wild animal.\n\nThat sounds cold, but it isn't. Indifferent is a technical Stoic word. It means neither good nor bad in itself. Marcus hasn't stopped caring about the person. He has stopped letting them decide whether he can act well.\n\nSuch obstacles can block his action, but not his disposition, the way he is set to act. And that disposition adapts. The mind turns every hindrance into an aid, and \"that which is an obstacle on the road helps us on this road.\"\n\nMarcus doesn't say the obstacle is secretly good, or that you should be grateful for it. He says the mind converts it. A colleague who blocks your plan doesn't become a gift. But they might become the occasion for patience, a better argument, or a different route.\n\nOn Day 6, you matched a difficulty to a capacity. This is the same move, aimed at a person.\n\nToday, when someone gets in the way of a plan, ask: what action is still open to me here?\n\nTomorrow: what to do when someone actually wrongs you."
+  },
+  "claims": [
+    {
+      "claim": "In one respect people are nearest to him, because he must do good to them and endure them.",
+      "support_span": "In one respect man is the nearest thing to me, so far as I must do good to men and endure them"
+    },
+    {
+      "claim": "When people obstruct his proper acts, they become indifferent, like the sun, wind or a wild beast.",
+      "support_span": "so far as some men make themselves obstacles to my proper acts, man becomes to me one of the things which are indifferent, no less than the sun or wind or a wild beast"
+    },
+    {
+      "claim": "Obstacles can block his action but not his disposition.",
+      "support_span": "these may impede my action, but they are no impediments to my affects and disposition"
+    },
+    { "claim": "That disposition can adapt.", "support_span": "which have the power of acting conditionally and changing" },
+    { "claim": "The mind turns every hindrance into an aid.", "support_span": "the mind converts and changes every hindrance to its activity into an aid" },
+    { "claim": "The obstacle on the road helps us on the road.", "support_span": "that which is an obstacle on the road helps us on this road" }
+  ],
+  "outside_source_claims": [
+    {
+      "claim": "In Stoic usage, indifferent means neither good nor bad in itself.",
+      "status": "needs_human_check",
+      "evidence": { "url": "https://plato.stanford.edu/entries/marcus-aurelius/", "where": "opening summary" },
+      "note": "Standard reading of the Stoic term. The passage uses the word but doesn't define it."
+    }
+  ],
+  "check": {
+    "type": "choice",
+    "scenario": "Your manager rejects a proposal you spent a week on and asks for a smaller version by Friday.",
+    "question": "What would Marcus say about this obstacle?",
+    "options": [
+      {
+        "text": "It's secretly the best thing that could have happened.",
+        "correct": false,
+        "misconception": "silver-lining",
+        "feedback": "Marcus never calls the obstacle good. The rejection is still a rejection. What changes is what your mind does with it."
+      },
+      {
+        "text": "You can't act well until your manager changes their mind.",
+        "correct": false,
+        "misconception": "outcome-as-control",
+        "feedback": "Your manager can block this proposal. They can't block your disposition to work well, and Friday's version is somewhere to use it."
+      },
+      {
+        "text": "It blocks this plan, not your ability to act well. Look for what the smaller version still lets you do.",
+        "correct": true,
+        "misconception": null,
+        "feedback": "The obstacle doesn't stop you acting; it becomes part of how you act."
+      }
+    ]
+  },
+  "reflection": {
+    "prompt": "Write to yourself about someone in your way.",
+    "layout": "stack",
+    "fields": [
+      { "id": "blocks", "label": "What their obstacle blocks", "hint": "The plan or action it stops." },
+      { "id": "open", "label": "What it still leaves open to you", "hint": "Patience, a better argument, a different route, or something else." }
+    ],
+    "saved_to_handbook": true
+  },
+  "practice": { "text": "When someone gets in the way of a plan today, ask: what action is still open to me here?", "followed_up_in": "w02-d5" },
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "Per the plan's watch note, the script defines indifferent and keeps the opening line about doing good to people, so the passage doesn't read as coldness.",
+    "approved_on": null
+  },
+  "release_date": null
+}

@@ -1,0 +1,142 @@
+{
+  "id": "w02-d5",
+  "type": "scenario",
+  "week_id": "w02-marcus",
+  "day": 5,
+  "title": "The Best Revenge",
+  "objective": "Respond to a wrong without retaliating and without giving in.",
+  "builds_on": ["w01-d1", "w02-d2"],
+  "source": {
+    "author": "Marcus Aurelius",
+    "work": "Meditations",
+    "translator": "George Long",
+    "edition": "Standard Ebooks",
+    "section": "6.6",
+    "source_url": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "rights": "Public domain in the United States",
+    "passage": "The best way of avenging thyself is not to become like the wrong doer."
+  },
+  "retrieval": {
+    "of": "w02-d2",
+    "question": "A question from Day 9. Why, according to Marcus, do people behave badly?",
+    "answer": "Out of ignorance of what is good and evil.",
+    "support_span": "All these things happen to them by reason of their ignorance of what is good and evil"
+  },
+  "practice_followup": {
+    "of": "w02-d4",
+    "question": "When someone got in your way, did you ask what action was still open?",
+    "responses": { "yes": "Good. Today the person in your way has actually wronged you.", "no": "That's fine. Today's scenario hands you one to practise on." }
+  },
+  "intro": "Marcus leaves himself a one-line note about being wronged: the best way to avenge yourself is not to become like the person who wronged you. He doesn't say to let it go, and he doesn't say to hit back. Try it on a modern wrong.",
+  "scenario": {
+    "start": "meeting",
+    "misconception_notes": {
+      "mirroring": "Answering a wrong with a wrong of your own. That is how you become like the person who wronged you.",
+      "doormat": "Refusing revenge by disappearing. Not becoming like them doesn't mean letting the wrong go unsaid."
+    },
+    "clean_run": "You answered every wrong without copying it and without disappearing.",
+    "nodes": {
+      "meeting": {
+        "text": "On Monday you sent Jordan a rough plan for clearing the team's support backlog. On Thursday, in the team meeting, Jordan presents it almost word for word without mentioning you. Your manager calls it the best idea she has heard all quarter. Jordan says thanks. There is a pause.",
+        "prompt": "What do you say?",
+        "choices": [
+          {
+            "text": "Say, with an edge: 'Funny, it read better in my email.'",
+            "misconception": "mirroring",
+            "feedback": "It lands, and a few people wince. Jordan took something unfairly, and you answered with a small public humiliation. Now the room has watched two people behave badly.",
+            "next": "message"
+          },
+          {
+            "text": "Say nothing. It was only a rough idea, and speaking up would look petty.",
+            "misconception": "doormat",
+            "feedback": "Not becoming like Jordan doesn't mean disappearing. The plan was yours, and saying so plainly is not revenge.",
+            "next": "message"
+          },
+          {
+            "text": "Say: 'Glad it landed. I sent Jordan a first draft on Monday, so I'd like to help with the details.'",
+            "misconception": null,
+            "feedback": "You put the facts on the table without an accusation or a dig. Jordan took something, and you didn't take anything back.",
+            "next": "message"
+          }
+        ]
+      },
+      "message": {
+        "text": "After the meeting you open a message to Jordan. You are still angry. On Day 9, Marcus said people behave badly out of ignorance of what is good and evil.",
+        "prompt": "What do you send?",
+        "choices": [
+          {
+            "text": "Copy in your manager and list every corner Jordan has cut this year.",
+            "misconception": "mirroring",
+            "feedback": "This message is built to damage Jordan, not to set the record straight. It is Thursday's move again: using an audience to get ahead of someone.",
+            "next": "next_time"
+          },
+          {
+            "text": "Send: 'No worries about earlier! Happy to help however I can.'",
+            "misconception": "doormat",
+            "feedback": "That message says the opposite of what happened. Keeping the peace by pretending tells Jordan this cost nothing.",
+            "next": "next_time"
+          },
+          {
+            "text": "Send: 'The plan you presented was the one I sent you on Monday. From here on, I'd like us to present it together.'",
+            "misconception": null,
+            "feedback": "Plain, specific, and about what happens next. If Jordan didn't see what was wrong with what they did, this tells them without punishing them.",
+            "next": "next_time"
+          }
+        ]
+      },
+      "next_time": {
+        "text": "Two weeks later, Jordan is behind on a deadline and asks you to look over their draft report.",
+        "prompt": "What do you do?",
+        "choices": [
+          {
+            "text": "Agree, then lift the best section of their draft into your own report.",
+            "misconception": "mirroring",
+            "feedback": "This is the move Marcus warns against. You have evened the score by becoming the person you objected to.",
+            "next": "end"
+          },
+          {
+            "text": "Agree, quietly rewrite most of it, and say nothing about whose work it is.",
+            "misconception": "doormat",
+            "feedback": "Helping is good. Helping in a way that repeats Thursday, with your work under someone else's name, is the same problem again.",
+            "next": "end"
+          },
+          {
+            "text": "Help the way you would help anyone, and say you'd like both names on anything you work on together.",
+            "misconception": null,
+            "feedback": "You stayed helpful and you stayed honest about credit. You didn't become like Jordan, which is the revenge Marcus calls best.",
+            "next": "end"
+          }
+        ]
+      },
+      "end": {
+        "ending": true,
+        "text": "Whatever Jordan does next is up to Jordan. What you did at each moment was up to you. The page shows which misreadings you picked along the way, without a score."
+      }
+    }
+  },
+  "claims": [
+    {
+      "claim": "The best revenge is not to become like the person who wronged you.",
+      "support_span": "The best way of avenging thyself is not to become like the wrong doer"
+    },
+    {
+      "claim": "People behave badly out of ignorance of what is good and evil.",
+      "from": "w02-d2",
+      "support_span": "All these things happen to them by reason of their ignorance of what is good and evil"
+    }
+  ],
+  "outside_source_claims": [],
+  "reflection": {
+    "prompt": "Write to yourself about a wrong you are still carrying.",
+    "layout": "stack",
+    "fields": [
+      { "id": "wrong", "label": "You are still angry that…", "hint": "What happened, in a sentence or two." },
+      { "id": "answer", "label": "An answer that would not make you like them", "hint": "Not revenge, and not pretending it was fine." }
+    ],
+    "saved_to_handbook": true
+  },
+  "practice": { "text": "If someone is rude to you today, ask before you reply: would this reply make me more like them?", "followed_up_in": "w02-d6" },
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "review": { "status": "draft", "reviewer_notes": "", "approved_on": null },
+  "release_date": null
+}

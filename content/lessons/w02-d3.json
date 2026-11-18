@@ -1,0 +1,111 @@
+{
+  "id": "w02-d3",
+  "type": "audio",
+  "week_id": "w02-marcus",
+  "day": 3,
+  "title": "The Retreat You Carry",
+  "objective": "Write two brief principles you can return to in under a minute.",
+  "builds_on": ["w01-d2", "w02-d2"],
+  "source": {
+    "author": "Marcus Aurelius",
+    "work": "Meditations",
+    "translator": "George Long",
+    "edition": "Standard Ebooks",
+    "section": "4.3",
+    "source_url": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "rights": "Public domain in the United States",
+    "passage": "Men seek retreats for themselves, houses in the country, seashores, and mountains; and thou too art wont to desire such things very much. But this is altogether a mark of the most common sort of men, for it is in thy power whenever thou shalt choose to retire into thyself. For nowhere either with more quiet or more freedom from trouble does a man retire than into his own soul, particularly when he has within him such thoughts that by looking into them he is immediately in perfect tranquility; and I affirm that tranquility is nothing else than the good ordering of the mind. Constantly then give to thyself this retreat, and renew thyself; and let thy principles be brief and fundamental, which, as soon as thou shalt recur to them, will be sufficient to cleanse the soul completely, and to send thee back free from all discontent with the things to which thou returnest. For with what art thou discontented? With the badness of men? Recall to thy mind this conclusion, that rational animals exist for one another, and that to endure is a part of justice, and that men do wrong involuntarily; and consider how many already, after mutual enmity, suspicion, hatred, and fighting, have been stretched dead, reduced to ashes; and be quiet at last.—But perhaps thou art dissatisfied with that which is assigned to thee out of the universe.—Recall to thy recollection this alternative; either there is providence or atoms, fortuitous concurrence of things; or remember the arguments by which it has been proved that the world is a kind of political community, and be quiet at last.—But perhaps corporeal things will still fasten upon thee.—Consider then further that the mind mingles not with the breath, whether moving gently or violently, when it has once drawn itself apart and discovered its own power, and think also of all that thou hast heard and assented to about pain and pleasure, and be quiet at last.—But perhaps the desire of the thing called fame will torment thee.—See how soon everything is forgotten, and look at the chaos of infinite time on each side of the present, and the emptiness of applause, and the changeableness and want of judgement in those who pretend to give praise, and the narrowness of the space within which it is circumscribed, and be quiet at last. For the whole earth is a point, and how small a nook in it is this thy dwelling, and how few are there in it, and what kind of people are they who will praise thee.\n\nThis then remains: Remember to retire into this little territory of thy own, and above all do not distract or strain thyself, but be free, and look at things as a man, as a human being, as a citizen, as a mortal. But among the things readiest to thy hand to which thou shalt turn, let there be these, which are two. One is that things do not touch the soul, for they are external and remain immovable; but our perturbations come only from the opinion which is within. The other is that all these things, which thou seest, change immediately and will no longer be; and constantly bear in mind how many of these changes thou hast already witnessed. The universe is transformation: life is opinion."
+  },
+  "retrieval": {
+    "of": "w01-d2",
+    "question": "A question from Day 2. Two people miss the same train, and only one of them fumes. What did Epictetus say makes the difference?",
+    "answer": "The view each of them takes. People are disturbed by their views of things, not by the things.",
+    "support_span": "Men are disturbed not by things, but by the views which they take of things."
+  },
+  "practice_followup": {
+    "of": "w02-d2",
+    "question": "Did you brief yourself before a shared task?",
+    "responses": { "yes": "Good. Today gives you somewhere to go when that person is still hard work.", "no": "That's fine. Today's retreat works whether or not you prepared." }
+  },
+  "script": {
+    "target_words": [190, 240],
+    "text": "People dream of getting away: a house in the country, the seashore, the mountains. Marcus admits he wants these things too. Then he reminds himself of something closer: \"it is in thy power whenever thou shalt choose to retire into thyself.\"\n\nThe retreat he means is your own mind. Nowhere, he says, is quieter or freer from trouble, especially if you keep a few thoughts there that settle you as soon as you look at them. So he tells himself to take this retreat constantly, and to keep his principles brief and basic, so that returning to them for a moment is enough.\n\nThen he names the two to keep closest at hand. The first: things do not touch the soul. What disturbs us comes from the opinion inside. That is Day 2 again, in Marcus's words. The second: everything you see is changing and will soon be gone, and you have already watched a great many changes.\n\nHe sums up both in one line: \"The universe is transformation: life is opinion.\"\n\nNotice where the retreat ends. The principles, he says, send you back free from discontent with the things you return to. It isn't an escape. You step inside, steady yourself, and go back to the people and the work.\n\nToday, write two brief principles of your own, short enough to say in one breath. Then use them once.\n\nTomorrow: what to do when someone stands in your way."
+  },
+  "claims": [
+    {
+      "claim": "People seek retreats in the country, by the sea and in the mountains, and Marcus wants them too.",
+      "support_span": "Men seek retreats for themselves, houses in the country, seashores, and mountains; and thou too art wont to desire such things very much"
+    },
+    { "claim": "You can retire into yourself whenever you choose.", "support_span": "it is in thy power whenever thou shalt choose to retire into thyself" },
+    {
+      "claim": "Nowhere is quieter or freer from trouble, especially with settling thoughts kept there.",
+      "support_span": "For nowhere either with more quiet or more freedom from trouble does a man retire than into his own soul, particularly when he has within him such thoughts that by looking into them he is immediately in perfect tranquility"
+    },
+    {
+      "claim": "Take this retreat constantly, and keep your principles brief and fundamental.",
+      "support_span": "Constantly then give to thyself this retreat, and renew thyself; and let thy principles be brief and fundamental"
+    },
+    { "claim": "Returning to them briefly is enough.", "support_span": "as soon as thou shalt recur to them, will be sufficient to cleanse the soul completely" },
+    {
+      "claim": "The principles send you back free from discontent with what you return to.",
+      "support_span": "to send thee back free from all discontent with the things to which thou returnest"
+    },
+    {
+      "claim": "Keep two principles closest at hand.",
+      "support_span": "But among the things readiest to thy hand to which thou shalt turn, let there be these, which are two"
+    },
+    {
+      "claim": "Things do not touch the soul; what disturbs us comes from the opinion within.",
+      "support_span": "things do not touch the soul, for they are external and remain immovable; but our perturbations come only from the opinion which is within"
+    },
+    {
+      "claim": "Everything you see changes and will soon be gone, and you have already seen many changes.",
+      "support_span": "all these things, which thou seest, change immediately and will no longer be; and constantly bear in mind how many of these changes thou hast already witnessed"
+    },
+    { "claim": "The universe is transformation; life is opinion.", "support_span": "The universe is transformation: life is opinion" }
+  ],
+  "outside_source_claims": [],
+  "check": {
+    "type": "choice",
+    "scenario": "A long meeting is going badly and you feel your temper rising. You can't leave the room.",
+    "question": "What would Marcus's retreat look like here?",
+    "options": [
+      {
+        "text": "Mentally check out until the meeting is over.",
+        "correct": false,
+        "misconception": "escapism",
+        "feedback": "Marcus's retreat sends you back to the things you stepped away from. Checking out is leaving without coming back."
+      },
+      {
+        "text": "Spend a few seconds with one of your principles, then turn back to the meeting.",
+        "correct": true,
+        "misconception": null,
+        "feedback": "Brief principles, a moment inside, and back to the work."
+      },
+      {
+        "text": "Nothing. A retreat only works if you can actually get away.",
+        "correct": false,
+        "misconception": "externalising",
+        "feedback": "That is the common view Marcus sets aside. The retreat is available whenever you choose, which includes rooms you can't leave."
+      }
+    ]
+  },
+  "reflection": {
+    "prompt": "Write the two principles you will carry.",
+    "layout": "stack",
+    "fields": [
+      { "id": "first", "label": "First principle", "hint": "Short enough to say in one breath." },
+      { "id": "second", "label": "Second principle", "hint": "You can borrow one of Marcus's, in your own words." },
+      { "id": "where", "label": "Where you will need them this week", "hint": "A meeting, a commute, a conversation you are dreading." }
+    ],
+    "saved_to_handbook": true
+  },
+  "practice": { "text": "Once today, take a one-minute retreat: recall your two principles, then go back to what you were doing.", "followed_up_in": "w02-d4" },
+  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "review": {
+    "status": "draft",
+    "reviewer_notes": "The script uses the opening and closing of 4.3 and skips the middle objections (providence or atoms, pain and pleasure, fame), as the plan says.",
+    "approved_on": null
+  },
+  "release_date": null
+}
