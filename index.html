@@ -37,7 +37,26 @@
     h2 { font-size: 1.375rem; margin: 0 0 .75rem; }
     .days { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; padding: 0; margin: 1.25rem 0 0; }
     .week-label { color: var(--muted); font-size: .8125rem; font-weight: 500; margin: 1rem 0 0; }
-    .week-label + .days { margin-top: .4rem; }
+    /* One week at a time: earlier week on the left, the next week on the right. */
+    .week-row { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-top: .4rem; }
+    .week-row .days { margin: 0; }
+    .week-btn {
+      display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 .9rem; border-radius: 2rem;
+      border: 1px solid var(--accent); color: var(--accent); font-weight: 500; font-size: .9375rem; text-decoration: none; white-space: nowrap;
+    }
+    .week-btn.off { border: 1px dashed var(--rule); color: var(--muted); }
+    @media (max-width: 34rem) {
+      /* On a phone the week buttons sit on their own line above the days. */
+      .week-row { display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: "prev . next" "days days days"; }
+      .week-row .prev { grid-area: prev; } .week-row .next { grid-area: next; }
+      .week-row .days { grid-area: days; display: grid; grid-template-columns: repeat(7, 1fr); gap: .3rem; }
+      .week-row .days a, .week-row .days span { min-width: 0; padding: 0; }
+    }
+    .pager { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--rule); margin-top: 2rem; padding-top: 1rem; }
+    .pager a, .pager span { display: flex; flex-direction: column; text-decoration: none; font-weight: 500; max-width: 48%; }
+    .pager .next { text-align: right; margin-left: auto; }
+    .pager small { color: var(--muted); font-weight: 400; }
+    .pager span { color: var(--muted); }
     .scale { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .5rem; }
     .scale button { min-width: 2.75rem; padding: 0 .5rem; }
     .scale button[aria-pressed="true"] { background: var(--ink); color: var(--paper); opacity: 1; }
@@ -640,19 +659,53 @@
       const week = planned.week;
       const ctx = { week, plan, byId, lessons, store, visible, state };
 
+      // The top bar shows only this lesson's week, with a button to the week before
+      // (left) and the week after (right). A week not in the course yet shows as coming soon.
+      const weekNo = planned.weekNo;
+      const weekButton = (n, side) => {
+        if (n < 1) return null;
+        const text = side === "prev" ? `‹ Week ${n}` : `Week ${n} ›`;
+        const w = weeks[n - 1];
+        if (!w) return el("span", { class: `week-btn off ${side}`, title: `Week ${n}: coming soon` }, text, el("span", { class: "sr" }, ", coming soon"));
+        // Land on the learner's current day in that week, or its last finished day, or its first.
+        const days = plan.filter((p) => p.weekNo === n);
+        const target = days.find((p) => state(p) === "open")
+          ?? days.findLast((p) => ["done", "waiting"].includes(state(p))) ?? days[0];
+        return el("a", { class: `week-btn ${side}`, href: dayHref(target.courseDay), title: `Week ${n}: ${shortTitle(w)}` }, text);
+      };
       const nav = el("nav", { "aria-label": "Days of the course" });
-      const drawNav = () => nav.replaceChildren(...weeks.flatMap((w, wi) => [
-        el("p", { class: "week-label", id: `week-${wi + 1}` }, `Week ${wi + 1} · ${shortTitle(w)}`),
-        el("ol", { class: "days", "aria-labelledby": `week-${wi + 1}` }, plan.filter((p) => p.week === w).map((p) => {
-          const s = state(p);
-          const label = { soon: "coming soon", locked: "finish the day before first", waiting: "opens tomorrow", done: "complete", open: "open" }[s];
-          const inner = [`${p.courseDay}`, s === "done" ? " ✓" : null, el("span", { class: "sr" }, ` Day ${p.courseDay}, ${label}`)];
-          return el("li", {}, s === "soon" || s === "locked"
-            ? el("span", { title: `Day ${p.courseDay}: ${label}` }, inner)
-            : el("a", { href: dayHref(p.courseDay), class: s, title: `Day ${p.courseDay}: ${s === "waiting" ? label : p.title}`, "aria-current": p.id === planned.id ? "page" : null }, inner));
-        })),
-      ]));
+      const drawNav = () => nav.replaceChildren(
+        el("p", { class: "week-label", id: "week-label" }, `Week ${weekNo} · ${shortTitle(week)}`),
+        el("div", { class: "week-row" },
+          weekButton(weekNo - 1, "prev"),
+          el("ol", { class: "days", "aria-labelledby": "week-label" }, plan.filter((p) => p.weekNo === weekNo).map((p) => {
+            const s = state(p);
+            const label = { soon: "coming soon", locked: "finish the day before first", waiting: "opens tomorrow", done: "complete", open: "open" }[s];
+            const inner = [`${p.courseDay}`, s === "done" ? " ✓" : null, el("span", { class: "sr" }, ` Day ${p.courseDay}, ${label}`)];
+            return el("li", {}, s === "soon" || s === "locked"
+              ? el("span", { title: `Day ${p.courseDay}: ${label}` }, inner)
+              : el("a", { href: dayHref(p.courseDay), class: s, title: `Day ${p.courseDay}: ${s === "waiting" ? label : p.title}`, "aria-current": p.id === planned.id ? "page" : null }, inner));
+          })),
+          weekButton(weekNo + 1, "next")));
       drawNav();
+
+      // Previous / next day links at the foot of every day. A day the learner cannot
+      // open yet shows greyed out with the reason, so the way forward is always visible.
+      const pager = el("nav", { class: "pager", "aria-label": "Previous and next day" });
+      const drawPager = () => {
+        const side = (p, dir) => {
+          if (!p) return null;
+          const s = state(p);
+          const text = dir === "prev" ? `‹ Day ${p.courseDay}` : `Day ${p.courseDay} ›`;
+          if (s === "soon" || s === "locked") {
+            const why = s === "soon" ? "Being checked, opens soon" : `Opens after you complete Day ${p.courseDay - 1}`;
+            return el("span", { class: dir }, text, el("small", {}, why));
+          }
+          return el("a", { class: dir, href: dayHref(p.courseDay), rel: dir }, text, el("small", {}, p.title));
+        };
+        pager.replaceChildren(...[side(previous(planned), "prev"), side(plan[planned.courseDay], "next")].filter(Boolean));
+      };
+      drawPager();
 
       const head = [
         nav,
@@ -698,17 +751,19 @@
           listenStep, activity, lesson.type === "thought_experiment" ? choiceStep : null, journalStep, practiceStep,
         ].filter(Boolean);
         const complete = completeStep(lesson, ctx);
-        ctx.onSaved = () => { drawNav(); complete.draw(); };
+        ctx.onSaved = () => { drawNav(); drawPager(); complete.draw(); };
         body = [
           lesson.review?.status !== "approved" ? el("div", { class: "banner" }, "Draft preview. This lesson is not approved, so visitors cannot see it yet.") : null,
           ...builders.map((build, i) => build(i + 1, lesson, ctx)),
           complete.card,
+          pager,
           PREVIEW ? await reviewPanel(lesson, ctx) : null,
         ];
         // The draft banner reads better above the heading.
         if (body[0]) head.unshift(body.shift());
       }
       // replaceChildren would print a null as text, so drop empty slots first.
+      if (!body.includes(pager)) body.push(pager);
       app.replaceChildren(...[...head, ...body].filter(Boolean));
       document.title = `${planned.title} · Notes to Myself`;
       document.getElementById("foot").append(
