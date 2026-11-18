@@ -22,6 +22,7 @@
       }
     }
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     body {
       margin: 0; background: var(--paper); color: var(--ink);
       font: 400 1.0625rem/1.65 Roboto, system-ui, sans-serif;
@@ -35,6 +36,13 @@
     h1 { font-size: clamp(2rem, 7vw, 2.75rem); margin: .25rem 0 .5rem; }
     h2 { font-size: 1.375rem; margin: 0 0 .75rem; }
     .days { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; padding: 0; margin: 1.25rem 0 0; }
+    .week-label { color: var(--muted); font-size: .8125rem; font-weight: 500; margin: 1rem 0 0; }
+    .week-label + .days { margin-top: .4rem; }
+    .scale { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .5rem; }
+    .scale button { min-width: 2.75rem; padding: 0 .5rem; }
+    .scale button[aria-pressed="true"] { background: var(--ink); color: var(--paper); opacity: 1; }
+    .scale-ends { display: flex; justify-content: space-between; max-width: 33rem; margin-top: .25rem; }
+    .te-steps:not(:empty) { border-top: 1px solid var(--rule); margin-top: 1rem; padding-top: 1rem; }
     .days a, .days span {
       display: flex; align-items: center; justify-content: center; gap: .2rem;
       min-width: 2.75rem; min-height: 2.75rem; padding: 0 .6rem; border-radius: 2rem;
@@ -113,7 +121,8 @@
   <footer class="site" id="foot"></footer>
 
   <script type="module">
-    const WEEK_ID = "w01-stoic";
+    // content/course.json lists the weeks in order. Days are numbered across the whole
+    // course (Week 2 starts at Day 8), so ?day=N always means the Nth lesson.
     const params = new URLSearchParams(location.search);
     const PREVIEW = params.has("preview");
     const STORE_KEY = "notes-to-myself.v1";
@@ -145,10 +154,25 @@
     const midnight = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
     const dayHref = (day) => `?day=${day}${PREVIEW ? "&preview=1" : ""}`;
     const stepHead = (n, name) => el("div", { class: "step-num" }, `${n} · ${name}`);
+    const shortTitle = (week) => week.short_title ?? week.title.split(":")[0];
+    const shuffled = (list) => {
+      const copy = [...list];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    };
+    const downloadText = (text, filename) => {
+      const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      const a = el("a", { href: URL.createObjectURL(blob), download: filename });
+      document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    };
 
     // ---- yesterday: retrieval question and practice follow-up ----
     function yesterdayStep(n, lesson, ctx) {
-      const { week, lessons, store } = ctx;
+      const { byId, lessons, store } = ctx;
       const wrap = el("section", { class: "step" }, stepHead(n, "Yesterday"));
       const r = lesson.retrieval;
       if (r) {
@@ -164,7 +188,7 @@
       }
       const f = lesson.practice_followup;
       if (f) {
-        const planned = week.lessons.find((l) => l.id === f.of);
+        const planned = byId[f.of];
         const reply = el("p", { class: "feedback", hidden: "", role: "status" });
         const pick = (key) => {
           reply.textContent = f.responses[key];
@@ -220,7 +244,7 @@
         el("summary", {}, `Read the source: ${s.author}, ${s.work}, §${s.section}`),
         el("blockquote", {}, paras(s.passage)),
         el("p", { class: "note" }, `Translated by ${s.translator}. ${s.rights}. `,
-          el("a", { href: s.source_url, rel: "noopener" }, "Project Gutenberg edition")));
+          el("a", { href: s.source_url, rel: "noopener" }, `${s.edition ?? "Project Gutenberg"} edition`)));
       return el("section", { class: "step" },
         stepHead(n, lesson.type === "scenario" ? "The passage" : "Listen"),
         controls,
@@ -235,14 +259,6 @@
       const picked = [];
       const trail = el("div", {});
       const wrap = el("section", { class: "step" }, stepHead(n, "Scenario"), trail);
-      const shuffled = (list) => {
-        const copy = [...list];
-        for (let i = copy.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [copy[i], copy[j]] = [copy[j], copy[i]];
-        }
-        return copy;
-      };
       function show(id) {
         const node = sc.nodes[id];
         if (node.ending) return finish(node);
@@ -277,7 +293,7 @@
         const end = el("div", { class: "summary" },
           el("p", { class: "scenario" }, node.text),
           tags.length === 0
-            ? el("p", {}, "You kept both goals at every turn.")
+            ? el("p", {}, sc.clean_run ?? "You kept both goals at every turn.")
             : [el("p", {}, "Misreadings you tried along the way. There is no score:"),
                el("ul", {}, tags.map((t) => el("li", {}, sc.misconception_notes?.[t] ?? t)))],
           el("button", { type: "button", onclick: () => { picked.length = 0; trail.replaceChildren(); show(sc.start); wrap.scrollIntoView({ behavior: "smooth" }); } }, "Play it again"));
@@ -341,12 +357,94 @@
       return wrap;
     }
 
+    // ---- multiple choice: one right answer, each wrong one names a misreading ----
+    function choiceStep(n, lesson, ctx) {
+      const { store } = ctx;
+      const check = lesson.check;
+      const tried = [];
+      const list = el("div", { class: "choices stack" });
+      const feedback = el("p", { class: "feedback", hidden: "", role: "status" });
+      const again = el("div", { class: "actions", hidden: "" });
+      let buttons = [];
+      const draw = () => {
+        buttons = shuffled(check.options).map((o) => {
+          const b = el("button", { type: "button", "aria-pressed": "false", onclick: () => {
+            buttons.forEach((x) => { x.disabled = true; });
+            b.setAttribute("aria-pressed", "true");
+            if (o.misconception) tried.push(o.misconception);
+            feedback.replaceChildren(el("strong", {}, o.correct ? "Yes." : "A common misreading."), o.feedback);
+            feedback.hidden = false;
+            again.hidden = o.correct;
+            store.checks = { ...store.checks, [lesson.id]: { at: new Date().toISOString(), correct: o.correct, misconceptions: [...new Set(tried)] } };
+            saveStore(store);
+          } }, o.text);
+          return b;
+        });
+        list.replaceChildren(...buttons);
+      };
+      again.append(el("button", { type: "button", onclick: () => {
+        feedback.hidden = true; again.hidden = true; draw(); buttons[0].focus();
+      } }, "Try another answer"));
+      draw();
+      return el("section", { class: "step" },
+        stepHead(n, "Check"),
+        check.scenario ? el("p", { class: "scenario" }, check.scenario) : null,
+        el("p", {}, check.question),
+        list, feedback, again);
+    }
+
+    // ---- thought experiment: rate a worry, walk through the steps, rate it again ----
+    function thoughtStep(n, lesson, ctx) {
+      const { store } = ctx;
+      const [low, high] = lesson.before.scale;
+      const result = {};
+      const rating = (prompt, onPick) => {
+        const row = el("div", { class: "scale", role: "group", "aria-label": prompt });
+        for (let v = low; v <= high; v++) {
+          const b = el("button", { type: "button", "aria-pressed": "false", onclick: () => {
+            row.querySelectorAll("button").forEach((x) => { x.setAttribute("aria-pressed", String(x === b)); x.disabled = true; });
+            onPick(v);
+          } }, String(v));
+          row.append(b);
+        }
+        return el("div", { class: "block" }, el("p", {}, prompt), row,
+          el("div", { class: "scale-ends note" }, el("span", {}, `${low}: barely there`), el("span", {}, `${high}: fills the day`)));
+      };
+      const steps = el("div", { class: "te-steps" });
+      const summary = el("div", { class: "summary", hidden: "", role: "status" });
+      const after = rating(lesson.after.prompt, (v) => {
+        result.after = v;
+        summary.replaceChildren(el("p", {}, `Before: ${result.before}. Now: ${v}.`),
+          lesson.after.note ? el("p", { class: "note" }, lesson.after.note) : null);
+        summary.hidden = false;
+        store.checks = { ...store.checks, [lesson.id]: { at: new Date().toISOString(), before: result.before, after: v } };
+        saveStore(store);
+      });
+      after.hidden = true;
+      let i = 0;
+      const showStep = () => {
+        const s = lesson.steps[i];
+        const last = i === lesson.steps.length - 1;
+        const text = el("p", { class: "scenario", tabindex: "-1" }, s.text);
+        const go = el("button", { class: last ? "primary" : "", type: "button", onclick: () => {
+          go.disabled = true;
+          if (last) { after.hidden = false; after.querySelector("button").focus(); }
+          else { i += 1; showStep(); }
+        } }, last ? "I'm back" : "Next");
+        steps.append(el("div", { class: "item scene" }, text, el("div", { class: "actions" }, go)));
+        text.focus();
+      };
+      const before = rating(lesson.before.prompt, (v) => { result.before = v; showStep(); });
+      return el("section", { class: "step" }, stepHead(n, "Thought experiment"), before, steps, after, summary);
+    }
+
     // ---- the learner's own page ----
-    function pageText(lesson, week, values) {
+    function pageText(lesson, ctx, values) {
+      const { week, byId } = ctx;
       const s = lesson.source;
       const lines = [
         "NOTES TO MYSELF", "",
-        `${week.title}`, `Day ${lesson.day}: ${lesson.title}`,
+        `${week.title}`, `Day ${byId[lesson.id].courseDay}: ${lesson.title}`,
         `${s.author}, ${s.work}, section ${s.section} (tr. ${s.translator})`,
         new Date().toLocaleDateString(undefined, { dateStyle: "long" }), "",
       ];
@@ -355,7 +453,7 @@
       return lines.join("\r\n");
     }
     function journalStep(n, lesson, ctx) {
-      const { week, store } = ctx;
+      const { week, store, byId } = ctx;
       const saved = store.pages?.[lesson.id]?.values ?? {};
       const inputs = {};
       const field = (f, cls) => {
@@ -366,10 +464,12 @@
           el("label", { for: `f-${f.id}`, class: cls }, f.label), ta,
           el("div", { class: "hint", id: `h-${f.id}` }, f.hint ?? ""));
       };
-      // The last two fields are the day's pair (two lists, event and story); any others come first.
+      // By default the last two fields are the day's pair (two lists, event and story),
+      // shown side by side; any others come first. "layout": "stack" lists every field in turn.
       const fields = lesson.reflection.fields;
-      const lead = fields.slice(0, -2);
-      const pair = fields.slice(-2);
+      const paired = (lesson.reflection.layout ?? "pair") === "pair";
+      const lead = paired ? fields.slice(0, -2) : fields;
+      const pair = paired ? fields.slice(-2) : [];
       const status = el("span", { class: "note", role: "status" },
         store.pages?.[lesson.id] ? "Your earlier page is loaded." : "");
       const values = () => Object.fromEntries(Object.entries(inputs).map(([k, ta]) => [k, ta.value.trim()]));
@@ -380,12 +480,7 @@
           : "This browser won't store pages. Download a copy instead.";
         ctx.onSaved?.();
       };
-      const download = () => {
-        const blob = new Blob([pageText(lesson, week, values())], { type: "text/plain;charset=utf-8" });
-        const a = el("a", { href: URL.createObjectURL(blob), download: `notes-to-myself-day-${lesson.day}.txt` });
-        document.body.append(a); a.click(); a.remove();
-        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-      };
+      const download = () => downloadText(pageText(lesson, ctx, values()), `notes-to-myself-day-${byId[lesson.id].courseDay}.txt`);
       // The synthesis day shows the learner's earlier pages to read back.
       const earlier = !lesson.reflection.show_previous ? null : el("details", { open: "" },
         el("summary", {}, "Your pages so far"),
@@ -393,7 +488,7 @@
           const page = store.pages?.[p.id]?.values;
           const defs = ctx.lessons[p.id]?.reflection.fields ?? [];
           return el("div", { class: "block" },
-            el("p", { class: "note" }, `Day ${p.day} · ${p.title}`),
+            el("p", { class: "note" }, `Day ${byId[p.id].courseDay} · ${p.title}`),
             page
               ? el("dl", {}, defs.map((fd) => [el("dt", {}, fd.label), el("dd", {}, page[fd.id] || "(left blank)")]))
               : el("p", { class: "note" }, "No page saved for this day."));
@@ -403,7 +498,7 @@
         el("h2", {}, lesson.reflection.prompt),
         earlier,
         lead.map((f) => field(f)),
-        el("div", { class: "two-lists" }, pair.map((f, slot) => field(f, `slot-${slot}`))),
+        pair.length ? el("div", { class: "two-lists" }, pair.map((f, slot) => field(f, `slot-${slot}`))) : null,
         el("div", { class: "actions" },
           el("button", { class: "primary", type: "button", onclick: save }, "Save my page"),
           el("button", { type: "button", onclick: download }, "Download"),
@@ -422,55 +517,60 @@
     // A day is complete once its page is saved. The next day opens the following
     // calendar day, so the practice has time to happen, but the learner can skip the wait.
     function completeStep(lesson, ctx) {
-      const { week, store } = ctx;
+      const { week, store, plan, byId } = ctx;
       const card = el("section", { class: "step complete", role: "status" });
-      const next = week.lessons.find((l) => l.day === lesson.day + 1);
+      const here = byId[lesson.id];
+      const next = plan[here.courseDay];
+      const lastOfWeek = !week.lessons.some((l) => l.day === lesson.day + 1);
       const openNow = () => {
         store.early = { ...store.early, [next.id]: true };
         saveStore(store);
-        location.href = dayHref(next.day);
+        location.href = dayHref(next.courseDay);
+      };
+      // At the end of a week, the week's pages download as one handbook.
+      const downloadWeek = () => {
+        const parts = ["NOTES TO MYSELF", week.title, week.handbook_title ?? "My pages", ""];
+        for (const p of week.lessons) {
+          const l = ctx.lessons[p.id];
+          const page = store.pages?.[p.id]?.values;
+          if (!l || !page) continue;
+          parts.push("----------------------------------------", `DAY ${byId[p.id].courseDay}: ${p.title.toUpperCase()}`,
+            `${l.source.author}, ${l.source.work}, section ${l.source.section} (tr. ${l.source.translator})`, "");
+          for (const f of l.reflection.fields) parts.push(f.label, page[f.id] || "(left blank)", "");
+        }
+        downloadText(parts.join("\r\n"), `notes-to-myself-week-${here.weekNo}.txt`);
       };
       const draw = () => {
         const done = Boolean(store.pages?.[lesson.id]);
         card.classList.toggle("is-done", done);
         if (!done) {
           card.replaceChildren(
-            el("div", { class: "step-num" }, `Day ${lesson.day} of ${week.lessons.length}`),
-            el("p", {}, `Save your page above to complete Day ${lesson.day}.`));
+            el("div", { class: "step-num" }, `Day ${here.courseDay}`),
+            el("p", {}, `Save your page above to complete Day ${here.courseDay}.`));
           return;
         }
-        const kids = [el("h2", {}, `Day ${lesson.day} complete ✓`)];
-        if (!next) {
-          const download = () => {
-            const parts = ["NOTES TO MYSELF", week.title, "A handbook in my own words", ""];
-            for (const p of week.lessons) {
-              const l = ctx.lessons[p.id];
-              const page = store.pages?.[p.id]?.values;
-              if (!l || !page) continue;
-              parts.push("----------------------------------------", `DAY ${p.day}: ${p.title.toUpperCase()}`,
-                `${l.source.author}, ${l.source.work}, section ${l.source.section} (tr. ${l.source.translator})`, "");
-              for (const f of l.reflection.fields) parts.push(f.label, page[f.id] || "(left blank)", "");
-            }
-            const blob = new Blob([parts.join("\r\n")], { type: "text/plain;charset=utf-8" });
-            const a = el("a", { href: URL.createObjectURL(blob), download: "notes-to-myself-handbook.txt" });
-            document.body.append(a); a.click(); a.remove();
-            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-          };
+        const kids = [el("h2", {}, `Day ${here.courseDay} complete ✓`)];
+        if (lastOfWeek) {
           kids.push(
-            el("p", {}, "That is the whole week. Enchiridion means handbook, and your seven pages are one of your own."),
+            el("p", {}, week.end_message ?? "That is the whole week."),
             el("div", { class: "actions" },
-              el("button", { class: "primary", type: "button", onclick: download }, "Download my handbook")));
+              el("button", { class: "primary", type: "button", onclick: downloadWeek }, week.download_label ?? "Download this week's pages")));
+        }
+        if (!next) {
+          if (!lastOfWeek) kids.push(el("p", {}, "That is the last lesson so far."));
         } else if (!ctx.visible(next)) {
-          kids.push(el("p", {}, `Day ${next.day}, ${next.title}, is still being written. Until then, keep today's practice going.`));
+          kids.push(el("p", {}, ctx.lessons[next.id]
+            ? `Day ${next.courseDay}, ${next.title}, is being checked against its source and will open soon. Until then, keep today's practice going.`
+            : `Day ${next.courseDay}, ${next.title}, is still being written. Until then, keep today's practice going.`));
         } else if (ctx.state(next) === "waiting") {
           kids.push(
-            el("p", {}, `Day ${next.day}, ${next.title}, opens tomorrow. Give yourself the day to try the practice: tomorrow's lesson starts by asking how it went.`),
+            el("p", {}, `Day ${next.courseDay}, ${next.title}, opens tomorrow. Give yourself the day to try the practice: tomorrow's lesson starts by asking how it went.`),
             el("div", { class: "actions" },
-              el("button", { type: "button", onclick: openNow }, `Open Day ${next.day} now`),
+              el("button", { type: "button", onclick: openNow }, `Open Day ${next.courseDay} now`),
               el("span", { class: "note" }, "Skips the wait.")));
         } else {
           kids.push(el("div", { class: "actions" },
-            el("a", { class: "button", href: dayHref(next.day) }, `Go to Day ${next.day}: ${next.title}`)));
+            el("a", { class: "button", href: dayHref(next.courseDay) }, `Go to Day ${next.courseDay}: ${next.title}`)));
         }
         card.replaceChildren(...kids);
       };
@@ -483,7 +583,7 @@
       const panel = el("section", { class: "step review" }, el("div", { class: "step-num" }, "Reviewer view"));
       try {
         const { validateLesson, countWords } = await import("./tools/validate.mjs");
-        const { errors, warnings } = validateLesson(lesson, ctx.week, ctx.lessons);
+        const { errors, warnings } = validateLesson(lesson, ctx.week, ctx.lessons, ctx.plan);
         panel.append(
           el("p", {}, `Status: ${lesson.review.status}. ${lesson.script ? "Script" : "Intro"}: ${countWords(lesson.script?.text ?? lesson.intro)} words. `,
             errors.length ? el("span", { class: "bad" }, `${errors.length} error(s).`) : "No validator errors."),
@@ -496,7 +596,9 @@
         el("ul", {}, lesson.claims.map((c) => el("li", {}, c.claim, el("blockquote", {}, c.support_span), c.note ? el("div", { class: "note" }, c.note) : null))),
         el("h2", {}, "Claims from outside the passage"),
         lesson.outside_source_claims.length
-          ? el("ul", {}, lesson.outside_source_claims.map((c) => el("li", {}, c.claim, " ", el("code", {}, c.status), el("div", { class: "note" }, c.note))))
+          ? el("ul", {}, lesson.outside_source_claims.map((c) => el("li", {}, c.claim, " ", el("code", {}, c.status),
+              c.note ? el("div", { class: "note" }, c.note) : null,
+              c.evidence ? el("div", { class: "note" }, "Evidence: ", el("a", { href: c.evidence.url, rel: "noopener" }, c.evidence.where ?? c.evidence.url)) : null)))
           : el("p", { class: "note" }, "None."));
       return panel;
     }
@@ -504,46 +606,57 @@
     // ---- boot ----
     const app = document.getElementById("app");
     try {
-      const week = await getJSON(`content/weeks/${WEEK_ID}.json`);
+      const course = await getJSON("content/course.json");
+      const weeks = await Promise.all(course.weeks.map((id) => getJSON(`content/weeks/${id}.json`)));
+      // Every planned lesson in course order. courseDay numbers the whole course from 1;
+      // `day` stays the day within its own week.
+      const plan = weeks.flatMap((w, wi) => w.lessons.map((l) => ({ ...l, week: w, weekNo: wi + 1 })));
+      plan.forEach((p, i) => { p.courseDay = i + 1; });
+      const byId = Object.fromEntries(plan.map((p) => [p.id, p]));
       const lessons = {};
-      await Promise.all(week.lessons.filter((l) => l.available).map(async (l) => {
-        lessons[l.id] = await getJSON(`content/lessons/${l.id}.json`);
+      await Promise.all(plan.filter((p) => p.available).map(async (p) => {
+        lessons[p.id] = await getJSON(`content/lessons/${p.id}.json`);
       }));
       const store = loadStore();
 
       // A day is complete when its page is saved. The next day then opens on the
       // following calendar day, unless the learner chose to open it early.
+      // This runs across weeks: Day 8 follows Day 7.
       const visible = (p) => Boolean(lessons[p.id]) && (PREVIEW || lessons[p.id].review?.status === "approved");
+      const previous = (p) => plan[p.courseDay - 2];
       const state = (p) => {
         if (!visible(p)) return "soon";
         if (store.pages?.[p.id]) return "done";
-        if (PREVIEW || p.day === 1 || store.early?.[p.id]) return "open";
-        const before = week.lessons.find((l) => l.day === p.day - 1);
-        const savedAt = store.pages?.[before.id]?.savedAt;
+        if (PREVIEW || p.courseDay === 1 || store.early?.[p.id]) return "open";
+        const savedAt = store.pages?.[previous(p).id]?.savedAt;
         if (!savedAt) return "locked";
         return midnight(new Date()) > midnight(new Date(savedAt)) ? "open" : "waiting";
       };
 
-      const reachable = week.lessons.filter((p) => ["open", "done"].includes(state(p)));
-      const asked = week.lessons.find((p) => p.day === Number(params.get("day")));
-      const planned = asked ?? reachable.find((p) => state(p) === "open") ?? reachable.at(-1) ?? week.lessons[0];
+      const reachable = plan.filter((p) => ["open", "done"].includes(state(p)));
+      const asked = plan.find((p) => p.courseDay === Number(params.get("day")));
+      const planned = asked ?? reachable.find((p) => state(p) === "open") ?? reachable.at(-1) ?? plan[0];
       const lesson = lessons[planned.id];
-      const ctx = { week, lessons, store, visible, state };
+      const week = planned.week;
+      const ctx = { week, plan, byId, lessons, store, visible, state };
 
-      const nav = el("ol", { class: "days", "aria-label": "Days of the week" });
-      const drawNav = () => nav.replaceChildren(...week.lessons.map((p) => {
-        const s = state(p);
-        const label = { soon: "coming soon", locked: "finish the day before first", waiting: "opens tomorrow", done: "complete", open: "open" }[s];
-        const inner = [`${p.day}`, s === "done" ? " ✓" : null, el("span", { class: "sr" }, ` Day ${p.day}, ${label}`)];
-        return el("li", {}, s === "soon" || s === "locked"
-          ? el("span", { title: `Day ${p.day}: ${label}` }, inner)
-          : el("a", { href: dayHref(p.day), class: s, title: `Day ${p.day}: ${s === "waiting" ? label : p.title}`, "aria-current": p.id === planned.id ? "page" : null }, inner));
-      }));
+      const nav = el("nav", { "aria-label": "Days of the course" });
+      const drawNav = () => nav.replaceChildren(...weeks.flatMap((w, wi) => [
+        el("p", { class: "week-label", id: `week-${wi + 1}` }, `Week ${wi + 1} · ${shortTitle(w)}`),
+        el("ol", { class: "days", "aria-labelledby": `week-${wi + 1}` }, plan.filter((p) => p.week === w).map((p) => {
+          const s = state(p);
+          const label = { soon: "coming soon", locked: "finish the day before first", waiting: "opens tomorrow", done: "complete", open: "open" }[s];
+          const inner = [`${p.courseDay}`, s === "done" ? " ✓" : null, el("span", { class: "sr" }, ` Day ${p.courseDay}, ${label}`)];
+          return el("li", {}, s === "soon" || s === "locked"
+            ? el("span", { title: `Day ${p.courseDay}: ${label}` }, inner)
+            : el("a", { href: dayHref(p.courseDay), class: s, title: `Day ${p.courseDay}: ${s === "waiting" ? label : p.title}`, "aria-current": p.id === planned.id ? "page" : null }, inner));
+        })),
+      ]));
       drawNav();
 
       const head = [
         nav,
-        el("p", { class: "eyebrow" }, `${week.title.split(":")[0]} · Day ${planned.day} of ${week.lessons.length}`),
+        el("p", { class: "eyebrow" }, `${shortTitle(week)} · Day ${planned.courseDay}`),
         el("h1", {}, planned.title),
         el("p", { class: "objective" }, `Today you will: ${planned.objective.charAt(0).toLowerCase()}${planned.objective.slice(1)}`),
       ];
@@ -554,30 +667,35 @@
           ? "This lesson is being checked against its source and will open soon."
           : "This lesson is still being written.")];
       } else if (current === "locked") {
-        const before = week.lessons.find((p) => p.day === planned.day - 1);
+        const before = previous(planned);
         body = [el("div", { class: "banner" },
-          `Day ${planned.day} opens after you complete Day ${before.day}. `,
-          el("a", { href: dayHref(before.day) }, `Go to Day ${before.day}`), ".")];
+          `Day ${planned.courseDay} opens after you complete Day ${before.courseDay}. `,
+          el("a", { href: dayHref(before.courseDay) }, `Go to Day ${before.courseDay}`), ".")];
       } else if (current === "waiting") {
-        const before = week.lessons.find((p) => p.day === planned.day - 1);
+        const before = previous(planned);
         const openNow = () => {
           store.early = { ...store.early, [planned.id]: true };
           saveStore(store);
-          location.href = dayHref(planned.day);
+          location.href = dayHref(planned.courseDay);
         };
         body = [
-          el("div", { class: "banner" }, `Day ${planned.day} opens tomorrow. One lesson a day gives each practice time to work.`),
+          el("div", { class: "banner" }, `Day ${planned.courseDay} opens tomorrow. One lesson a day gives each practice time to work.`),
           el("section", { class: "step" },
             el("div", { class: "step-num" }, "Until then"),
             el("p", { class: "practice" }, before.practice),
             el("div", { class: "actions" },
-              el("button", { type: "button", onclick: openNow }, `Open Day ${planned.day} now`),
+              el("button", { type: "button", onclick: openNow }, `Open Day ${planned.courseDay} now`),
               el("span", { class: "note" }, "Skips the wait."))),
         ];
       } else {
+        // The day's activity: Week 1 audio lessons sort items onto lists; Week 2 audio
+        // lessons use a multiple-choice check; a thought experiment is followed by one.
+        const activity = lesson.type === "scenario" ? scenarioStep
+          : lesson.type === "thought_experiment" ? thoughtStep
+          : lesson.check?.type === "sort" ? sortStep : choiceStep;
         const builders = [
           lesson.retrieval || lesson.practice_followup ? yesterdayStep : null,
-          listenStep, lesson.type === "scenario" ? scenarioStep : sortStep, journalStep, practiceStep,
+          listenStep, activity, lesson.type === "thought_experiment" ? choiceStep : null, journalStep, practiceStep,
         ].filter(Boolean);
         const complete = completeStep(lesson, ctx);
         ctx.onSaved = () => { drawNav(); complete.draw(); };

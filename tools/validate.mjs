@@ -22,13 +22,25 @@ export function fingerprint(text) {
   return (b >>> 0).toString(16).padStart(8, "0") + (a >>> 0).toString(16).padStart(8, "0");
 }
 
-// `lessons` is an optional map of the week's other lessons by id, used to check
-// that a retrieval answer is supported by the earlier lesson's passage.
-export function validateLesson(lesson, week, lessons = {}) {
+// `lessons` is an optional map of other lessons by id, used to check that a retrieval
+// answer, or a claim that cites an earlier lesson, is supported by that lesson's passage.
+// `course` is an optional list of every planned lesson in course order (all weeks), so a
+// lesson can look back to an earlier week. Without it, only the lesson's own week counts.
+export function validateLesson(lesson, week, lessons = {}, course = null) {
   const errors = [];
   const warnings = [];
   const passage = lesson.source?.passage ?? "";
   const approved = lesson.review?.status === "approved";
+  const order = course ? course.map((p) => p.id) : null;
+  const earlier = (id) => {
+    if (order) {
+      const at = order.indexOf(id);
+      return at !== -1 && at < order.indexOf(lesson.id);
+    }
+    const target = week?.lessons?.find((l) => l.id === id);
+    return target && target.day < lesson.day;
+  };
+  const scope = order ? "course" : "week";
 
   if (!lesson.id) errors.push("lesson has no id");
   if (!passage.trim()) errors.push("source.passage is empty");
@@ -111,11 +123,51 @@ export function validateLesson(lesson, week, lessons = {}) {
     if (!Object.values(nodes).some((n) => n.ending)) errors.push("scenario has no ending node");
   }
 
-  // Claims
+  // Thought experiment: an intro, then 3-6 guided steps. Steps that retell the passage
+  // name the claims that support them; the last step brings the learner back to their own situation.
+  if (lesson.type === "thought_experiment") {
+    const intro = lesson.intro ?? "";
+    const steps = lesson.steps ?? [];
+    if (!intro.trim()) errors.push("thought experiment has no intro");
+    if (steps.length < 3 || steps.length > 6) errors.push("thought experiment needs 3 to 6 steps");
+    const used = new Set();
+    for (const s of steps) {
+      if (!s.text) errors.push(`step "${s.id}" has no text`);
+      for (const i of s.supported_by ?? []) {
+        if (!lesson.claims?.[i]) errors.push(`step "${s.id}" points to a missing claim ${i}`);
+        used.add(i);
+      }
+    }
+    (lesson.claims ?? []).forEach((c, i) => {
+      if (!used.has(i)) errors.push(`no step uses claim ${i}: "${c.claim}"`);
+    });
+    if ((steps.at(-1)?.supported_by ?? []).length) warnings.push("the last step should bring the learner back to their own situation");
+    for (const text of [intro, ...steps.map((s) => s.text ?? "")]) {
+      for (const m of text.matchAll(QUOTE_RE)) {
+        if (!passage.includes(m[1])) errors.push(`thought experiment quotes text that is not in the passage: "${m[1]}"`);
+      }
+    }
+    if (!lesson.before?.prompt || !lesson.after?.prompt) errors.push("thought experiment needs a before and an after rating");
+    if (JSON.stringify(lesson.before?.scale) !== JSON.stringify(lesson.after?.scale)) {
+      errors.push("before and after ratings must use the same scale");
+    }
+  }
+
+  // Claims. A claim may cite an earlier lesson's passage with `from` (used on synthesis
+  // days and when a lesson reminds the learner of an earlier idea).
   if (!Array.isArray(lesson.claims) || lesson.claims.length === 0) {
     errors.push("lesson has no claims");
   }
   for (const c of lesson.claims ?? []) {
+    if (c.from) {
+      if (!earlier(c.from)) errors.push(`claim cites ${c.from}, which is not earlier in the ${scope}: "${c.claim}"`);
+      const other = lessons[c.from]?.source?.passage;
+      if (!other) warnings.push(`claim could not be checked because ${c.from} was not loaded: "${c.claim}"`);
+      else if (!c.support_span || !other.includes(c.support_span)) {
+        errors.push(`support_span is not an exact substring of the passage of ${c.from}: "${c.claim}"`);
+      }
+      continue;
+    }
     if (!c.support_span || !passage.includes(c.support_span)) {
       errors.push(`support_span is not an exact substring of the passage: "${c.claim}"`);
     }
@@ -150,18 +202,14 @@ export function validateLesson(lesson, week, lessons = {}) {
       if (!o.correct && !o.misconception) errors.push(`wrong option names no misconception: "${o.text}"`);
       if (!o.feedback) errors.push(`option has no feedback: "${o.text}"`);
     }
-  } else if (lesson.type === "audio") {
+  } else if (lesson.type !== "scenario") {
     errors.push("lesson has no check activity");
   }
 
   // Retrieval
-  const earlier = (id) => {
-    const target = week?.lessons?.find((l) => l.id === id);
-    return target && target.day < lesson.day;
-  };
   if (lesson.retrieval) {
     const r = lesson.retrieval;
-    if (!earlier(r.of)) errors.push("retrieval must point to a lesson earlier in the week");
+    if (!earlier(r.of)) errors.push(`retrieval must point to a lesson earlier in the ${scope}`);
     if (!r.question) errors.push("retrieval has no question");
     if (planned && planned.retrieval_of !== r.of) warnings.push("retrieval.of differs from the week plan");
     const earlierPassage = lessons[r.of]?.source?.passage;
@@ -174,7 +222,7 @@ export function validateLesson(lesson, week, lessons = {}) {
     errors.push(`week plan expects a retrieval question about ${planned.retrieval_of}`);
   }
   if (lesson.practice_followup && !earlier(lesson.practice_followup.of)) {
-    errors.push("practice_followup must point to a lesson earlier in the week");
+    errors.push(`practice_followup must point to a lesson earlier in the ${scope}`);
   }
 
   // Reflection
@@ -210,6 +258,21 @@ if (typeof process !== "undefined" && process.argv?.[1]?.endsWith("validate.mjs"
     weeks[w.week_id] = w;
   }
   let failed = false;
+  // content/course.json lists the weeks in the order a learner meets them.
+  const order = fs.existsSync("content/course.json") ? read("content/course.json").weeks : Object.keys(weeks).sort();
+  for (const id of Object.keys(weeks)) {
+    if (!order.includes(id)) { console.log(`\n${id} is not listed in content/course.json`); failed = true; }
+  }
+  for (const id of order) {
+    if (!weeks[id]) { console.log(`\ncontent/course.json lists ${id}, but there is no content/weeks/${id}.json`); failed = true; }
+  }
+  const course = order.flatMap((id) => weeks[id]?.lessons ?? []);
+  course.forEach((p, i) => {
+    if (p.course_day && p.course_day !== i + 1) {
+      console.log(`\n${p.id}: course_day is ${p.course_day}, but it is day ${i + 1} of the course`);
+      failed = true;
+    }
+  });
   const files = fs.readdirSync("content/lessons").filter((n) => n.endsWith(".json"));
   const all = Object.fromEntries(files.map((f) => {
     const lesson = read(path.join("content/lessons", f));
@@ -225,7 +288,7 @@ if (typeof process !== "undefined" && process.argv?.[1]?.endsWith("validate.mjs"
   }
   for (const f of files) {
     const lesson = read(path.join("content/lessons", f));
-    const { errors, warnings } = validateLesson(lesson, weeks[lesson.week_id], all);
+    const { errors, warnings } = validateLesson(lesson, weeks[lesson.week_id], all, course);
     const status = lesson.review?.status ?? "draft";
     if (lesson.audio?.file && !fs.existsSync(lesson.audio.file)) errors.push(`audio file is missing: ${lesson.audio.file}`);
     console.log(`\n${f} [${status}] ${errors.length ? "FAIL" : "ok"}`);
