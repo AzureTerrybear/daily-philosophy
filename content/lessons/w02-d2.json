@@ -91,7 +91,7 @@
     "saved_to_handbook": true
   },
   "practice": { "text": "Before your next shared task, name the person most likely to irritate you and one way the two of you have to work together.", "followed_up_in": "w02-d3" },
-  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "audio": { "file": "content/audio/w02-d2.mp3", "voice": "kokoro:af_heart", "duration_seconds": 94, "script_fingerprint": "bd750fc06370ff17" },
   "review": { "status": "approved", "reviewer_notes": "Script and outside-source claims approved by Terence Govender.", "approved_on": "2026-11-18" },
   "release_date": null
 }

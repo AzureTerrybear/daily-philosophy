@@ -26,5 +26,6 @@ Short philosophy lessons grounded in public-domain primary texts, each ending wi
 ## Status (November 2026)
 
 - Week 1 (Stoic Week, Days 1-7): approved, narrated, live.
-- Week 2 (Marcus Aurelius, Days 8-14): seven drafts on branch `week-2-marcus`. Still to do: Terence reviews each lesson (four outside-source claims on Days 8 and 11 link to the Stanford Encyclopedia of Philosophy), approves, narrates, merges to `main`, and pastes `portfolio/philosophy-landing.html` into the website builder.
+- Week 2 (Marcus Aurelius, Days 8-14): approved (2026-11-18), narrated, live. Still to do: paste `portfolio/philosophy-landing.html` into the website builder.
+- The top bar shows one week at a time with week buttons either side; every day ends with previous/next day links.
 - Lessons are currently written with Claude. `tools/agent/draft.mjs` (local model via Ollama) is parked until local models run well with less VRAM.
