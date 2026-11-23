@@ -94,7 +94,7 @@
     "text": "Read back this week's six entries. Add one more line to your Book One list, then write a final note to yourself that begins with a verb.",
     "followed_up_in": null
   },
-  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "audio": { "file": "content/audio/w02-d7.mp3", "voice": "kokoro:af_heart", "duration_seconds": 92, "script_fingerprint": "b32c2c4df964ac78" },
   "review": { "status": "approved", "reviewer_notes": "Script and outside-source claims approved by Terence Govender.", "approved_on": "2026-11-18" },
   "release_date": null
 }

@@ -99,7 +99,7 @@
     "saved_to_handbook": true
   },
   "practice": { "text": "Notice one person today doing something you would like to learn. Write it the way Marcus would: From ___, ___.", "followed_up_in": "w02-d2" },
-  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "audio": { "file": "content/audio/w02-d1.mp3", "voice": "kokoro:af_heart", "duration_seconds": 95, "script_fingerprint": "1b1e928c8d1f790f" },
   "review": { "status": "approved", "reviewer_notes": "Script and outside-source claims approved by Terence Govender.", "approved_on": "2026-11-18" },
   "release_date": null
 }

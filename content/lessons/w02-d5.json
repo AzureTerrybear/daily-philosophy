@@ -136,7 +136,7 @@
     "saved_to_handbook": true
   },
   "practice": { "text": "If someone is rude to you today, ask before you reply: would this reply make me more like them?", "followed_up_in": "w02-d6" },
-  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "audio": { "file": "content/audio/w02-d5.mp3", "voice": "kokoro:af_heart", "duration_seconds": 16, "script_fingerprint": "e75f8be0917a5b47" },
   "review": { "status": "approved", "reviewer_notes": "Script and outside-source claims approved by Terence Govender.", "approved_on": "2026-11-18" },
   "release_date": null
 }

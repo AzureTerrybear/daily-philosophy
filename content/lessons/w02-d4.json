@@ -94,7 +94,7 @@
     "saved_to_handbook": true
   },
   "practice": { "text": "When someone gets in the way of a plan today, ask: what action is still open to me here?", "followed_up_in": "w02-d5" },
-  "audio": { "file": null, "voice": null, "duration_seconds": null },
+  "audio": { "file": "content/audio/w02-d4.mp3", "voice": "kokoro:af_heart", "duration_seconds": 92, "script_fingerprint": "9b01abbcc91006fd" },
   "review": {
     "status": "approved",
     "reviewer_notes": "Per the plan's watch note, the script defines indifferent and keeps the opening line about doing good to people, so the passage doesn't read as coldness. Script and outside-source claims approved by Terence Govender.",
